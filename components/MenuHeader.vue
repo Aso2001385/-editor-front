@@ -1,29 +1,32 @@
 <template>
-<div class="menuBar" style="width: 100%">
-  <v-flex>
-    <v-row class="grey darken-3 ma-0 pa-2">
-      <v-col><a href="#" class="white--text" style="text-decoration:none">HOME</a></v-col>
-      <v-col><a href="#" class="white--text" style="text-decoration:none">PAGES</a></v-col>
-      <v-col><a href="#" class="white--text" style="text-decoration:none">SETTING</a></v-col>
-      <v-col><a href="#" class="white--text" style="text-decoration:none">SAVE</a></v-col>
-    </v-row>
-  </v-flex>
-</div>
+  <div class="menuBar" style="width: 100%">
+    <v-flex>
+      <v-row class="grey darken-3 ma-0 pa-2">
+        <v-col><NuxtLink to="/project-list" class="white--text" style="text-decoration: none">HOME</NuxtLink></v-col>
+        <v-col><a href="#" class="white--text" style="text-decoration: none">PAGES</a></v-col>
+        <v-col><a href="#" class="white--text" style="text-decoration: none">SETTING</a></v-col>
+        <v-col><a href="#" class="white--text" style="text-decoration: none" @click="getMarkData()">SAVE</a></v-col>
+      </v-row>
+    </v-flex>
+  </div>
 </template>
 
-<!-- <script>
+<script>
 export default {
-  props: {
-    model: {
-      type: Object | null,
-      default: null,
+  data() {
+    return {
+      markData: '# タイトル \n ## サブタイトル',
+    }
+  },
+  methods: {
+    getMarkData() {
+      localStorage.setItem('markdownData', this.markData)
+      alert(this.markData)
+      this.markData = ''
     },
   },
-  data() {
-    return {};
-  },
-};
-</script> -->
+}
+</script>
 
 <!-- <style scoped>
 .markdown-editor {
@@ -68,12 +71,5 @@ nav li.current {
 nav li:hover {
   color: black;
   font-weight: 900;
-} -->
-<!-- </style> -->
-
-
-
-
-
-
-
+}
+</style> -->
