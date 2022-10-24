@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-editor">
-    <MenuHeader />
+    <MenuHeader :EditorContent="markData" />
     <client-only>
       <v-btn
         color="grey lighten-3"
@@ -14,12 +14,11 @@
         :toolbars="markdownOption"
         language="ja"
         v-model="markData"
+        @change="EditorData()"
         style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
         :class="colorName + '--text'"
       />
     </client-only>
-    <!-- <v-btn class="white--text" @click="getMarkData()">一時保存</v-btn> -->
-    <!-- <v-btn class="white--text" @click="setMarkData()">表示</v-btn> -->
   </div>
 </template>
 
@@ -29,7 +28,7 @@ import MenuHeader from '~/components/MenuHeader.vue'
 export default {
   data() {
     return {
-      markData: '# タイトル \n ## サブタイトル',
+      MarkData: '# タイトル \n ## サブタイトル',
       markdownOption: {
         bold: true,
         italic: true,
@@ -63,24 +62,39 @@ export default {
       this.markData = localStorage.getItem('markdownData')
       alert(this.markData)
     },
+    EditorData() {
+      localStorage.setItem('MarkdownData', this.markData)
+    },
     color(value) {
       if (value === 1) {
         this.colorNumber = value + 1
         this.colorName = 'red'
+        localStorage.setItem('MarkdownColor', this.colorName)
       } else if (value === 2) {
         this.colorNumber = value + 1
         this.colorName = 'blue'
+        localStorage.setItem('MarkdownColor', this.colorName)
       } else if (value === 3) {
         this.colorNumber = value + 1
         this.colorName = 'green'
+        localStorage.setItem('MarkdownColor', this.colorName)
       } else if (value === 4) {
         this.colorNumber = 0
         this.colorName = 'purple'
+        localStorage.setItem('MarkdownColor', this.colorName)
       } else {
         this.colorNumber = 1
         this.colorName = 'black'
+        localStorage.setItem('MarkdownColor', this.colorName)
       }
     },
+  },
+  mounted() {
+    this.markData = localStorage.getItem('MarkdownData')
+    this.colorName = localStorage.getItem('MarkdownColor')
+    if (this.colorName === '') {
+      this.colorName = 'black'
+    }
   },
   components: { MenuHeader },
 }
