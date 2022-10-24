@@ -35,6 +35,7 @@
 <script>
 import previews from '../assets/previews.json'
 import ProjectList from '~/components/ProjectList.vue'
+
 export default {
   data() {
     return {
@@ -50,6 +51,7 @@ export default {
       default_previews: null,
     }
   },
+
   mounted() {
     const data = previews
     this.default_previews = data
