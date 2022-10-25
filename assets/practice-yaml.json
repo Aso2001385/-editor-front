@@ -1,0 +1,36 @@
+[
+  {
+    "name": "editorProject",
+    "ui": {
+      "table_of_contents": {
+        "use": true,
+        "button": "目次開くボタンに関する情報？",
+        "list_type": "リストのタイプとか？"
+      },
+      "search_window": { "use": true, "button": "検索ボタンの情報は？", "window_type": "入力欄のタイプとか？" },
+      "color_pallet": { "use": true, "button": "色変更ボタンに関する情報？" }
+    },
+    "contents": [
+      { "head": "ページ1見出し(h1)", "design": "適用デザイン", "text": "PHP" },
+      { "head": "ページ2見出し(h1)", "design": "適用デザイン", "text": "PHP" },
+      { "head": "ページ3見出し(h1)", "design": "適用デザイン", "text": "PHP" }
+    ]
+  },
+  {
+    "name": "editorProject2",
+    "ui": {
+      "table_of_contents": {
+        "use": true,
+        "button": "目次開くボタンに関する情報？",
+        "list_type": "リストのタイプとか？"
+      },
+      "search_window": { "use": true, "button": "検索ボタンの情報は？", "window_type": "入力欄のタイプとか？" },
+      "color_pallet": { "use": true, "button": "色変更ボタンに関する情報？" }
+    },
+    "contents": [
+      { "head": "ページ1見出し(h2)", "design": "適用デザイン", "text": "PHP" },
+      { "head": "ページ2見出し(h2)", "design": "適用デザイン", "text": "PHP" },
+      { "head": "ページ3見出し(h2)", "design": "適用デザイン", "text": "PHP" }
+    ]
+  }
+]
