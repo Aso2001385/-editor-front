@@ -1,32 +1,51 @@
 <template>
-  <v-flex>
-    <v-app id="app">
-      <v-row>
-        <v-col cols="12" md="4">
-          <v-text-field v-model="firstname" :rules="nameRules" :counter="10" label="First name" required></v-text-field>
-        </v-col>
-        <v-col cols="12" md="4">
-          <v-text-field v-model="lastname" :rules="nameRules" :counter="10" label="Last name" required></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="4">
-          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row class="mt-5 pa-0 justify-center">
-        <v-col cols="12" class="mt-10 pt-10 mb-10 white--text text-h6">
-          <h2 style="text-align: center">必要事項入力するform</h2>
-        </v-col>
-      </v-row>
-      <v-row justify="end">
-        <v-col cols="12" class="text-h5">
-          <p style="text-align: center">
-            <NuxtLink to="signup" class="blue--text"><button>次へボタン</button></NuxtLink>
-          </p>
-          <p style="text-align: center"><NuxtLink to="signup" class="blue--text">新規登録ページへ</NuxtLink></p>
-          <p style="text-align: center"><NuxtLink to="" class="blue--text">パスワードを忘れましたか？</NuxtLink></p>
-        </v-col>
-      </v-row>
-    </v-app>
-  </v-flex>
+  <v-container fill-height>
+    <v-row justify="center">
+      <v-col cols="12" lg="6" md="9" sm="10" xs="10">
+        <v-card class="pb-10 mx-auto fill-width">
+          <v-card-title class="d-flex justify-center pa-4 grey darken-4">
+            <h3 class="text-center white--text">SIGN IN</h3>
+          </v-card-title>
+          <v-divider class="pb-5"> </v-divider>
+          <v-form>
+            <div class="pa-10">
+              <v-text-field></v-text-field>
+              <v-text-field
+                v-model="password"
+                label="Password"
+                required
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show1 ? 'text' : 'password'"
+                :error-messages="passwordErrors"
+                @input="$v.password.$touch()"
+                @blur="$v.password.$touch()"
+                @click:append="show1 = !show1"
+              ></v-text-field>
+              <div class="pt-5 position: relative">
+                <v-row justify="center">
+                  <v-col cols="4">
+                    <ApiEventButton color="grey darken-4"> Next </ApiEventButton>
+                  </v-col>
+                </v-row>
+              </div>
+              <v-row class="mt-10" justify="center">
+                アカウントをお持ちではありませんか？<NuxtLink to="/sign-up">こちらから新規登録</NuxtLink>
+              </v-row>
+              <v-row class="mt-10" justify="center">
+                アカウントをお持ちではありませんか？<NuxtLink to="/prac">練習場所</NuxtLink>
+              </v-row>
+            </div>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+<script>
+export default {
+  layout: 'auth',
+
+  // email: '1001999@s..ac.jp',
+  // password: 'test-2022Aso',
+}
+</script>
