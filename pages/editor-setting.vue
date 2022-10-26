@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-editor">
-    <!-- <MenuHeader :EditorContent="markData" /> -->
+    <MenuHeader />
 
     <client-only>
       <v-btn color="grey lighten-3" style="z-index: 2; position: absolute; margin-left: 88%; top: 90%">
@@ -18,16 +18,36 @@
         @change="EditorData()"
       />
     </client-only>
+    <v-row style="position: absolute; z-index: 2; top: 5rem; width: 50%; background-color: white">
+      <v-col cols="4">
+        <v-row><v-btn>基本設定</v-btn></v-row>
+        <v-row><v-btn>全体設定</v-btn></v-row>
+        <v-row v-for="item in killData" :key="item">
+          <v-btn>{{ item }}</v-btn>
+        </v-row>
+      </v-col>
+      <v-col cols="8">
+            <v-card v-for="(preview, index) in default_previews" :key="index" cols="4" style="float: left">
+        <ProjectList :ProjectData="(ProjectData = { PreviewId: preview.id, PreviewName: preview.name, PreviewText: preview.text })"/>
+            </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+
+    </v-row>
   </div>
 </template>
 
 <script>
-// import MenuHeader from '~/components/MenuHeader.vue'
+import previews from '../assets/previews.json'
+import MenuHeader from '~/components/MenuHeader.vue'
+import ProjectList from '~/components/ProjectList.vue'
 
 export default {
   data() {
     return {
-      MarkData: '# タイトル \n ## サブタイトル',
+            projectData: {},
+      markData: '# タイトル \n ## サブタイトル',
       markdownOption: {
         bold: true,
         italic: true,
@@ -49,6 +69,8 @@ export default {
       colorNumber: 1,
       colorName: 'black',
       provisionalData: '',
+      killData: ['page1', 'page2', 'page3', 'page4'],
+      default_previews: null,
     }
   },
   mounted() {
@@ -57,7 +79,10 @@ export default {
     if (this.colorName === '') {
       this.colorName = 'black'
     }
+        const data = previews
+    this.default_previews = data
   },
+
   methods: {
     getMarkData() {
       localStorage.setItem('markdownData', this.markData)
@@ -66,10 +91,10 @@ export default {
     },
     setMarkData() {
       this.markData = localStorage.getItem('markdownData')
-      alert(this.markData)
+      // alert(this.markData)
     },
     EditorData() {
-      localStorage.setItem('MarkdownData', this.markData)
+      localStorage.setItem('markdownData', this.markData)
     },
     color(value) {
       if (value === 1) {
@@ -90,38 +115,20 @@ export default {
         localStorage.setItem('MarkdownColor', this.colorName)
       } else {
         this.colorNumber = 1
-        // this.colorName = 'black'
+        this.colorName = 'black'
         localStorage.setItem('MarkdownColor', this.colorName)
       }
     },
-    // color(value) {
-    // if (value === 1) {
-    //   this.colorNumber = value + 1
-    //   this.colorName = 'red'
-    //   localStorage.setItem('MarkdownColor', this.colorName)
-    // } else if (value === 2) {
-    //   this.colorNumber = value + 1
-    //   this.colorName = 'blue'
-    //   localStorage.setItem('MarkdownColor', this.colorName)
-    // } else if (value === 3) {
-    //   this.colorNumber = value + 1
-    //   this.colorName = 'green'
-    //   localStorage.setItem('MarkdownColor', this.colorName)
-    // } else if (value === 4) {
-    //   this.colorNumber = 0
-    //   this.colorName = 'purple'
-    //   localStorage.setItem('MarkdownColor', this.colorName)
-    // } else {
-    //   this.colorNumber = 1
-    //   this.colorName = 'black'
-    //   localStorage.setItem('MarkdownColor', this.colorName)
-    // },
   },
-  // components: { MenuHeader },
+  components: {
+    MenuHeader,
+    ProjectList
+   },
 }
 </script>
 
-<style>
+<sty
+    ProjectListle>
 .markdown-editor {
   width: 100%;
   height: 100%;
