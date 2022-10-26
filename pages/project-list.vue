@@ -1,8 +1,9 @@
 <template>
   <v-container style="background-color: #dcdcdc; width: 90%" class="mt-10%">
     <v-row>
-      <v-icon x-large color="#0085ff" style="font-size: 80px; float: left">mdi-account-circle-outline</v-icon></v-row
-    >
+      <v-icon x-large color="#0085ff" style="font-size: 80px; float: left">mdi-account-circle-outline</v-icon>
+      <v-icon x-large class="ml-10" color="#0085ff" style="font-size: 60px; float: left">mdi-grease-pencil</v-icon>
+    </v-row>
 
     <v-col v-for="(preview, index) in default_previews" :key="index" cols="4" style="float: left">
       <ProjectList

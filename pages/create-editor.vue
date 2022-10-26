@@ -11,12 +11,13 @@
         <div :class="colorName + '--text'">{{ colorName }}</div>
       </v-btn>
       <mavon-editor
+        v-model="markData"
+        disabled
         :toolbars="markdownOption"
         language="ja"
-        v-model="markData"
-        @change="EditorData()"
         style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
         :class="colorName + '--text'"
+        @change="EditorData()"
       />
     </client-only>
   </div>
@@ -28,7 +29,8 @@ import MenuHeader from '~/components/MenuHeader.vue'
 export default {
   data() {
     return {
-      MarkData: '# タイトル \n ## サブタイトル',
+      markData: '# タイトル \n ## サブタイトル',
+      SubMarkData: '',
       markdownOption: {
         bold: true,
         italic: true,
@@ -49,19 +51,9 @@ export default {
       iconColor: 'black--text',
       colorNumber: 1,
       colorName: 'black',
-      provisionalData: '',
     }
   },
   methods: {
-    getMarkData() {
-      localStorage.setItem('markdownData', this.markData)
-      alert(this.markData)
-      this.markData = ''
-    },
-    setMarkData() {
-      this.markData = localStorage.getItem('markdownData')
-      alert(this.markData)
-    },
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
     },
@@ -91,10 +83,9 @@ export default {
   },
   mounted() {
     this.markData = localStorage.getItem('MarkdownData')
-    this.colorName = localStorage.getItem('MarkdownColor')
-    if (this.colorName === '') {
-      this.colorName = 'black'
-    }
+    this.SubMarkData = this.markData
+    this.colorName = localStorage.getItem('markdownColor')
+    this.color(5)
   },
   components: { MenuHeader },
 }
