@@ -24,16 +24,10 @@
               <div class="pt-5 position: relative">
                 <v-row justify="center">
                   <v-col cols="4">
-                    <ApiEventButton color="grey darken-4"> Next </ApiEventButton>
+                    <ApiEventButton color="grey darken-4">Next</ApiEventButton>
                   </v-col>
                 </v-row>
               </div>
-              <v-row class="mt-10" justify="center">
-                アカウントをお持ちではありませんか？<NuxtLink to="/sign-up">こちらから新規登録</NuxtLink>
-              </v-row>
-              <v-row class="mt-10" justify="center">
-                アカウントをお持ちではありませんか？<NuxtLink to="/prac">練習場所</NuxtLink>
-              </v-row>
             </div>
           </v-form>
         </v-card>
