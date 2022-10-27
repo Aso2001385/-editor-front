@@ -1,11 +1,9 @@
 <template>
   <div class="markdown-editor">
     <MenuHeader />
-
     <client-only>
       <v-btn color="grey lighten-3" style="z-index: 2; position: absolute; margin-left: 88%; top: 90%">
         <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
-
         <div :class="colorName + '--text'">{{ colorName }}</div>
       </v-btn>
 
@@ -19,21 +17,41 @@
       />
     </client-only>
     <v-row style="position: absolute; z-index: 2; top: 5rem; width: 50%; background-color: white">
-      <v-col cols="4">
-        <v-row><v-btn>基本設定</v-btn></v-row>
-        <v-row><v-btn>全体設定</v-btn></v-row>
-        <v-row v-for="item in killData" :key="item">
-          <v-btn>{{ item }}</v-btn>
+      <v-col cols="4" style="padding-left: 10%; overflow: hidden !important; height: 90vh; overflow-y: auto">
+        <v-row class="pt-10"
+          ><a class="text-h6 black--text" style="background-color: transparent; font-weight: bold" @click="Setting(0)">
+            基本設定
+          </a></v-row
+        >
+        <v-row class="pt-10"
+          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1)">全体設定</a></v-row
+        >
+        <v-row class="pt-10" v-for="item in killData" :key="item" @click="Setting(1)">
+          <a class="text-h6 black--text">{{ item }}</a>
         </v-row>
       </v-col>
-      <v-col cols="8">
-            <v-card v-for="(preview, index) in default_previews" :key="index" cols="4" style="float: left">
-        <ProjectList :ProjectData="(ProjectData = { PreviewId: preview.id, PreviewName: preview.name, PreviewText: preview.text })"/>
-            </v-card>
+      <v-col cols="8" style="overflow: hidden !important; height: 90vh; overflow-y: auto">
+        <EditorSetting v-if="OpenFlg === 0" />
+        <v-card
+          class="mt-8 mb-2"
+          v-for="(preview, index) in default_previews"
+          :key="index"
+          cols="4"
+          style="float: left; width: 80%; margin-left: 10%"
+          v-else
+        >
+          <ProjectList
+            :ProjectData="
+              (ProjectData = {
+                PreviewId: preview.id,
+                PreviewName: preview.name,
+                PreviewText: preview.text,
+                ProjectLink: PROJECT_LINK,
+              })
+            "
+          />
+        </v-card>
       </v-col>
-    </v-row>
-    <v-row>
-
     </v-row>
   </div>
 </template>
@@ -42,12 +60,14 @@
 import previews from '../assets/previews.json'
 import MenuHeader from '~/components/MenuHeader.vue'
 import ProjectList from '~/components/ProjectList.vue'
+import EditorSetting from '~/components/EditorSetting.vue'
 
 export default {
   data() {
     return {
-            projectData: {},
+      projectData: {},
       markData: '# タイトル \n ## サブタイトル',
+      PROJECT_LINK: 1,
       markdownOption: {
         bold: true,
         italic: true,
@@ -69,8 +89,23 @@ export default {
       colorNumber: 1,
       colorName: 'black',
       provisionalData: '',
-      killData: ['page1', 'page2', 'page3', 'page4'],
+      killData: [
+        'page1',
+        'page2',
+        'page3',
+        'page4',
+        'page5',
+        'page6',
+        'page7',
+        'page8',
+        'page9',
+        'page10',
+        'page11',
+        'page12',
+      ],
       default_previews: null,
+      OPENSETTING: 0,
+      OpenFlg: 999,
     }
   },
   mounted() {
@@ -79,22 +114,20 @@ export default {
     if (this.colorName === '') {
       this.colorName = 'black'
     }
-        const data = previews
+    const data = previews
     this.default_previews = data
   },
 
   methods: {
-    getMarkData() {
-      localStorage.setItem('markdownData', this.markData)
-      alert(this.markData)
-      this.markData = ''
-    },
-    setMarkData() {
-      this.markData = localStorage.getItem('markdownData')
-      // alert(this.markData)
-    },
     EditorData() {
-      localStorage.setItem('markdownData', this.markData)
+      localStorage.setItem('MarkdownData', this.markData)
+    },
+    Setting(value) {
+      if (this.OPENSETTING === value) {
+        this.OpenFlg = value
+      } else {
+        this.OpenFlg = value
+      }
     },
     color(value) {
       if (value === 1) {
@@ -122,13 +155,13 @@ export default {
   },
   components: {
     MenuHeader,
-    ProjectList
-   },
+    ProjectList,
+    EditorSetting,
+  },
 }
 </script>
 
-<sty
-    ProjectListle>
+<style>
 .markdown-editor {
   width: 100%;
   height: 100%;

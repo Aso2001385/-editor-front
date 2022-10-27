@@ -4,7 +4,9 @@
       <v-row class="grey darken-3 ma-0 pa-2">
         <v-col><NuxtLink to="/project-list" class="white--text" style="text-decoration: none">HOME</NuxtLink></v-col>
         <v-col><a href="#" class="white--text" style="text-decoration: none">PAGES</a></v-col>
-        <v-col><a href="#" class="white--text" style="text-decoration: none">SETTING</a></v-col>
+        <v-col
+          ><NuxtLink to="/editor-setting" class="white--text" style="text-decoration: none">SETTING</NuxtLink></v-col
+        >
         <v-col><a href="#" class="white--text" style="text-decoration: none" @click="getMarkData()">SAVE</a></v-col>
       </v-row>
     </v-flex>
@@ -21,7 +23,7 @@ export default {
   methods: {
     getMarkData() {
       localStorage.setItem('markdownData', this.markData)
-      alert(this.markData)
+      alert('保存しました')
       this.markData = ''
     },
   },
