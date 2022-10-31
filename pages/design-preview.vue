@@ -1,14 +1,6 @@
 <template>
   <div class="markdown-editor">
     <client-only>
-      <v-btn
-        color="grey lighten-3"
-        style="z-index: 2; position: absolute; margin-left: 88%; top: 90%"
-        @click="color(colorNumber)"
-      >
-        <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
-        <div :class="colorName + '--text'">{{ colorName }}</div>
-      </v-btn>
       <mavon-editor
         :toolbars="markdownOption"
         language="ja"
@@ -18,14 +10,15 @@
         :class="colorName + '--text'"
       />
     </client-only>
-    <v-container style="background-color: #dcdcdc; width: 50%; position: absolute; top: 0; z-index: 0" class="mt-10%">
+    <!-- 左半分に画面を重ねる(z-index使用) -->
+    <v-container style="background-color: #dcdcdc; width: 50%; position: absolute; top: 0; z-index: 2" class="mt-10%">
       <v-col v-for="(preview, index) in default_previews" :key="index" cols="4" style="float: left">
         <ProjectList
           :ProjectData="(ProjectData = { PreviewId: preview.id, PreviewName: preview.name, PreviewText: preview.text })"
         />
       </v-col>
       <v-col cols="4" style="float: left; margin-top: 2.5rem">
-        <NuxtLink to="/create-editor" class="white--text" style="text-decoration: none">
+        <nuxt-link to="/create-editor" class="white--text" style="text-decoration: none">
           <div class="mt-5" style="width: 100%">
             <v-col
               cols="12"
@@ -48,25 +41,35 @@
               <p style="font-size: 20px; margin-left: 3%; margin-bottom: 0.2rem; color: #212121">Project新規作成</p>
             </v-col>
           </div>
-        </NuxtLink>
+        </nuxt-link>
       </v-col>
     </v-container>
-    <footer style="background-color: black; position: absolute; bottom: 0; width: 100%">
-      <p>テスト</p>
+    <footer style="background-color: black; position: absolute; bottom: 0; width: 100%; height: 8%">
+      <v-row>
+        <v-col style="margin-top: 0.5%; margin-left: 60%; z-index: 2">
+          <Nuxt-link to="/information" style="text-decoration: none">
+            <v-icon large color="#0085ff" style="font-size: 45px">mdi-account-circle-outline</v-icon>
+          </Nuxt-link>
+        </v-col>
+        <v-btn
+          color="grey lighten-3"
+          style="z-index: 2; position: absolute; margin-left: 88%; top: 20%"
+          @click="color(colorNumber)"
+        >
+          <v-icon large :class="colorName + '--text'" style="font-size: 35px">mdi-eyedropper-variant</v-icon>
+          <div :class="colorName + '--text'">{{ colorName }}</div>
+        </v-btn>
+      </v-row>
     </footer>
   </div>
 </template>
-
-<script>
-const textarea = document.getElementById('')
-textarea.readOnly = true
-</script>
 
 <script>
 export default {
   data() {
     return {
       MarkData: '# デザイン・カラー確認用文章 \n ## この画面は書き込み不可になっています',
+      default_previews: null,
       markdownOption: {
         bold: true,
         italic: true,
@@ -91,20 +94,28 @@ export default {
       markdown: '# Marked in the browserRendered by **marked**.',
     }
   },
+  mounted() {
+    this.markData = localStorage.getItem('MarkdownData')
+    this.colorName = localStorage.getItem('MarkdownColor')
+    if (this.colorName === null) {
+      this.colorName = 'black'
+    }
+  },
   methods: {
-    getMarkData() {
-      localStorage.setItem('markdownData', this.markData)
-      alert(this.markData)
-      this.markData = ''
-    },
-    setMarkData() {
-      this.markData = localStorage.getItem('markdownData')
-      alert(this.markData)
-    },
+    // getMarkData() {
+    //   localStorage.setItem('markdownData', this.markData)
+    //   alert(this.markData)
+    //   this.markData = ''
+    // },
+    // setMarkData() {
+    //   this.markData = localStorage.getItem('markdownData')
+    //   alert(this.markData)
+    // },
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
     },
     color(value) {
+      console.log('反応')
       if (value === 1) {
         this.colorNumber = value + 1
         this.colorName = 'red'
@@ -128,13 +139,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.markData = localStorage.getItem('MarkdownData')
-    this.colorName = localStorage.getItem('MarkdownColor')
-    if (this.colorName === '') {
-      this.colorName = 'black'
-    }
-  },
 }
 </script>
 
@@ -142,6 +146,9 @@ export default {
 .markdown-editor {
   width: 100%;
   height: 100%;
-  pointer-events: none;
+}
+
+body {
+  overflow: hidden;
 }
 </style>
