@@ -57,10 +57,7 @@
   </div>
 </template>
 
-<script>
-const textarea = document.getElementById('')
-textarea.readOnly = true
-</script>
+<script></script>
 
 <script>
 export default {
@@ -131,9 +128,11 @@ export default {
   mounted() {
     this.markData = localStorage.getItem('MarkdownData')
     this.colorName = localStorage.getItem('MarkdownColor')
-    if (this.colorName === '') {
-      this.colorName = 'black'
-    }
+    if (this.colorName === '') this.colorName = 'black'
+    this.$nextTick(function () {
+      const element = document.querySelector('textarea')
+      element.remove()
+    })
   },
 }
 </script>
@@ -142,6 +141,5 @@ export default {
 .markdown-editor {
   width: 100%;
   height: 100%;
-  pointer-events: none;
 }
 </style>
