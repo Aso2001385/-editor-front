@@ -4,7 +4,7 @@
       <NuxtLink :to="project_link" class="white--text" style="text-decoration: none">
         <v-row style="float: left">
           <v-card style="background-color: white; height: 20%">
-            <div class="pt-5 pb-5" style="width: 100%; background-color: lightblue">
+            <div class="pt-5 pb-5" style="width: 100%" :class="ProjectData.PreviewBackColor">
               <v-col
                 cols="12"
                 class="black--text"
