@@ -1,5 +1,6 @@
 <template>
-  <div class="markdown-editor">
+  <!-- <div class="markdown-editor"> -->
+  <v-flex>
     <MenuHeader />
     <client-only>
       <v-btn color="grey lighten-3" style="z-index: 2; position: absolute; margin-left: 88%; top: 90%">
@@ -7,17 +8,20 @@
         <div :class="colorName + '--text'">{{ colorName }}</div>
       </v-btn>
 
-      <mavon-editor
-        v-model="markData"
+      <!-- <mavon-editor
+        v-model="projectData"
         :toolbars="markdownOption"
         language="ja"
         style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
         :class="colorName + '--text'"
         @change="EditorData()"
-      />
+      /> -->
     </client-only>
-    <v-row style="position: absolute; z-index: 2; top: 5rem; width: 50%; background-color: white">
-      <v-col cols="4" style="padding-left: 10%; overflow: hidden !important; height: 90vh; overflow-y: auto">
+    <v-row style="position: absolute; z-index: 2; top: 4.8rem; width: 100%">
+      <v-col
+        cols="2"
+        style="padding-left: 5%; overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white"
+      >
         <v-row class="pt-10"
           ><a class="text-h6 black--text" style="background-color: transparent; font-weight: bold" @click="Setting(0)">
             基本設定
@@ -30,14 +34,15 @@
           <a class="text-h6 black--text">{{ item }}</a>
         </v-row>
       </v-col>
-      <v-col cols="8" style="overflow: hidden !important; height: 90vh; overflow-y: auto">
-        <EditorSetting v-if="OpenFlg === 0" />
+      <v-col cols="4" style="overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white">
+        <EditorSetting v-if="OpenFlg === 0" style="background-color: white" />
         <v-card
           class="mt-8 mb-2"
           v-for="(preview, index) in default_previews"
           :key="index"
           cols="4"
           style="float: left; width: 80%; margin-left: 10%"
+          @click="selectGenre(preview)"
           v-else
         >
           <ProjectList
@@ -46,14 +51,22 @@
                 PreviewId: preview.id,
                 PreviewName: preview.name,
                 PreviewText: preview.text,
+                PreviewBackColor: preview.backgroundColor,
                 ProjectLink: PROJECT_LINK,
               })
             "
           />
         </v-card>
       </v-col>
+      <v-col
+        cols="6"
+        v-html="HtmlContent.text"
+        style="overflow: hidden !important; height: 92vh; overflow-y: auto"
+        :class="HtmlContent.backgroundColor"
+      >
+      </v-col>
     </v-row>
-  </div>
+  </v-flex>
 </template>
 
 <script>
@@ -65,8 +78,11 @@ import EditorSetting from '~/components/EditorSetting.vue'
 export default {
   data() {
     return {
+      selectionGenre: 0,
       projectData: {},
-      markData: '# タイトル \n ## サブタイトル',
+      designPreview: '1',
+      HtmlColor: '',
+      // markData: '# タイトル \n ## サブタイトル',
       PROJECT_LINK: 1,
       markdownOption: {
         bold: true,
@@ -106,11 +122,20 @@ export default {
       default_previews: null,
       OPENSETTING: 0,
       OpenFlg: 999,
+      HtmlContent: {
+        id: '1',
+        name: 'project1ああああああ',
+        text: '<h1>タイトル</h1><h2>サブタイトル</2><b>WebEditorの内容を出していく</b>',
+      },
     }
   },
   mounted() {
-    this.markData = localStorage.getItem('MarkdownData')
-    this.colorName = localStorage.getItem('MarkdownColor')
+    // デフォルトのデータ取得
+    this.projectData = previews
+    // 実際に入力されたデータをローカルストレージから取得
+    // this.projectData = localStorage.getItem('MarkdownData')
+    // this.colorName = localStorage.getItem('MarkdownColor')
+
     if (this.colorName === '') {
       this.colorName = 'black'
     }
@@ -119,9 +144,9 @@ export default {
   },
 
   methods: {
-    EditorData() {
-      localStorage.setItem('MarkdownData', this.markData)
-    },
+    // EditorData() {
+    //   localStorage.setItem('MarkdownData', this.markData)
+    // },
     Setting(value) {
       if (this.OPENSETTING === value) {
         this.OpenFlg = value
@@ -152,6 +177,14 @@ export default {
         localStorage.setItem('MarkdownColor', this.colorName)
       }
     },
+    selectGenre(value) {
+      // this.designPreview = id
+      this.HtmlContent = value
+      this.HtmlColor = value.backgroundColor
+      // for (let i = 0; i < this.HtmlContent; i++) {
+      // console.log(this.HtmlContent)
+      // }
+    },
   },
   components: {
     MenuHeader,
@@ -161,9 +194,9 @@ export default {
 }
 </script>
 
-<style>
+<!-- <style>
 .markdown-editor {
   width: 100%;
   height: 100%;
 }
-</style>
+</style> -->

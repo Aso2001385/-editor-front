@@ -16,6 +16,7 @@
             PreviewId: preview.id,
             PreviewName: preview.name,
             PreviewText: preview.text,
+            PreviewBackColor: preview.backgroundColor,
             ProjectLink: PROJECT_LINK,
           })
         "
