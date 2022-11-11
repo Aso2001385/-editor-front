@@ -25,8 +25,10 @@
 
 <script>
 import MenuHeader from '~/components/MenuHeader.vue'
+import UiGenerator from '~/plugins/ui-generator/controller'
 
 export default {
+  components: { MenuHeader },
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
@@ -53,6 +55,17 @@ export default {
       colorName: 'black',
     }
   },
+
+  mounted() {
+    this.markData = localStorage.getItem('MarkdownData')
+    this.SubMarkData = this.markData
+    this.colorName = localStorage.getItem('markdownColor')
+    this.color(5)
+    window.onload = () => {
+      UiGenerator.uiGenerator()
+    }
+  },
+
   methods: {
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
@@ -81,19 +94,29 @@ export default {
       }
     },
   },
-  mounted() {
-    this.markData = localStorage.getItem('MarkdownData')
-    this.SubMarkData = this.markData
-    this.colorName = localStorage.getItem('markdownColor')
-    this.color(5)
-  },
-  components: { MenuHeader },
 }
 </script>
 
-<style>
-.markdown-editor {
-  width: 100%;
-  height: 100%;
-}
+<style lang="sass">
+.markdown-editor
+  width: 100%
+  height: 100%
+
+html
+  overflow: none !important
+
+body
+  overflow: none !important
+
+html::-webkit-scrollbar
+  display: none !important
+
+body::-webkit-scrollbar
+  display: none !important
+
+.v-note-show
+  overflow: hidden !important
+
+.v-note-show::-webkit-scrollbar
+  display: none !important
 </style>
