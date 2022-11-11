@@ -1,17 +1,39 @@
 <template>
-  <div class="markdown-editor">
-    <client-only>
+  <!-- <div class="markdown-editor"> -->
+  <v-flex>
+    <!-- <MenuHeader /> -->
+    <!-- <client-only>
+      <v-btn color="grey lighten-3" style="z-index: 2; position: absolute; margin-left: 88%; top: 90%">
+        <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
+        <div :class="colorName + '--text'">{{ colorName }}</div>
+      </v-btn>
+
       <mavon-editor
+        v-model="projectData"
         :toolbars="markdownOption"
         language="ja"
-        v-model="MarkData"
-        @change="EditorData()"
         style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
         :class="colorName + '--text'"
-      />
-    </client-only>
-    <!-- 左半分に画面を重ねる(z-index使用) -->
-    <v-row style="position: absolute; z-index: 2; min-height: 100vh; width: 50%; top: 0">
+        @change="EditorData()"
+      /> -->
+    <!-- /client-only> -->
+    <v-row style="position: absolute; z-index: 2; min-height: 100vh; width: 50%">
+      <!-- <v-col
+        cols="2"
+        style="padding-left: 5%; overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white"
+      >
+        <v-row class="pt-10"
+          ><a class="text-h6 black--text" style="background-color: transparent; font-weight: bold" @click="Setting(0)">
+            基本設定
+          </a></v-row
+        >
+        <v-row class="pt-10"
+          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1)">全体設定</a></v-row
+        >
+        <v-row class="pt-10" v-for="item in killData" :key="item" @click="Setting(1)">
+          <a class="text-h6 black--text">{{ item }}</a>
+        </v-row> -->
+      <!-- </v-col> -->
       <div style="height: 100%; width: 100%; background-color: white">
         <v-col cols="12" style="overflow: hidden !important; height: 95vh; overflow-y: auto; background-color: #dcdcdc">
           <EditorSetting v-if="OpenFlg === 0" style="background-color: white" />
@@ -38,35 +60,22 @@
           </v-card>
         </v-col>
       </div>
+      <!-- <v-col
+        cols="6"
+        v-html="HtmlContent.text"
+        style="overflow: hidden !important; height: 92vh; overflow-y: auto"
+        :class="HtmlContent.backgroundColor"
+      >
+      </v-col> -->
     </v-row>
-    <footer style="background-color: black; z-index: 3; position: absolute; bottom: 0; width: 100%; height: 8%">
-      <v-row>
-        <v-col style="margin-top: 0.5%; margin-left: 60%; z-index: 2">
-          <Nuxt-link to="/information" style="text-decoration: none">
-            <v-icon large color="#0085ff" style="font-size: 45px">mdi-account-circle-outline</v-icon>
-          </Nuxt-link>
-        </v-col>
-        <v-btn style="margin-top: 1.5%; margin-right: 25%; z-index: 2" @click="viewDirlog()">
-          <ShopDialog ref="dig" />
-        </v-btn>
-        <v-btn
-          color="grey lighten-3"
-          style="z-index: 2; position: absolute; margin-left: 88%; top: 20%"
-          @click="color(colorNumber)"
-        >
-          <v-icon large :class="colorName + '--text'" style="font-size: 35px">mdi-eyedropper-variant</v-icon>
-          <div :class="colorName + '--text'">{{ colorName }}</div>
-        </v-btn>
-      </v-row>
-    </footer>
-  </div>
+  </v-flex>
 </template>
 
 <script>
 import previews from '../assets/previews.json'
+// import MenuHeader from '~/components/MenuHeader.vue'
 import ProjectList from '~/components/ProjectList.vue'
 import EditorSetting from '~/components/EditorSetting.vue'
-import ShopDialog from '~/components/ShopDialog.vue'
 
 export default {
   data() {
@@ -74,8 +83,8 @@ export default {
       selectionGenre: 0,
       projectData: {},
       designPreview: '1',
-      MarkData: '# デザイン・カラー確認用文章 \n ## この画面は書き込み不可になっています',
-      default_previews: null,
+      HtmlColor: '',
+      // markData: '# タイトル \n ## サブタイトル',
       PROJECT_LINK: 1,
       markdownOption: {
         bold: true,
@@ -94,8 +103,6 @@ export default {
         fullscreen: true,
         htmlcode: true,
       },
-      select: { state: '入手ボタン' },
-      items: [{ state: '入手ボタン' }, { state: 'アップグレード' }, { state: '入手済み' }],
       iconColor: 'black--text',
       colorNumber: 1,
       colorName: 'black',
@@ -114,28 +121,33 @@ export default {
         'page11',
         'page12',
       ],
-      markdown: '# Marked in the browserRendered by **marked**.',
+      default_previews: null,
+      OPENSETTING: 0,
+      OpenFlg: 999,
+      HtmlContent: {
+        id: '1',
+        name: 'project1ああああああ',
+        text: '<h1>タイトル</h1><h2>サブタイトル</2><b>WebEditorの内容を出していく</b>',
+      },
     }
   },
   mounted() {
+    // デフォルトのデータ取得
     this.projectData = previews
-    this.markData = localStorage.getItem('MarkdownData')
-    this.colorName = localStorage.getItem('MarkdownColor')
-    if (this.colorName === null) {
+    // 実際に入力されたデータをローカルストレージから取得
+    // this.projectData = localStorage.getItem('MarkdownData')
+    // this.colorName = localStorage.getItem('MarkdownColor')
+
+    if (this.colorName === '') {
       this.colorName = 'black'
     }
     const data = previews
     this.default_previews = data
   },
+
   methods: {
-    // getMarkData() {
-    //   localStorage.setItem('markdownData', this.markData)
-    //   alert(this.markData)
-    //   this.markData = ''
-    // },
-    // setMarkData() {
-    //   this.markData = localStorage.getItem('markdownData')
-    //   alert(this.markData)
+    // EditorData() {
+    //   localStorage.setItem('MarkdownData', this.markData)
     // },
     Setting(value) {
       if (this.OPENSETTING === value) {
@@ -144,14 +156,7 @@ export default {
         this.OpenFlg = value
       }
     },
-    viewDirlog() {
-      this.$refs.dig.dialog = true
-    },
-    EditorData() {
-      localStorage.setItem('MarkdownData', this.markData)
-    },
     color(value) {
-      console.log('反応')
       if (value === 1) {
         this.colorNumber = value + 1
         this.colorName = 'red'
@@ -174,11 +179,19 @@ export default {
         localStorage.setItem('MarkdownColor', this.colorName)
       }
     },
-    components: {
-      ProjectList,
-      EditorSetting,
-      ShopDialog,
+    selectGenre(value) {
+      // this.designPreview = id
+      this.HtmlContent = value
+      this.HtmlColor = value.backgroundColor
+      // for (let i = 0; i < this.HtmlContent; i++) {
+      // console.log(this.HtmlContent)
+      // }
     },
+  },
+  components: {
+    // MenuHeader,
+    ProjectList,
+    EditorSetting,
   },
 }
 </script>
@@ -191,12 +204,5 @@ export default {
 
 body {
   overflow: hidden;
-  -ms-overflow-style: none; /* スクロールバー非表示のCSS IE, Edge 対応 */
-  scrollbar-width: none; /* スクロールバー非表示のCSS Firefox 対応 */
-}
-
-body ::-webkit-scrollbar {
-  /* スクロールバー非表示のCSS Chrome, Safari 対応 */
-  display: none;
 }
 </style>

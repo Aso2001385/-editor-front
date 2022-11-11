@@ -10,15 +10,17 @@
         <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
         <div :class="colorName + '--text'">{{ colorName }}</div>
       </v-btn>
-      <mavon-editor
-        v-model="markData"
-        disabled
-        :toolbars="markdownOption"
-        language="ja"
-        style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
-        :class="colorName + '--text'"
-        @change="EditorData()"
-      />
+      <v-card v-resize="onResize" :style="style">
+        <mavon-editor
+          v-model="markData"
+          disabled
+          :toolbars="markdownOption"
+          language="ja"
+          style="height: 100%; overflow: hidden !important; overflow-y: auto; z-index: 1"
+          :class="colorName + '--text'"
+          @change="EditorData()"
+        />
+      </v-card>
     </client-only>
   </div>
 </template>
@@ -48,14 +50,38 @@ export default {
         fullscreen: true,
         htmlcode: true,
       },
+
+      windowSize: {
+        x: 0,
+        y: 0,
+      },
+
       iconColor: 'black--text',
       colorNumber: 1,
       colorName: 'black',
     }
   },
+
+  mounted() {
+    this.markData = localStorage.getItem('MarkdownData')
+    this.SubMarkData = this.markData
+    this.colorName = localStorage.getItem('markdownColor')
+    this.color(5)
+    this.onResize()
+  },
+
+  computed: {
+    style() {
+      return 'height:' + Math.round(this.windowSize.y * 0.9) + 'px'
+    },
+  },
+
   methods: {
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
+    },
+    onResize() {
+      this.windowSize = { x: window.innerWidth, y: window.innerHeight }
     },
     color(value) {
       if (value === 1) {
@@ -81,12 +107,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.markData = localStorage.getItem('MarkdownData')
-    this.SubMarkData = this.markData
-    this.colorName = localStorage.getItem('markdownColor')
-    this.color(5)
-  },
   components: { MenuHeader },
 }
 </script>
@@ -94,6 +114,5 @@ export default {
 <style>
 .markdown-editor {
   width: 100%;
-  height: 100%;
 }
 </style>
