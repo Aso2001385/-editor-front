@@ -1,3 +1,4 @@
+<!-- create-editor -->
 <template>
   <div class="markdown-editor">
     <MenuHeader :EditorContent="markData" />
@@ -30,10 +31,11 @@ import MenuHeader from '~/components/MenuHeader.vue'
 export default {
   data() {
     return {
+      // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
       markData: '# タイトル \n ## サブタイトル',
       SubMarkData: '',
       default_previews: '',
-      projectGenre: '',
+      projectGenre: 0,
       markdownOption: {
         bold: true,
         italic: true,
@@ -60,8 +62,10 @@ export default {
     // デフォルトのデータ
     const data = previews
     this.default_previews = data
+    localStorage.setItem('OpenList', 0)
     this.projectGenre = localStorage.getItem('projectCreateUpdate')
-    if (this.projectGenre === 0) {
+
+    if (this.projectGenre === '0') {
       // createということでデフォルトのデータを表示する
       this.markData = localStorage.getItem('MarkdownData')
       this.SubMarkData = this.markData

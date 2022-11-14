@@ -1,3 +1,4 @@
+<!-- デザインを決めていく内容を表示 -->
 <template>
   <div class="markdown-editor">
     <MenuHeader :EditorContent="markData" />
@@ -53,6 +54,12 @@ export default {
       colorName: 'black',
     }
   },
+  mounted() {
+    this.markData = localStorage.getItem('MarkdownData')
+    this.SubMarkData = this.markData
+    this.colorName = localStorage.getItem('markdownColor')
+    this.color(5)
+  },
   methods: {
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
@@ -81,12 +88,7 @@ export default {
       }
     },
   },
-  mounted() {
-    this.markData = localStorage.getItem('MarkdownData')
-    this.SubMarkData = this.markData
-    this.colorName = localStorage.getItem('markdownColor')
-    this.color(5)
-  },
+
   components: { MenuHeader },
 }
 </script>
