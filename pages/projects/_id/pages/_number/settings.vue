@@ -1,3 +1,4 @@
+<!-- ヘッダーからいけるデザインの種類を決めるページ -->
 <template>
   <!-- <div class="markdown-editor"> -->
   <v-flex>
@@ -43,17 +44,20 @@
                 PreviewName: preview.name,
                 PreviewText: preview.text,
                 PreviewBackColor: preview.backgroundColor,
+                PreviewColor: preview.primaryColor,
+                PreviewSecColor: preview.secondaryColor,
                 ProjectLink: PROJECT_LINK,
               })
             "
           />
         </v-card>
       </v-col>
+
       <v-col
         id="OpenHtml"
         cols="6"
         style="overflow: hidden !important; height: 93vh; overflow-y: auto"
-        :class="UserProjectColor[0]"
+        :style="{ backgroundColor: setBackColor }"
         v-html="UserProjectData"
       ></v-col>
     </v-row>
@@ -73,15 +77,12 @@ export default {
   data() {
     return {
       selectionGenre: 0,
-      // projectData: {},
-      UserProjectData: '<h1>タイトル</h1><h2>サブタイトル</h2>',
-      UserProjectColor: [],
+      UserProjectData: '<h1>demoタイトル</h1><h2>demoサブタイトル</h2>',
       designPreview: '1',
       HtmlColor: '',
-      primary: 'green',
-      Secondary: 'black',
-      killData1: '<h1>タイトル</h1><h2>サブタイトル</h2>',
-      setBackColor: '',
+      primary: 'pink',
+      secondary: 'black',
+      setBackColor: 'lightgreen',
 
       PROJECT_LINK: 1,
       markdownOption: {
@@ -123,26 +124,36 @@ export default {
       OPENSETTING: 0,
       OpenFlg: 999,
       HtmlContent: {},
+      // openList: 0,
     }
   },
-  mounted() {
-    var test = document.getElementById('OpenHtml')
-    test.id = 'html-css'
+  async mounted() {
     this.UserProjectData = DemoWebEditor[0].text
+    localStorage.setItem('DesignCount', 0)
+    var test = document.getElementById('OpenHtml')
+    console.log(test)
+    test.id = 'html-css'
     if (this.colorName === '') {
       this.colorName = 'black'
     }
+
     const data = previews
-    this.default_previews = previews
-    this.UserProjectColor.push(previews[0].backgroundColor)
-    this.UserProjectColor.push(previews[0].primaryColor)
-    this.UserProjectColor.push(previews[0].secondaryColor)
+    this.default_previews = await previews
+    await this.EditorData()
   },
 
   methods: {
-    // EditorData() {
-    //   localStorage.setItem('MarkdownData', this.markData)
-    // },
+    EditorData() {
+      const designSetH1 = []
+      const designSetH2 = []
+      for (var i = 0; i < this.default_previews.length; i++) {
+        designSetH1.push(this.default_previews[i].primaryColor)
+        designSetH2.push(this.default_previews[i].secondaryColor)
+      }
+      localStorage.setItem('DesignSetH1', designSetH1)
+      localStorage.setItem('DesignSetH2', designSetH2)
+      // localStorage.setItem('OpenList', this.openList)
+    },
     Setting(value) {
       if (this.OPENSETTING === value) {
         this.OpenFlg = value
@@ -175,8 +186,13 @@ export default {
     },
     selectGenre(value) {
       this.primary = value.primaryColor
-      this.Secondary = value.secondary.Color
-      this.HtmlColor = value.backgroundColor
+      this.secondary = value.secondaryColor
+      this.setBackColor = value.backgroundColor
+      const stylePrimary = document.getElementById('html-css')
+      var h1Tag = stylePrimary.getElementsByTagName('h1')
+      var h2Tag = stylePrimary.getElementsByTagName('h2')
+      h1Tag[0].style.color = this.primary
+      h2Tag[0].style.color = this.secondary
     },
   },
   components: {
@@ -186,9 +202,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-::v-deep #html-css h1 {
-  color: blue;
-}
-</style>

@@ -67,7 +67,6 @@ export default {
     this.default_previews = data
   },
   methods: {
-    // ページ遷移のルート設定 11/1より変更
     // valueの中に新規なのか更新なのか
     RoutePages(value) {
       // 押された瞬間にローカルに押されたページ(createなのかupdateなのかの判定に)
