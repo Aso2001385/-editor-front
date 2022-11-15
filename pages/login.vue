@@ -9,7 +9,7 @@
           <v-divider class="pb-5"> </v-divider>
           <v-form>
             <div class="pa-10">
-              <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
+              <v-text-field v-model="password" label="未定" type="password" required></v-text-field>
               <div class="pt-5 position: relative">
                 <v-row justify="center">
                   <v-col cols="4">
@@ -17,7 +17,7 @@
                   </v-col>
                 </v-row>
                 <v-row class="mt-10" justify="center">
-                  <NuxtLink to="/sign-up">新規登録ページへ</NuxtLink>
+                  <NuxtLink to="/signup">新規登録ページへ</NuxtLink>
                 </v-row>
                 <v-row class="mt-10" justify="center">
                   <NuxtLink to="/sign-up">パスワードを忘れましたか？</NuxtLink>
