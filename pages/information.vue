@@ -9,14 +9,7 @@
           <v-divider class="pb-5"> </v-divider>
           <v-form>
             <div class="pa-10">
-              <v-text-field
-                v-model="name"
-                label="name"
-                required
-                :error-messages="emailErrors"
-                @input="$v.email.$touch()"
-                @blur="$v.email.$touch()"
-              ></v-text-field>
+              <v-text-field v-model="name" label="name" required></v-text-field>
               <div class="pt-5 position: relative">
                 <v-row justify="center">
                   <v-col cols="4">
