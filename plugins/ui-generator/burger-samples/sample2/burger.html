@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="burger.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav id="nav">
+      <ul>
+        <li><a href="#">SUMPLE1</a></li>
+        <li><a href="#">SUMPLE2</a></li>
+        <li><a href="#">SUMPLE3</a></li>
+      </ul>
+      <div id="hamburger">
+        <!-- 1番上の線 -->
+        <span class="inner_line" id="line1"></span>
+        <!-- 真ん中の線 -->
+        <span class="inner_line" id="line2"></span>
+        <!-- 1番下の線 -->
+        <span class="inner_line" id="line3"></span>
+      </div>
+    </nav>
+  </body>
+  <script>
+    function hamburger() {
+      document.getElementById('line1').classList.toggle('line_1')
+      document.getElementById('line2').classList.toggle('line_2')
+      document.getElementById('line3').classList.toggle('line_3')
+      document.getElementById('nav').classList.toggle('in')
+    }
+    document.getElementById('hamburger').addEventListener('click', function () {
+      hamburger()
+    })
+  </script>
+</html>
