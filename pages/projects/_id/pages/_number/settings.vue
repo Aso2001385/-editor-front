@@ -20,17 +20,19 @@
           </a></v-row
         >
         <v-row class="pt-10"
-          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1)">全体設定</a></v-row
+          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1, 'all')">全体設定</a></v-row
         >
-        <v-row v-for="item in killData" :key="item" class="pt-10" @click="Setting(1)">
+        <v-row v-for="item in killData" :key="item" class="pt-10" @click="Setting(1, item)">
           <a class="text-h6 black--text">{{ item }}</a>
         </v-row>
       </v-col>
       <v-col cols="4" style="overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white">
         <EditorSetting v-if="OpenFlg === 0" style="background-color: white" />
+        <v-chip v-else style="float: right" class="grey darken-3 ma-2 white--text">
+          {{ nowPage }}
+        </v-chip>
         <v-card
           v-for="(preview, index) in default_previews"
-          v-else
           :key="index"
           class="mt-8 mb-2"
           cols="4"
@@ -67,7 +69,7 @@
 <script></script>
 
 <script>
-import DemoWebEditor from '~/assets/demo-web-editor.json'
+// import DemoWebEditor from '~/assets/demo-web-editor.json'
 import previews from '~/assets/previews'
 import MenuHeader from '~/components/MenuHeader.vue'
 import ProjectList from '~/components/ProjectList.vue'
@@ -83,6 +85,7 @@ export default {
       primary: 'pink',
       secondary: 'black',
       setBackColor: 'lightgreen',
+      nowPage: '全体設定',
 
       PROJECT_LINK: 1,
       markdownOption: {
@@ -124,12 +127,13 @@ export default {
       OPENSETTING: 0,
       OpenFlg: 999,
       HtmlContent: {},
-      // openList: 0,
+      html: '',
     }
   },
   async mounted() {
-    this.UserProjectData = DemoWebEditor[0].text
+    // this.UserProjectData = DemoWebEditor[0].text
     localStorage.setItem('DesignCount', 0)
+    this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
     var test = document.getElementById('OpenHtml')
     console.log(test)
     test.id = 'html-css'
@@ -152,9 +156,9 @@ export default {
       }
       localStorage.setItem('DesignSetH1', designSetH1)
       localStorage.setItem('DesignSetH2', designSetH2)
-      // localStorage.setItem('OpenList', this.openList)
     },
-    Setting(value) {
+    Setting(value, key) {
+      this.nowPage = key
       if (this.OPENSETTING === value) {
         this.OpenFlg = value
       } else {
@@ -191,8 +195,12 @@ export default {
       const stylePrimary = document.getElementById('html-css')
       var h1Tag = stylePrimary.getElementsByTagName('h1')
       var h2Tag = stylePrimary.getElementsByTagName('h2')
-      h1Tag[0].style.color = this.primary
-      h2Tag[0].style.color = this.secondary
+      for (let i = 0; i < h1Tag.length; i++) {
+        h1Tag[i].style.color = this.primary
+      }
+      for (let i = 0; i < h2Tag.length; i++) {
+        h2Tag[i].style.color = this.secondary
+      }
     },
   },
   components: {

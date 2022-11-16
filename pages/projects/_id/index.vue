@@ -1,4 +1,4 @@
-<!-- create-editor -->
+<!-- エディター作成・更新 -->
 <template>
   <div class="markdown-editor">
     <MenuHeader :EditorContent="markData" />
@@ -24,7 +24,10 @@
   </div>
 </template>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
+import { marked } from 'marked'
 import previews from '~/assets/previews.json'
 import MenuHeader from '~/components/MenuHeader.vue'
 
@@ -56,6 +59,7 @@ export default {
       iconColor: 'black--text',
       colorNumber: 1,
       colorName: 'black',
+      html: '',
     }
   },
   mounted() {
@@ -68,15 +72,16 @@ export default {
     if (this.projectGenre === '0') {
       // createということでデフォルトのデータを表示する
       this.markData = localStorage.getItem('MarkdownData')
+      console.log(marked(this.markData))
       this.SubMarkData = this.markData
     }
-
     this.colorName = localStorage.getItem('markdownColor')
     this.color(5)
   },
   methods: {
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
+      localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
     },
     color(value) {
       if (value === 1) {
