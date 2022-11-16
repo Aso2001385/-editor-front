@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       markdown: '# Marked in the browserRendered by **marked**.',
-      project_link: 'create-editor',
+      project_link: '',
       EDITORSETTING: 1,
       tagName: [],
       h1TagComp: [],
@@ -84,18 +84,18 @@ export default {
   methods: {
     RoutePages(value) {
       // 押された瞬間にローカルに押されたページ(createなのかupdateなのかの判定に)
-      console.log(this.ProjectData)
+      localStorage.setItem('projectCreateUpdate', value)
+      // 1がデザイン 0がプロジェクトの作成更新
       if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
         // デザインなどの変更ページへ
+        // localStorage.setItem('projectCreateUpdate', value)  いらない
         this.$router.push({ path: `${this.project_link}` })
       } else {
         //  create-editorページへ
-        // localStorage.setItem('projectCreateUpdate', value) しなくてもいいかな
-
-        if (localStorage.getItem('projectCreateUpdate') === null) {
-          // 空だったら編集しているデータがないという証拠
-          this.$router.push({ path: `/projects/${value}` })
-        }
+        // if (localStorage.getItem('projectCreateUpdate') === '0') {
+        //   // 空だったら編集しているデータがないという証拠
+        //   this.$router.push({ path: `/projects/${value}` })
+        // }
 
         //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
         const confirm = window.confirm(
@@ -104,12 +104,15 @@ export default {
         if (confirm) {
           // trueの場合は保存をする
           // apiでデータベースに保存させる処理をかく
+          // ローカルのHtmlFronMarkdownデータを
+          // マークダウンデータを初期化する
           this.$router.push({ path: `/projects/${value}` })
         } else {
           // データを破棄する
-          localStorage.setItem('projectCreateUpdate', null)
-          console.log(localStorage.getItem('projectCreateUpdate') === null)
-          localStorage.setItem('MarkdownData', '')
+          // localStorage.setItem('projectCreateUpdate', null)
+          // 更新ならデータベースのデータを入れる
+          // 新規の破棄ならデフォルトのデータを入れる
+          localStorage.setItem('MarkdownData', ' タイトル \n ## サブタイトル')
           this.$router.push({ path: `/projects/${value}` })
         }
       }
