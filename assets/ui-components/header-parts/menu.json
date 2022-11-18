@@ -1,0 +1,18 @@
+[
+  {
+    "name": "TestMenu",
+    "html": "<template><li class='project-item'></li><template/><nav id='project-menu'><ul id='project-items'></ui></nav>",
+    "style": {
+      "id": [
+        {
+          "key": "project-header",
+          "css": "background-color:red;width:100%;display:grid;"
+        },
+        {
+          "key": "header-item",
+          "css": "background-color:blue;color:white;width:80%;"
+        }
+      ]
+    }
+  }
+]

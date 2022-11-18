@@ -1,3 +1,4 @@
+<!-- エディター作成・更新 -->
 <template>
   <div class="markdown-editor">
     <MenuHeader :EditorContent="markData" />
@@ -23,16 +24,21 @@
   </div>
 </template>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
+import { marked } from 'marked'
+import previews from '~/assets/previews.json'
 import MenuHeader from '~/components/MenuHeader.vue'
-import UiGenerator from '~/plugins/ui-generator/controller'
 
 export default {
-  components: { MenuHeader },
   data() {
     return {
+      // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
       markData: '# タイトル \n ## サブタイトル',
       SubMarkData: '',
+      default_previews: '',
+      projectGenre: 0,
       markdownOption: {
         bold: true,
         italic: true,
@@ -53,22 +59,29 @@ export default {
       iconColor: 'black--text',
       colorNumber: 1,
       colorName: 'black',
+      html: '',
     }
   },
-
   mounted() {
-    this.markData = localStorage.getItem('MarkdownData')
-    this.SubMarkData = this.markData
+    // デフォルトのデータ
+    const data = previews
+    this.default_previews = data
+    localStorage.setItem('OpenList', 0)
+    this.projectGenre = localStorage.getItem('projectCreateUpdate')
+
+    if (this.projectGenre === '0') {
+      // createということでデフォルトのデータを表示する
+      this.markData = localStorage.getItem('MarkdownData')
+      console.log(marked(this.markData))
+      this.SubMarkData = this.markData
+    }
     this.colorName = localStorage.getItem('markdownColor')
     this.color(5)
-    window.onload = () => {
-      UiGenerator.uiGenerator()
-    }
   },
-
   methods: {
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
+      localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
     },
     color(value) {
       if (value === 1) {
@@ -94,29 +107,13 @@ export default {
       }
     },
   },
+  components: { MenuHeader },
 }
 </script>
 
-<style lang="sass">
-.markdown-editor
-  width: 100%
-  height: 100%
-
-html
-  overflow: none !important
-
-body
-  overflow: none !important
-
-html::-webkit-scrollbar
-  display: none !important
-
-body::-webkit-scrollbar
-  display: none !important
-
-.v-note-show
-  overflow: hidden !important
-
-.v-note-show::-webkit-scrollbar
-  display: none !important
+<style>
+.markdown-editor {
+  width: 100%;
+  height: 100%;
+}
 </style>

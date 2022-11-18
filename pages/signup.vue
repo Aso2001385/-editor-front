@@ -1,32 +1,37 @@
 <template>
-  <v-flex>
-    <v-app id="app">
-      <v-row>
-        <!-- 入力欄追加 -->
-        <v-col cols="12" md="4">
-          <v-text-field v-model="firstname" :rules="nameRules" :counter="10" label="First name" required></v-text-field>
-        </v-col>
-        <v-col cols="12" md="4">
-          <v-text-field v-model="lastname" :rules="nameRules" :counter="10" label="Last name" required></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="4">
-          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row class="mt-5 pa-0 justify-center">
-        <v-col cols="12" class="mt-10 pt-10 mb-10 white--text text-h6">
-          <h2 style="text-align: center">必要事項入力するform</h2>
-        </v-col>
-      </v-row>
-      <v-row justify="end">
-        <v-col cols="12" class="text-h5">
-          <p style="text-align: center">
-            <NuxtLink to="/login" class="blue--te xt"><button>次へボタン</button></NuxtLink>
-          </p>
-          <p style="text-align: center"><NuxtLink to="/login" class="blue--te xt">ログインページへ</NuxtLink></p>
-        </v-col>
-      </v-row>
-    </v-app>
-  </v-flex>
+  <v-container fill-height>
+    <v-row justify="center">
+      <v-col cols="12" lg="6" md="9" sm="10" xs="10">
+        <v-card class="pb-10 mx-auto fill-width">
+          <v-card-title class="d-flex justify-center pa-4 grey darken-2">
+            <h3 class="text-center white--text">SIGN IN</h3>
+          </v-card-title>
+          <v-divider class="pb-5"> </v-divider>
+          <v-form>
+            <div class="pa-10">
+              <v-text-field v-model="password" label="未定" type="password" required></v-text-field>
+              <div class="pt-5 position: relative">
+                <v-row justify="center">
+                  <v-col cols="4">
+                    <ApiEventButton color="grey darken-2">Next</ApiEventButton>
+                  </v-col>
+                </v-row>
+                <v-row class="mt-10" justify="center">
+                  <NuxtLink to="/login">ログインページへ</NuxtLink>
+                </v-row>
+              </div>
+            </div>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+<script>
+export default {
+  layout: 'auth',
+
+  // email: '1001999@s..ac.jp',
+  // password: 'test-2022Aso',
+}
+</script>

@@ -1,46 +1,44 @@
 <template>
-  <v-container style="background-color: #dcdcdc" class="mt-7">
-    <v-row class="mt-8">
-      <NuxtLink to="/create-editor" class="white--text" style="text-decoration: none">
-        <v-row style="float: left">
-          <v-card style="background-color: white; height: 20%">
-            <div class="pt-5 pb-5" style="width: 100%; background-color: pink">
-              <v-col
-                cols="12"
-                class="black--text"
-                style="height: 9rem; width: 60rem; margin-left: 1%; padding-bottom: 10rem"
-              >
-                <div
-                  id="container"
-                  class="warp"
-                  v-html="ProjectData.PreviewText"
-                  style="height: 5rem; width: 80%"
-                ></div>
-              </v-col>
-            </div>
+  <v-container style="background-color: #dcdcdc">
+    <v-row>
+      <div
+        :to="project_link"
+        class="white--text"
+        style="text-decoration: none"
+        @click="RoutePages(ProjectData.PreviewId)"
+      >
+        <v-row style="float: left; background-color: white">
+          <div class="pt-5 pb-5" style="width: 100%" :style="{ backgroundColor: ProjectData.PreviewBackColor }">
             <v-col
               cols="12"
               class="black--text"
-              style="border-top: 1px solid lightgrey; background: transparent; overflow: hidden; width: 100%"
+              style="height: 9rem; width: 60rem; margin-left: 1%; padding-bottom: 10rem"
             >
-              <p
-                id="project-name"
-                style="
-                  font-size: 20px;
-                  margin-left: 3%;
-                  color: #212121;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-                  width: 15rem;
-                "
-              >
-                {{ ProjectData.PreviewName }}
-              </p>
+              <div id="DesignHtml" class="warp" style="height: 5rem; width: 80%" v-html="ProjectData.PreviewText"></div>
             </v-col>
-          </v-card>
+          </div>
+          <v-col
+            cols="12"
+            class="black--text"
+            style="border-top: 1px solid lightgrey; background: transparent; overflow: hidden; width: 100%"
+          >
+            <p
+              id="project-name"
+              style="
+                font-size: 17px;
+                margin-left: 2.5%;
+                color: #212121;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 12rem;
+              "
+            >
+              {{ ProjectData.PreviewName }}
+            </p>
+          </v-col>
         </v-row>
-      </NuxtLink>
+      </div>
     </v-row>
   </v-container>
 </template>
@@ -53,14 +51,82 @@ export default {
   data() {
     return {
       markdown: '# Marked in the browserRendered by **marked**.',
-      lists: [
-        { id: 1, name: 'project1', text: 'project1の内容表示' },
-        { id: 2, name: 'project2', text: 'project2の内容表示' },
-        { id: 3, name: 'project3', text: 'project3の内容表示' },
-        { id: 4, name: 'project4', text: 'project4の内容表示' },
-        { id: 5, name: 'project5', text: 'project5の内容表示' },
-      ],
+      project_link: '',
+      EDITORSETTING: 1,
+      tagName: [],
+      h1TagComp: [],
+      h2TagComp: [],
+      designSetH1: {},
+      designSetH2: {},
+      count: 0,
     }
+  },
+  mounted() {
+    this.count = Number(localStorage.getItem('DesignCount'))
+    const userProjectId = localStorage.getItem('projectCreateUpdate')
+    const killDesignSetH1 = localStorage.getItem('DesignSetH1')
+    this.designSetH1 = killDesignSetH1.split(',')
+    const killDesignSetH2 = localStorage.getItem('DesignSetH2')
+    this.designSetH2 = killDesignSetH2.split(',')
+
+    if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
+      this.project_link = `/projects/${userProjectId}/pages/${userProjectId}/settings`
+      // this.$router.push({ path: `/projects/${userProjectId}/pages/${userProjectId}/settings` })
+    }
+    const design = document.getElementById('DesignHtml')
+    design.id = 'disign-set' + this.count
+    this.count = this.count + 1
+    localStorage.setItem('DesignCount', this.count)
+    const designPrimary = document.getElementById(design.id)
+    // console.log(designPrimary)
+    this.selectGenreComp(designPrimary, this.designSetH1, this.designSetH2, this.count)
+  },
+  methods: {
+    RoutePages(value) {
+      // 押された瞬間にローカルに押されたページ(createなのかupdateなのかの判定に)
+      localStorage.setItem('projectCreateUpdate', value)
+      // 1がデザイン 0がプロジェクトの作成更新
+      if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
+        // デザインなどの変更ページへ
+        // localStorage.setItem('projectCreateUpdate', value)  いらない
+        this.$router.push({ path: `${this.project_link}` })
+      } else {
+        //  create-editorページへ
+        // if (localStorage.getItem('projectCreateUpdate') === '0') {
+        //   // 空だったら編集しているデータがないという証拠
+        //   this.$router.push({ path: `/projects/${value}` })
+        // }
+
+        //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
+        const confirm = window.confirm(
+          '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
+        )
+        if (confirm) {
+          // trueの場合は保存をする
+          // apiでデータベースに保存させる処理をかく
+          // ローカルのHtmlFronMarkdownデータを
+          // マークダウンデータを初期化する
+          this.$router.push({ path: `/projects/${value}` })
+        } else {
+          // データを破棄する
+          // localStorage.setItem('projectCreateUpdate', null)
+          // 更新ならデータベースのデータを入れる
+          // 新規の破棄ならデフォルトのデータを入れる
+          localStorage.setItem('MarkdownData', ' タイトル \n ## サブタイトル')
+          this.$router.push({ path: `/projects/${value}` })
+        }
+      }
+    },
+    async selectGenreComp(value, colorh1, colorh2, cnt) {
+      this.h1TagComp = await value.getElementsByTagName('h1')
+      this.h2TagComp = await value.getElementsByTagName('h2')
+      if (this.h1TagComp !== '') {
+        this.h1TagComp[0].style.color = colorh1[cnt - 1]
+      }
+      if (this.h2TagComp !== '') {
+        this.h2TagComp[0].style.color = colorh2[cnt - 1]
+      }
+    },
   },
 }
 </script>

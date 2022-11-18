@@ -9,96 +9,82 @@
           <v-divider class="pb-5"> </v-divider>
           <v-form>
             <div class="pa-10">
-              <v-text-field v-model="name" label="Name" required></v-text-field>
-              <v-text-field v-model="email" label="Email" required></v-text-field>
-              <v-text-field v-model="password" label="Password" required></v-text-field>
+              <v-text-field v-model="name" label="name" required></v-text-field>
               <div class="pt-5 position: relative">
                 <v-row justify="center">
                   <v-col cols="4">
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      v-if="isEdit"
-                      v-bind:disabled="noChange"
-                      data-toggle="modal"
-                      data-target="#companyModal"
-                    >
-                      更新
-                    </button>
+                    <ApiEventButton color="grey darken-2" :click-callback="submit"> Next </ApiEventButton>
                   </v-col>
                 </v-row>
               </div>
+              <v-row class="mt-10" justify="center">
+                <NuxtLink to="/sign-up">メールアドレス・パスワードの変更ですか？こちらから変更</NuxtLink>
+              </v-row>
             </div>
           </v-form>
         </v-card>
+
+        <v-container class="pb-10 fill-width mt-10 grey lighten-5">
+          <v-row class="grey darken-2">
+            <h3 class="white--text d-flex justify-left pa-4 gray font-weight-medium">利用できるデザインセット</h3>
+          </v-row>
+          <v-row class="pl-10 pr-10">
+            <v-card
+              v-for="(preview, index) in default_previews"
+              :key="index"
+              class="mt-15"
+              cols="6"
+              style="float: left"
+            >
+              <ProjectList
+                :ProjectData="
+                  (ProjectData = {
+                    PreviewId: preview.id,
+                    PreviewName: preview.name,
+                    PreviewText: preview.text,
+                    ProjectGenre: preview.texteditor,
+                    PreviewBackColor: preview.backgroundColor,
+                    ProjectLink: PROJECT_LINK,
+                  })
+                "
+              />
+            </v-card>
+          </v-row>
+        </v-container>
+
+        <!-- <v-col v-for="(preview, index) in default_previews" :key="index" cols="4" style="float: left">
+          <ProjectList
+            :ProjectData="
+              (ProjectData = { PreviewId: preview.id, PreviewName: preview.name, PreviewText: preview.text })
+            "
+          />
+        </v-col> -->
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-// import { validationMixin } from 'vuelidate'
-// import { required, maxLength, email, minLength } from 'vuelidate/lib/validators'
+import previews from '~/assets/previews.json'
+import ProjectList from '~/components/ProjectList.vue'
+
 export default {
-  //   mixins: [validationMixin],
-  //   layout: 'auth',
-  //   validations: {
-  //     email: { required, email, maxLength: maxLength(23), minLength: minLength(23) },
-  //     password: { required, minLength: minLength(8) },
-  //   },
-  data: () => ({
-    show1: false,
-    email: '',
-    password: '',
-    user: {},
-    name: '',
-  }),
+  layout: 'auth',
+  data() {
+    return {
+      name: '麻生',
+      email: 'aso@gmail.com',
+      password: 'aaaaa',
+      default_previews: null,
+    }
+  },
   // email: '1001999@s..ac.jp',
   // password: 'test-2022Aso',
-  computed: {
-    // nameErrors() {
-    //   const errors = []
-    //   if (!this.$v.name.$dirty) return errors
-    //   !this.$v.email.email && errors.push('Must be valid e-mail')
-    //   !this.$v.email.required && errors.push('E-mail is required')
-    //   return errors
-    // },
-    // emailErrors() {
-    //   const errors = []
-    //   if (!this.$v.email.$dirty) return errors
-    //   !this.$v.email.email && errors.push('Must be valid e-mail')
-    //   !this.$v.email.required && errors.push('E-mail is required')
-    //   return errors
-    // },
-    // passwordErrors() {
-    //   const errors = []
-    //   if (!this.$v.password.$dirty) return errors
-    //   !this.$v.password.minLength && errors.push('Password must be at least 8 characters')
-    //   !this.$v.password.required && errors.push('Password is required')
-    //   return errors
-    // },
+
+  mounted() {
+    const data = previews
+    this.default_previews = data
   },
-  methods: {
-    // async submit() {
-    //   this.$v.$touch()
-    //   const sendSearch = []
-    //   sessionStorage.setItem('sendSearch', JSON.stringify(sendSearch))
-    //   sessionStorage.setItem('searchFlg', 0)
-    //   this.user = {
-    //     email: this.email,
-    //     password: this.password,
-    //   }
-    //   await this.$axios.post(`${this.$urls.API}/auth`, this.user).then(async response => {
-    //     await this.$store.commit('restoreLogin', response.data)
-    //   })
-    // },
-    // clear() {
-    //   this.$v.$reset()
-    //   this.name = ''
-    //   this.email = ''
-    //   this.select = null
-    //   this.checkbox = false
-    // },
-  },
+  components: { ProjectList },
 }
 </script>
 <style lang="scss"></style>
