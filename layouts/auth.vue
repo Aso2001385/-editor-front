@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="grey darken-4" app clipped-left>
+    <v-app-bar color="grey darken-2" app clipped-left>
       <v-toolbar-title class="white--text">i-match</v-toolbar-title>
     </v-app-bar>
     <v-main app light class="grey lighten-3">
