@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-main style="background-color:#dcdcdc">
-    <Nuxt />
+    <v-main style="background-color: #dcdcdc">
+      <Nuxt />
     </v-main>
   </v-app>
 </template>
@@ -10,8 +10,7 @@
 export default {
   name: 'DefaultLayout',
   data() {
-    return {
-    }
+    return {}
   },
 }
 </script>
