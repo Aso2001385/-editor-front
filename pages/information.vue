@@ -1,10 +1,10 @@
 <template>
   <v-container fill-height>
     <v-row justify="center">
-      <v-col cols="12" lg="6" md="10" sm="10" xs="10">
-        <v-card class="pb-10 mt-5 mx-auto fill-width">
-          <v-card-title class="d-flex justify-center pa-4 grey darken-2">
-            <h3 class="text-center white--text">SIGN IN</h3>
+      <v-col cols="12" lg="6" md="9" sm="10" xs="10">
+        <v-card class="pb-10 mx-auto fill-width">
+          <v-card-title class="d-flex justify-left pa-4 grey darken-4">
+            <h3 class="text-left white--text">会員情報</h3>
           </v-card-title>
           <v-divider class="pb-5"> </v-divider>
           <v-form>
@@ -87,3 +87,4 @@ export default {
   components: { ProjectList },
 }
 </script>
+<style lang="scss"></style>
