@@ -10,7 +10,9 @@
           <div class="pa-10">
             <v-text-field v-model="name" label="name" required></v-text-field>
             <v-row justify="center" class="mt-5">
-              <ApiEventButton color="grey darken-2" :click-callback="submit"> Next </ApiEventButton>
+              <v-col cols="4">
+                <ApiEventButton color="grey darken-2" :click-callback="submit"> Next </ApiEventButton>
+              </v-col>
             </v-row>
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/sign-up">メールアドレス・パスワードの変更ですか？こちらから変更</NuxtLink>
@@ -69,8 +71,10 @@ export default {
       email: 'aso@gmail.com',
       password: 'aaaaa',
       default_previews: null,
+      PROJECT_LINK: 2,
     }
   },
+
   // email: '1001999@s..ac.jp',
   // password: 'test-2022Aso',
 

@@ -35,10 +35,11 @@ export default {
   data() {
     return {
       // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
-      markData: '# タイトル \n ## サブタイトル',
+      markData: '',
       SubMarkData: '',
       default_previews: '',
       projectGenre: 0,
+      openCnt: 0,
       markdownOption: {
         bold: true,
         italic: true,
@@ -66,22 +67,34 @@ export default {
     // デフォルトのデータ
     const data = previews
     this.default_previews = data
+    // いらないかも
     localStorage.setItem('OpenList', 0)
     this.projectGenre = localStorage.getItem('projectCreateUpdate')
+    this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
 
-    if (this.projectGenre === '0') {
-      // createということでデフォルトのデータを表示する
-      this.markData = localStorage.getItem('MarkdownData')
-      console.log(marked(this.markData))
-      this.SubMarkData = this.markData
-    }
+    // if (this.projectGenre === '0') {
+    // createということでデフォルトのデータを表示する
+    this.markData = localStorage.getItem('MarkdownData')
+    console.log(marked(this.markData))
+    this.SubMarkData = this.markData
+    // }
     this.colorName = localStorage.getItem('markdownColor')
     this.color(5)
+
+    // localStorage.setItem('MarkdownData', localStorage.getItem('MarkdownData'))
+    // localStorage.setItem('HtmlFromMarkdown', marked(localStorage.getItem('MarkdownData')))
   },
   methods: {
     EditorData() {
-      localStorage.setItem('MarkdownData', this.markData)
-      localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
+      const confirm = localStorage.getItem('MarkdownData')
+      console.log('中身の確認')
+      console.log(confirm == this.markData)
+      if (confirm != this.markData) {
+        localStorage.setItem('MarkdownData', this.markData)
+        localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
+      } else {
+        this.markData = confirm
+      }
     },
     color(value) {
       if (value === 1) {
