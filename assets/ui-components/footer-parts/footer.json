@@ -1,7 +1,0 @@
-[
-  {
-    "name": "TestFooter",
-    "html": "<footer id='project-footer'>いざ尋常に勝負！</footer>",
-    "css": "background-color:\"red\";width:100%;"
-  }
-]
