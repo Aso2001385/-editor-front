@@ -4,6 +4,13 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import Ui from '@/components/Ui'
 
+export default {
+  components: {
+    Ui,
+  },
+}
+</script>
 <style lang="sass"></style>
