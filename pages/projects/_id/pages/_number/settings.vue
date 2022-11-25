@@ -20,7 +20,7 @@
           </a></v-row
         >
         <v-row class="pt-10"
-          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1, 'all')">全体設定</a></v-row
+          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1, 'allpages')">全体設定</a></v-row
         >
         <v-row v-for="item in killData" :key="item" class="pt-10" @click="Setting(1, item)">
           <a class="text-h6 black--text">{{ item }}</a>
@@ -85,7 +85,7 @@ export default {
       primary: 'pink',
       secondary: 'black',
       setBackColor: 'lightgreen',
-      nowPage: '全体設定',
+      nowPage: 'allpages',
 
       PROJECT_LINK: 1,
       markdownOption: {
@@ -130,8 +130,7 @@ export default {
       html: '',
     }
   },
-  async mounted() {
-    // this.UserProjectData = DemoWebEditor[0].text
+  mounted() {
     localStorage.setItem('DesignCount', 0)
     this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
     var test = document.getElementById('OpenHtml')
@@ -142,8 +141,8 @@ export default {
     }
 
     const data = previews
-    this.default_previews = await previews
-    await this.EditorData()
+    this.default_previews = previews
+    this.EditorData()
   },
 
   methods: {
@@ -165,28 +164,10 @@ export default {
         this.OpenFlg = value
       }
     },
-    color(value) {
-      if (value === 1) {
-        this.colorNumber = value + 1
-        this.colorName = 'red'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else if (value === 2) {
-        this.colorNumber = value + 1
-        this.colorName = 'blue'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else if (value === 3) {
-        this.colorNumber = value + 1
-        this.colorName = 'green'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else if (value === 4) {
-        this.colorNumber = 0
-        this.colorName = 'purple'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else {
-        this.colorNumber = 1
-        this.colorName = 'black'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      }
+    getProjectList() {
+      // ログインしているユーザーが持っているデザインセットを取得
+      const userId = 1
+      this.$store.dispatch('api/getProjectList', { userId })
     },
     selectGenre(value) {
       this.primary = value.primaryColor

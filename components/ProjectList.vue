@@ -53,6 +53,8 @@ export default {
       markdown: '# Marked in the browserRendered by **marked**.',
       project_link: '',
       EDITORSETTING: 1,
+      DESIGNSET: 2,
+      DESIGNPREVIEW: 3,
       tagName: [],
       h1TagComp: [],
       h2TagComp: [],
@@ -70,8 +72,8 @@ export default {
     this.designSetH2 = killDesignSetH2.split(',')
 
     if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
+      console.log('ページ遷移が行われている')
       this.project_link = `/projects/${userProjectId}/pages/${userProjectId}/settings`
-      // this.$router.push({ path: `/projects/${userProjectId}/pages/${userProjectId}/settings` })
     }
     const design = document.getElementById('DesignHtml')
     design.id = 'disign-set' + this.count
@@ -88,32 +90,34 @@ export default {
       // 1がデザイン 0がプロジェクトの作成更新
       if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
         // デザインなどの変更ページへ
-        // localStorage.setItem('projectCreateUpdate', value)  いらない
         this.$router.push({ path: `${this.project_link}` })
+      } else if (this.ProjectData.ProjectLink === this.DESIGNSET) {
+        //
+      } else if (this.ProjectData.ProjectLink === this.DESIGNPREVIEW) {
+        this.$router.push({ path: `/design-preview` })
       } else {
-        //  create-editorページへ
-        // if (localStorage.getItem('projectCreateUpdate') === '0') {
-        //   // 空だったら編集しているデータがないという証拠
-        //   this.$router.push({ path: `/projects/${value}` })
-        // }
-
-        //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
-        const confirm = window.confirm(
-          '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
-        )
-        if (confirm) {
-          // trueの場合は保存をする
-          // apiでデータベースに保存させる処理をかく
-          // ローカルのHtmlFronMarkdownデータを
-          // マークダウンデータを初期化する
-          this.$router.push({ path: `/projects/${value}` })
-        } else {
-          // データを破棄する
-          // localStorage.setItem('projectCreateUpdate', null)
-          // 更新ならデータベースのデータを入れる
-          // 新規の破棄ならデフォルトのデータを入れる
-          localStorage.setItem('MarkdownData', ' タイトル \n ## サブタイトル')
-          this.$router.push({ path: `/projects/${value}` })
+        // データが保存されていたら確認画面移る/ない場合は普通にcreate-editorの画面が開く
+        const confilmMarkdownData = localStorage.getItem('MarkdownData')
+        if (confilmMarkdownData !== null) {
+          //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
+          const confirm = window.confirm(
+            '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
+          )
+          if (confirm) {
+            // trueの場合は保存をする
+            // apiでデータベースに保存させる処理をかく
+            // ローカルのHtmlFronMarkdownデータを
+            // マークダウンデータを初期化する
+            this.$router.push({ path: `/projects/${value}` })
+          } else {
+            // データを破棄する
+            // localStorage.setItem('projectCreateUpdate', null)
+            // 更新ならデータベースのデータを入れる
+            // 新規の破棄ならデフォルトのデータを入れる
+            localStorage.setItem('MarkdownData', '')
+            localStorage.setItem('HtmlFromMarkdown', '')
+            this.$router.push({ path: `/projects/${value}` })
+          }
         }
       }
     },

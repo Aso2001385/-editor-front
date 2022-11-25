@@ -66,8 +66,16 @@ export default {
   mounted() {
     const data = previews
     this.default_previews = data
+    // ユーザーidからプロジェクトリストを取得する
+    this.getProjectList()
   },
   methods: {
+    // プロジェクトリスト取得
+    getProjectList() {
+      // ログイン情報がどこに保存されているかによって持ってくる場所が変わる
+      const userId = 1
+      this.$store.dispatch('api/getProjectList', { userId })
+    },
     // valueの中に新規なのか更新なのか
     RoutePages(value) {
       // 押された瞬間にローカルに押されたページ(createなのかupdateなのかの判定に)

@@ -6,7 +6,10 @@
           <div class="white--text" @click="RoutePages(0)">HOME</div>
           <!-- <NuxtLink to="/project-list" class="white--text" style="text-decoration: none">HOME</NuxtLink> -->
         </v-col>
-        <v-col><a href="#" class="white--text" style="text-decoration: none">PAGES</a></v-col>
+        <v-col>
+          <div class="white--text" @click="RoutePages(3)">PAGES</div>
+          <!-- <a href="#" class="white--text" style="text-decoration: none">PAGES</a> -->
+        </v-col>
         <v-col>
           <div class="white--text" @click="RoutePages(2)">SETTING</div>
           <!-- <NuxtLink to="/editor-setting" class="white--text" style="text-decoration: none">SETTING</NuxtLink> -->
@@ -38,6 +41,8 @@ export default {
       } else if (value === 2) {
         // ここで今何ページ目なのかをローカルに入れたデータを取得して表示するようにする
         this.$router.push({ path: `/projects/${userProjectId}/pages/${userProjectId}/settings` })
+      } else if (value === 3) {
+        this.$router.push({ path: `/projects/${userProjectId}` })
       } else {
         this.$router.push({ path: `/projects/` })
       }
