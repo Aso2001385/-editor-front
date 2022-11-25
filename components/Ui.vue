@@ -7,7 +7,7 @@
 </template>
 <script>
 import Hamburger from '~/components/parts/headers/menu/buttons/Hamburger.vue'
-import Contents from '~/components/parts/headers/menu/contents/Index.vue'
+import Contents from '~/components/parts/headers/menu/contents'
 export default {
   components: {
     Hamburger,
