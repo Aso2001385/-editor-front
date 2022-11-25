@@ -1,7 +1,11 @@
 <template>
   <v-app>
-    <v-app-bar color="grey darken-4" app clipped-left>
-      <v-toolbar-title class="white--text">i-match</v-toolbar-title>
+    <v-app-bar color="grey darken-2" app clipped-left>
+      <v-toolbar-title class="white--text"
+        ><strong
+          ><NuxtLink to="/projects" style="color: white; text-decoration: none">FRIDAY</NuxtLink></strong
+        ></v-toolbar-title
+      >
     </v-app-bar>
     <v-main app light class="grey lighten-3">
       <Nuxt />

@@ -3,33 +3,25 @@
     <v-row justify="center">
       <v-col cols="12" lg="6" md="9" sm="10" xs="10">
         <v-card class="pb-10 mx-auto fill-width">
-          <v-card-title class="d-flex justify-center pa-4 grey darken-4">
+          <v-card-title class="d-flex justify-center pa-4 grey darken-2">
             <h3 class="text-center white--text">SIGN IN</h3>
           </v-card-title>
           <v-divider class="pb-5"> </v-divider>
-          <v-form>
-            <div class="pa-10">
-              <v-text-field></v-text-field>
-              <v-text-field
-                v-model="password"
-                label="Password"
-                required
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show1 ? 'text' : 'password'"
-                :error-messages="passwordErrors"
-                @input="$v.password.$touch()"
-                @blur="$v.password.$touch()"
-                @click:append="show1 = !show1"
-              ></v-text-field>
-              <div class="pt-5 position: relative">
-                <v-row justify="center">
-                  <v-col cols="4">
-                    <ApiEventButton color="grey darken-4">Next</ApiEventButton>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-          </v-form>
+          <div class="pa-10">
+            <v-text-field v-model="email" label="email" type="text"></v-text-field>
+            <v-text-field v-model="password" label="password" type="text"></v-text-field>
+            <v-row justify="center" class="mt-5 mb-5">
+              <v-col cols="4">
+                <ApiEventButton color="grey darken-2" :click-callback="submit">Next</ApiEventButton>
+              </v-col>
+            </v-row>
+            <v-row class="mt-10" justify="center">
+              <NuxtLink to="/signup">サインインページへ</NuxtLink>
+            </v-row>
+            <v-row class="mt-10" justify="center">
+              <NuxtLink to="/sign-up">パスワードを忘れましたか？</NuxtLink>
+            </v-row>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -38,8 +30,23 @@
 <script>
 export default {
   layout: 'auth',
-
-  // email: '1001999@s..ac.jp',
-  // password: 'test-2022Aso',
+  data() {
+    return {
+      url: 'http://localost:8080/api/login',
+      email: '1001999@japan.jp',
+      password: 1234,
+    }
+  },
+  mounted() {},
+  methods: {
+    submit() {
+      const user = {
+        email: this.email,
+        password: this.password,
+      }
+      this.$store.dispatch('api/postLogin', { user })
+    },
+  },
+  computed: {},
 }
 </script>

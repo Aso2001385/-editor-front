@@ -8,14 +8,13 @@
         @click="RoutePages(ProjectData.PreviewId)"
       >
         <v-row style="float: left; background-color: white">
-          <!-- <v-card style="background-color: white; height: 20%"> -->
-          <div class="pt-5 pb-5" style="width: 100%" :class="ProjectData.PreviewBackColor">
+          <div class="pt-5 pb-5" style="width: 100%" :style="{ backgroundColor: ProjectData.PreviewBackColor }">
             <v-col
               cols="12"
               class="black--text"
               style="height: 9rem; width: 60rem; margin-left: 1%; padding-bottom: 10rem"
             >
-              <div id="container" class="warp" v-html="ProjectData.PreviewText" style="height: 5rem; width: 80%"></div>
+              <div id="DesignHtml" class="warp" style="height: 5rem; width: 80%" v-html="ProjectData.PreviewText"></div>
             </v-col>
           </div>
           <v-col
@@ -38,7 +37,6 @@
               {{ ProjectData.PreviewName }}
             </p>
           </v-col>
-          <!-- </v-card> -->
         </v-row>
       </div>
     </v-row>
@@ -46,8 +44,6 @@
 </template>
 
 <script>
-// import previews from '~/assets/previews.json'
-
 export default {
   props: {
     ProjectData: Object,
@@ -55,28 +51,84 @@ export default {
   data() {
     return {
       markdown: '# Marked in the browserRendered by **marked**.',
-      project_link: 'create-editor',
+      project_link: '',
       EDITORSETTING: 1,
+      DESIGNSET: 2,
+      DESIGNPREVIEW: 3,
+      tagName: [],
+      h1TagComp: [],
+      h2TagComp: [],
+      designSetH1: {},
+      designSetH2: {},
+      count: 0,
     }
   },
   mounted() {
+    this.count = Number(localStorage.getItem('DesignCount'))
     const userProjectId = localStorage.getItem('projectCreateUpdate')
+    const killDesignSetH1 = localStorage.getItem('DesignSetH1')
+    this.designSetH1 = killDesignSetH1.split(',')
+    const killDesignSetH2 = localStorage.getItem('DesignSetH2')
+    this.designSetH2 = killDesignSetH2.split(',')
+
     if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
-      // Webエディターデザイン設定のページでは遷移をせずhtml表示の部分に反映させるようにする
-      // this.project_link = 'editor-setting'
+      console.log('ページ遷移が行われている')
       this.project_link = `/projects/${userProjectId}/pages/${userProjectId}/settings`
-      // this.$router.push({ path: `/projects/${userProjectId}/pages/${userProjectId}/settings` })
     }
+    const design = document.getElementById('DesignHtml')
+    design.id = 'disign-set' + this.count
+    this.count = this.count + 1
+    localStorage.setItem('DesignCount', this.count)
+    const designPrimary = document.getElementById(design.id)
+    // console.log(designPrimary)
+    this.selectGenreComp(designPrimary, this.designSetH1, this.designSetH2, this.count)
   },
   methods: {
     RoutePages(value) {
       // 押された瞬間にローカルに押されたページ(createなのかupdateなのかの判定に)
       localStorage.setItem('projectCreateUpdate', value)
-      console.log(this.ProjectData)
+      // 1がデザイン 0がプロジェクトの作成更新
       if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
+        // デザインなどの変更ページへ
         this.$router.push({ path: `${this.project_link}` })
+      } else if (this.ProjectData.ProjectLink === this.DESIGNSET) {
+        //
+      } else if (this.ProjectData.ProjectLink === this.DESIGNPREVIEW) {
+        this.$router.push({ path: `/design-preview` })
       } else {
-        this.$router.push({ path: `/projects/${value}` })
+        // データが保存されていたら確認画面移る/ない場合は普通にcreate-editorの画面が開く
+        const confilmMarkdownData = localStorage.getItem('MarkdownData')
+        if (confilmMarkdownData !== null) {
+          //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
+          const confirm = window.confirm(
+            '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
+          )
+          if (confirm) {
+            // trueの場合は保存をする
+            // apiでデータベースに保存させる処理をかく
+            // ローカルのHtmlFronMarkdownデータを
+            // マークダウンデータを初期化する
+            this.$router.push({ path: `/projects/${value}` })
+          } else {
+            // データを破棄する
+            // localStorage.setItem('projectCreateUpdate', null)
+            // 更新ならデータベースのデータを入れる
+            // 新規の破棄ならデフォルトのデータを入れる
+            localStorage.setItem('MarkdownData', '')
+            localStorage.setItem('HtmlFromMarkdown', '')
+            this.$router.push({ path: `/projects/${value}` })
+          }
+        }
+      }
+    },
+    async selectGenreComp(value, colorh1, colorh2, cnt) {
+      this.h1TagComp = await value.getElementsByTagName('h1')
+      this.h2TagComp = await value.getElementsByTagName('h2')
+      if (this.h1TagComp !== '') {
+        this.h1TagComp[0].style.color = colorh1[cnt - 1]
+      }
+      if (this.h2TagComp !== '') {
+        this.h2TagComp[0].style.color = colorh2[cnt - 1]
       }
     },
   },

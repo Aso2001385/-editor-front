@@ -1,3 +1,4 @@
+<!-- ヘッダーからいけるデザインの種類を決めるページ -->
 <template>
   <!-- <div class="markdown-editor"> -->
   <v-flex>
@@ -19,17 +20,19 @@
           </a></v-row
         >
         <v-row class="pt-10"
-          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1)">全体設定</a></v-row
+          ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1, 'allpages')">全体設定</a></v-row
         >
-        <v-row v-for="item in killData" :key="item" class="pt-10" @click="Setting(1)">
+        <v-row v-for="item in killData" :key="item" class="pt-10" @click="Setting(1, item)">
           <a class="text-h6 black--text">{{ item }}</a>
         </v-row>
       </v-col>
       <v-col cols="4" style="overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white">
         <EditorSetting v-if="OpenFlg === 0" style="background-color: white" />
+        <v-chip v-else style="float: right" class="grey darken-3 ma-2 white--text">
+          {{ nowPage }}
+        </v-chip>
         <v-card
           v-for="(preview, index) in default_previews"
-          v-else
           :key="index"
           class="mt-8 mb-2"
           cols="4"
@@ -43,17 +46,20 @@
                 PreviewName: preview.name,
                 PreviewText: preview.text,
                 PreviewBackColor: preview.backgroundColor,
+                PreviewColor: preview.primaryColor,
+                PreviewSecColor: preview.secondaryColor,
                 ProjectLink: PROJECT_LINK,
               })
             "
           />
         </v-card>
       </v-col>
+
       <v-col
         id="OpenHtml"
         cols="6"
         style="overflow: hidden !important; height: 93vh; overflow-y: auto"
-        :class="UserProjectColor[0]"
+        :style="{ backgroundColor: setBackColor }"
         v-html="UserProjectData"
       ></v-col>
     </v-row>
@@ -63,7 +69,7 @@
 <script></script>
 
 <script>
-import DemoWebEditor from '~/assets/demo-web-editor.json'
+// import DemoWebEditor from '~/assets/demo-web-editor.json'
 import previews from '~/assets/previews'
 import MenuHeader from '~/components/MenuHeader.vue'
 import ProjectList from '~/components/ProjectList.vue'
@@ -73,15 +79,13 @@ export default {
   data() {
     return {
       selectionGenre: 0,
-      // projectData: {},
-      UserProjectData: '<h1>タイトル</h1><h2>サブタイトル</h2>',
-      UserProjectColor: [],
+      UserProjectData: '<h1>demoタイトル</h1><h2>demoサブタイトル</h2>',
       designPreview: '1',
       HtmlColor: '',
-      primary: 'green',
-      Secondary: 'black',
-      killData1: '<h1>タイトル</h1><h2>サブタイトル</h2>',
-      setBackColor: '',
+      primary: 'pink',
+      secondary: 'black',
+      setBackColor: 'lightgreen',
+      nowPage: 'allpages',
 
       PROJECT_LINK: 1,
       markdownOption: {
@@ -123,60 +127,61 @@ export default {
       OPENSETTING: 0,
       OpenFlg: 999,
       HtmlContent: {},
+      html: '',
     }
   },
   mounted() {
+    localStorage.setItem('DesignCount', 0)
+    this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
     var test = document.getElementById('OpenHtml')
+    console.log(test)
     test.id = 'html-css'
-    this.UserProjectData = DemoWebEditor[0].text
     if (this.colorName === '') {
       this.colorName = 'black'
     }
+
     const data = previews
     this.default_previews = previews
-    this.UserProjectColor.push(previews[0].backgroundColor)
-    this.UserProjectColor.push(previews[0].primaryColor)
-    this.UserProjectColor.push(previews[0].secondaryColor)
+    this.EditorData()
   },
 
   methods: {
-    // EditorData() {
-    //   localStorage.setItem('MarkdownData', this.markData)
-    // },
-    Setting(value) {
+    EditorData() {
+      const designSetH1 = []
+      const designSetH2 = []
+      for (var i = 0; i < this.default_previews.length; i++) {
+        designSetH1.push(this.default_previews[i].primaryColor)
+        designSetH2.push(this.default_previews[i].secondaryColor)
+      }
+      localStorage.setItem('DesignSetH1', designSetH1)
+      localStorage.setItem('DesignSetH2', designSetH2)
+    },
+    Setting(value, key) {
+      this.nowPage = key
       if (this.OPENSETTING === value) {
         this.OpenFlg = value
       } else {
         this.OpenFlg = value
       }
     },
-    color(value) {
-      if (value === 1) {
-        this.colorNumber = value + 1
-        this.colorName = 'red'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else if (value === 2) {
-        this.colorNumber = value + 1
-        this.colorName = 'blue'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else if (value === 3) {
-        this.colorNumber = value + 1
-        this.colorName = 'green'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else if (value === 4) {
-        this.colorNumber = 0
-        this.colorName = 'purple'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      } else {
-        this.colorNumber = 1
-        this.colorName = 'black'
-        localStorage.setItem('MarkdownColor', this.colorName)
-      }
+    getProjectList() {
+      // ログインしているユーザーが持っているデザインセットを取得
+      const userId = 1
+      this.$store.dispatch('api/getProjectList', { userId })
     },
     selectGenre(value) {
       this.primary = value.primaryColor
-      this.Secondary = value.secondary.Color
-      this.HtmlColor = value.backgroundColor
+      this.secondary = value.secondaryColor
+      this.setBackColor = value.backgroundColor
+      const stylePrimary = document.getElementById('html-css')
+      var h1Tag = stylePrimary.getElementsByTagName('h1')
+      var h2Tag = stylePrimary.getElementsByTagName('h2')
+      for (let i = 0; i < h1Tag.length; i++) {
+        h1Tag[i].style.color = this.primary
+      }
+      for (let i = 0; i < h2Tag.length; i++) {
+        h2Tag[i].style.color = this.secondary
+      }
     },
   },
   components: {
@@ -186,9 +191,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-::v-deep #html-css h1 {
-  color: blue;
-}
-</style>
