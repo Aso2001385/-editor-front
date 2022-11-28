@@ -16,18 +16,7 @@
 
     <v-col v-for="(preview, index) in default_previews" :key="index" class="mt-15" cols="4" style="float: left">
       <v-card>
-        <ProjectList
-          :ProjectData="
-            (ProjectData = {
-              PreviewId: preview.id,
-              PreviewName: preview.name,
-              PreviewText: preview.text,
-              ProjectGenre: preview.texteditor,
-              PreviewBackColor: preview.backgroundColor,
-              ProjectLink: PROJECT_LINK,
-            })
-          "
-        />
+        <ProjectList :receive="{ ...preview, ...{ projectLink: PROJECT_LINK } }" />
       </v-card>
     </v-col>
     <v-col cols="4" style="float: left; margin-top: 2.5rem">
