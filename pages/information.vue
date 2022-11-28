@@ -32,18 +32,7 @@
               cols="6"
               style="float: left"
             >
-              <ProjectList
-                :ProjectData="
-                  (ProjectData = {
-                    PreviewId: preview.id,
-                    PreviewName: preview.name,
-                    PreviewText: preview.text,
-                    ProjectGenre: preview.texteditor,
-                    PreviewBackColor: preview.backgroundColor,
-                    ProjectLink: PROJECT_LINK,
-                  })
-                "
-              />
+              <ProjectList :receive="{ ...preview, ...{ projectLink: PROJECT_LINK } }" />
             </v-card>
           </v-row>
         </v-container>
