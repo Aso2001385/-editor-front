@@ -9,18 +9,8 @@
       <v-icon x-large class="ml-10" color="#0085ff" style="font-size: 60px; float: left">mdi-grease-pencil</v-icon>
     </v-row>
 
-    <v-col class="mt-15" v-for="(preview, index) in default_previews" :key="index" cols="4" style="float: left">
-      <ProjectList
-        :ProjectData="
-          (ProjectData = {
-            PreviewId: preview.id,
-            PreviewName: preview.name,
-            PreviewText: preview.text,
-            PreviewBackColor: preview.backgroundColor,
-            ProjectLink: PROJECT_LINK,
-          })
-        "
-      />
+    <v-col v-for="(preview, index) in default_previews" :key="index" cols="4" class="mt-15" style="float: left">
+      <ProjectList :receive="{ ...preview, ...{ projectLink: PROJECT_LINK } }" />
     </v-col>
     <v-col cols="4" style="float: left; margin-top: 2.5rem">
       <NuxtLink to="/create-editor" class="white--text" style="text-decoration: none">
@@ -51,7 +41,6 @@ import ProjectList from '~/components/ProjectList.vue'
 
 export default {
   components: { ProjectList },
-
   data() {
     return {
       projectData: {},

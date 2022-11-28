@@ -1,7 +1,7 @@
 <!-- デザインを決めていく内容を表示 -->
 <template>
   <div class="markdown-editor">
-    <MenuHeader :EditorContent="markData" />
+    <MenuHeader />
     <client-only>
       <v-btn
         color="grey lighten-3"

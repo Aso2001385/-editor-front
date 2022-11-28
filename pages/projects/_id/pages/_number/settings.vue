@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <!-- ヘッダーからいけるデザインの種類を決めるページ -->
 <template>
   <v-flex>
@@ -34,19 +35,7 @@
           style="float: left; width: 80%; margin-left: 10%"
           @click="selectGenre(preview)"
         >
-          <ProjectList
-            :ProjectData="
-              (ProjectData = {
-                PreviewId: preview.id,
-                PreviewName: preview.name,
-                PreviewText: preview.text,
-                PreviewBackColor: preview.backgroundColor,
-                PreviewColor: preview.primaryColor,
-                PreviewSecColor: preview.secondaryColor,
-                ProjectLink: PROJECT_LINK,
-              })
-            "
-          />
+          <ProjectList :receive="{ ...preview, ...{ projectLink: PROJECT_LINK } }" />
         </v-card>
       </v-col>
       <Ui style="position: absolute; margin-top: 0; margin-left: 50%; width: 50%; z-index: 3" />
