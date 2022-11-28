@@ -9,10 +9,10 @@
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
             <v-text-field v-model="email" label="email" type="text"></v-text-field>
-            <v-text-field v-model="password" label="password" type="text"></v-text-field>
+            <v-text-field v-model="password" label="password" type="password"></v-text-field>
             <v-row justify="center" class="mt-5 mb-5">
               <v-col cols="4">
-                <ApiEventButton color="grey darken-2" :click-callback="submit">Next</ApiEventButton>
+                <ApiEventButton color="grey darken-2" :click-callback="sendLogin">Next</ApiEventButton>
               </v-col>
             </v-row>
             <v-row class="mt-10" justify="center">
@@ -28,25 +28,32 @@
   </v-container>
 </template>
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   layout: 'auth',
   data() {
     return {
-      url: 'http://localost:8080/api/login',
-      email: '1001999@japan.jp',
-      password: 1234,
+      url: '/projects',
+      email: '2001195@s.asojuku.ac.jp',
+      password: 123456789,
+      kill: ['テスト', 'tesuto'],
     }
   },
-  mounted() {},
+  computed: {
+    ...mapState({
+      userInfo: state => state.api.userInfo,
+    }),
+  },
   methods: {
-    submit() {
-      const user = {
-        email: this.email,
-        password: this.password,
-      }
-      this.$store.dispatch('api/postLogin', { user })
+    ...mapActions({
+      submit: 'api/postLogin',
+    }),
+    sendLogin() {
+      this.submit()
+      console.log(this.userInfo[0])
+      this.$router.push({ path: this.url })
     },
   },
-  computed: {},
 }
 </script>

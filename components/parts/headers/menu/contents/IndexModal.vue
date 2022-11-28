@@ -40,7 +40,7 @@ export default {
 <style lang="sass" scoped>
 .nav-wrapper
   position: fixed
-  height: 100vh
+  height: 90vh
   width: 100vw
   left: 0
   top: 0
@@ -48,6 +48,8 @@ export default {
   visibility: hidden
   transition: 0.5s
   z-index: 2
+  width: 100%
+  position: absolute
 
   /*キービジュアルと.btn_triggerとの重なりの前後関係を調整
 

@@ -1,9 +1,14 @@
 <template>
-  <header class="header">
-    <h1 class="site-title"><a href="./">クリ★スタ</a></h1>
-    <Hamburger />
-    <Contents />
-  </header>
+  <div id="headContent">
+    <header id="headId" class="header">
+      <h1 class="site-title">
+        <a href="./"></a>
+      </h1>
+      <input type="text" style="background-color: white; color: black; width: 70%" />
+      <Hamburger />
+      <Contents />
+    </header>
+  </div>
 </template>
 <script>
 import Hamburger from '~/components/parts/headers/menu/buttons/Hamburger.vue'
@@ -20,9 +25,12 @@ export default {
   align-items: center
   background-color: #1b1310
   border-bottom: 1px solid #fff
-  color: #fff
+  color: white
   display: flex
   height: 74px
   justify-content: space-between
-  padding: 0 120px
+  padding-right: 120px
+
+.site-title
+  margin-right: 10%
 </style>

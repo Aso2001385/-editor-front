@@ -15,7 +15,7 @@
               </v-col>
             </v-row>
             <v-row class="mt-10" justify="center">
-              <NuxtLink to="/sign-up">メールアドレス・パスワードの変更ですか？こちらから変更</NuxtLink>
+              <NuxtLink to="/user-update">メールアドレス・パスワードの変更ですか？こちらから変更</NuxtLink>
             </v-row>
           </div>
         </v-card>
@@ -60,29 +60,33 @@
   </v-container>
 </template>
 <script>
+import { mapState } from 'vuex'
 import previews from '~/assets/previews.json'
 import ProjectList from '~/components/ProjectList.vue'
 
 export default {
+  components: { ProjectList },
   layout: 'auth',
   data() {
     return {
-      name: '麻生',
-      email: 'aso@gmail.com',
-      password: 'aaaaa',
+      name: '',
       default_previews: null,
       PROJECT_LINK: 2,
     }
   },
-
-  // email: '1001999@s..ac.jp',
-  // password: 'test-2022Aso',
-
+  computed: {
+    ...mapState({
+      userInfo: state => state.api.userInfo,
+    }),
+  },
   mounted() {
     const data = previews
     this.default_previews = data
+    this.name = this.userInfo[1]
+    if (this.name === '') {
+      this.name = localStorage.getItem('name')
+    }
   },
-  components: { ProjectList },
 }
 </script>
 <style lang="scss"></style>

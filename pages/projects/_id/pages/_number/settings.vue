@@ -1,18 +1,13 @@
 <!-- ヘッダーからいけるデザインの種類を決めるページ -->
 <template>
-  <!-- <div class="markdown-editor"> -->
   <v-flex>
     <MenuHeader />
-    <client-only>
-      <v-btn color="grey lighten-3" style="z-index: 2; position: absolute; margin-left: 88%; top: 90%">
-        <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
-        <div :class="colorName + '--text'">{{ colorName }}</div>
-      </v-btn>
-    </client-only>
+    <!-- <client-only>
+    </client-only> -->
     <v-row style="position: absolute; z-index: 2; top: 4.8rem; width: 100%">
       <v-col
         cols="2"
-        style="padding-left: 5%; overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white"
+        style="padding-left: 5%; overflow: hidden !important; height: 92vh; overflow-y: auto; background-color: white"
       >
         <v-row class="pt-10"
           ><a class="text-h6 black--text" style="background-color: transparent; font-weight: bold" @click="Setting(0)">
@@ -22,11 +17,11 @@
         <v-row class="pt-10"
           ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1, 'allpages')">全体設定</a></v-row
         >
-        <v-row v-for="item in killData" :key="item" class="pt-10" @click="Setting(1, item)">
+        <v-row v-for="item in pages" :key="item" class="pt-10" @click="Setting(1, item)">
           <a class="text-h6 black--text">{{ item }}</a>
         </v-row>
       </v-col>
-      <v-col cols="4" style="overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white">
+      <v-col cols="4" style="overflow: hidden !important; height: 92vh; overflow-y: auto; background-color: white">
         <EditorSetting v-if="OpenFlg === 0" style="background-color: white" />
         <v-chip v-else style="float: right" class="grey darken-3 ma-2 white--text">
           {{ nowPage }}
@@ -54,11 +49,18 @@
           />
         </v-card>
       </v-col>
-
+      <Ui style="position: absolute; margin-top: 0; margin-left: 50%; width: 50%; z-index: 3" />
       <v-col
         id="OpenHtml"
         cols="6"
-        style="overflow: hidden !important; height: 93vh; overflow-y: auto"
+        style="
+          position: absolute;
+          top: 4rem;
+          margin-left: 50%;
+          overflow: hidden !important;
+          height: 84vh;
+          overflow-y: auto;
+        "
         :style="{ backgroundColor: setBackColor }"
         v-html="UserProjectData"
       ></v-col>
@@ -70,12 +72,19 @@
 
 <script>
 // import DemoWebEditor from '~/assets/demo-web-editor.json'
+import Ui from '@/components/Ui'
 import previews from '~/assets/previews'
 import MenuHeader from '~/components/MenuHeader.vue'
 import ProjectList from '~/components/ProjectList.vue'
 import EditorSetting from '~/components/EditorSetting.vue'
 
 export default {
+  components: {
+    MenuHeader,
+    ProjectList,
+    EditorSetting,
+    Ui,
+  },
   data() {
     return {
       selectionGenre: 0,
@@ -109,7 +118,7 @@ export default {
       colorNumber: 1,
       colorName: 'black',
       provisionalData: '',
-      killData: [
+      pages: [
         'page1',
         'page2',
         'page3',
@@ -128,21 +137,23 @@ export default {
       OpenFlg: 999,
       HtmlContent: {},
       html: '',
+      example: '',
     }
   },
   mounted() {
     localStorage.setItem('DesignCount', 0)
     this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
-    var test = document.getElementById('OpenHtml')
-    console.log(test)
-    test.id = 'html-css'
+    var htmlContent = document.getElementById('OpenHtml')
+    console.log(document.getElementById('OpenHtml'))
+    console.log(this.UserProjectData)
+    htmlContent.id = 'html-css'
     if (this.colorName === '') {
       this.colorName = 'black'
     }
-
-    const data = previews
+    localStorage.setItem('example', Ui)
     this.default_previews = previews
     this.EditorData()
+    this.example = document.getElementById('headContent')
   },
 
   methods: {
@@ -183,11 +194,6 @@ export default {
         h2Tag[i].style.color = this.secondary
       }
     },
-  },
-  components: {
-    MenuHeader,
-    ProjectList,
-    EditorSetting,
   },
 }
 </script>
