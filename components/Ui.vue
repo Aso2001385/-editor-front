@@ -11,8 +11,8 @@
   </div>
 </template>
 <script>
-import Hamburger from '~/components/parts/headers/menu/buttons/Hamburger.vue'
-import Contents from '~/components/parts/headers/menu/contents/IndexModal.vue'
+import Hamburger from '@/components/parts/headers/menu/buttons/Hamburger.vue'
+import Contents from '@/components/parts/headers/menu/contents/IndexModal.vue'
 export default {
   components: {
     Hamburger,

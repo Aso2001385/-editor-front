@@ -60,12 +60,12 @@
 <script></script>
 
 <script>
-// import DemoWebEditor from '~/assets/demo-web-editor.json'
+// import DemoWebEditor from '@/assets/demo-web-editor.json'
 import Ui from '@/components/Ui'
-import previews from '~/assets/previews'
-import MenuHeader from '~/components/MenuHeader.vue'
-import ProjectList from '~/components/ProjectList.vue'
-import EditorSetting from '~/components/EditorSetting.vue'
+import previews from '@/assets/previews'
+import MenuHeader from '@/components/MenuHeader.vue'
+import ProjectList from '@/components/ProjectList.vue'
+import EditorSetting from '@/components/EditorSetting.vue'
 
 export default {
   components: {

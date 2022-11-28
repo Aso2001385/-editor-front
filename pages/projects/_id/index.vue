@@ -28,8 +28,8 @@
 
 <script>
 import { marked } from 'marked'
-import previews from '~/assets/previews.json'
-import MenuHeader from '~/components/MenuHeader.vue'
+import previews from '@/assets/previews.json'
+import MenuHeader from '@/components/MenuHeader.vue'
 
 export default {
   components: { MenuHeader },
