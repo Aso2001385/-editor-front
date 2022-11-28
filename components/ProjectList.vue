@@ -98,7 +98,9 @@ export default {
       } else {
         // データが保存されていたら確認画面移る/ない場合は普通にcreate-editorの画面が開く
         const confilmMarkdownData = localStorage.getItem('MarkdownData')
-        if (confilmMarkdownData !== null) {
+        console.log('markdowndataの中身')
+        console.log(confilmMarkdownData !== '')
+        if (confilmMarkdownData !== '') {
           //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
           const confirm = window.confirm(
             '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
@@ -118,6 +120,8 @@ export default {
             localStorage.setItem('HtmlFromMarkdown', '')
             this.$router.push({ path: `/projects/${value}` })
           }
+        } else {
+          this.$router.push({ path: `/projects/${value}` })
         }
       }
     },

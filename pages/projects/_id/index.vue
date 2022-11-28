@@ -3,14 +3,14 @@
   <div class="markdown-editor">
     <MenuHeader :EditorContent="markData" />
     <client-only>
-      <v-btn
+      <!-- <v-btn
         color="grey lighten-3"
         style="z-index: 2; position: absolute; margin-left: 88%; top: 90%"
         @click="color(colorNumber)"
       >
         <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
         <div :class="colorName + '--text'">{{ colorName }}</div>
-      </v-btn>
+      </v-btn> -->
       <mavon-editor
         v-model="markData"
         disabled
@@ -87,7 +87,6 @@ export default {
   methods: {
     EditorData() {
       const confirm = localStorage.getItem('MarkdownData')
-      console.log('中身の確認')
       console.log(confirm == this.markData)
       if (confirm != this.markData) {
         localStorage.setItem('MarkdownData', this.markData)

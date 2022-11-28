@@ -7,7 +7,11 @@
           >mdi-account-circle-outline</v-icon
         ></NuxtLink
       >
-      <v-icon x-large class="ml-10" color="#0085ff" style="font-size: 60px; float: left">mdi-grease-pencil</v-icon>
+      <NuxtLink to="/design-preview"
+        ><v-icon x-large class="ml-10" color="#0085ff" style="font-size: 60px; float: left"
+          >mdi-grease-pencil</v-icon
+        ></NuxtLink
+      >
     </v-row>
 
     <v-col v-for="(preview, index) in default_previews" :key="index" class="mt-15" cols="4" style="float: left">
@@ -50,6 +54,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import previews from '~/assets/previews.json'
 import ProjectList from '~/components/ProjectList.vue'
 
@@ -62,10 +67,17 @@ export default {
       PROJECT_LINK: 0,
     }
   },
-
+  computed: {
+    ...mapState({
+      userInfo: state => state.api.userInfo,
+    }),
+  },
   mounted() {
     const data = previews
     this.default_previews = data
+    localStorage.setItem('id', this.userInfo[0])
+    localStorage.setItem('email', this.userInfo[1])
+    localStorage.setItem('name', this.userInfo[2])
     // ユーザーidからプロジェクトリストを取得する
     this.getProjectList()
   },
@@ -78,9 +90,24 @@ export default {
     },
     // valueの中に新規なのか更新なのか
     RoutePages(value) {
-      // 押された瞬間にローカルに押されたページ(createなのかupdateなのかの判定に)
-      localStorage.setItem('projectCreateUpdate', value)
-      this.$router.push({ path: `/projects/${value}` })
+      const confilmMarkdownData = localStorage.getItem('MarkdownData')
+      if (confilmMarkdownData !== '') {
+        //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
+        const confirm = window.confirm(
+          '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
+        )
+        if (confirm) {
+          // データベースにデータの保存
+          this.$router.push({ path: `/projects/${value}` })
+        } else {
+          localStorage.setItem('projectCreateUpdate', value)
+          localStorage.setItem('MarkdownData', '')
+          localStorage.setItem('HtmlFromMarkdown', '')
+          this.$router.push({ path: `/projects/${value}` })
+        }
+      } else {
+        this.$router.push({ path: `/projects/${value}` })
+      }
     },
   },
   components: { ProjectList },

@@ -1,32 +1,30 @@
 import axios from 'axios'
+
 axios.defaults.withCredentials = true
 const API_URL = 'http://localhost:8080/api'
 
+
 export const state = () => ({
   users: [],
-  user: '',
+  userInfo: [],
 })
 
 export const mutations = {
-  setUsers: (state, response) => {
-    state.users = response
+  setUsers(state, response) {
+    console.log(response)
+    state.userInfo = response
   },
-  setUser: (state, response) => {
-    state.user = response
+  putUsers(state, response) {
+    console.log(response)
+    // state.userInfo = response
   },
-}
-
-export const getters = {
-  users: state => {
-    return state.users
-  },
-  user: state => {
-    return state.user
+  setWebEditor(state, response) {
+    console.log(response)
   },
 }
 
 export const actions = {
-  postUserInfo: async ({ commit }, argument) => {
+  async postLogin({ commit }, argument) {
     // ユーザーの情報を持ってこれている
     console.log(argument.user)
     const response = await axios.post(`${API_URL}/users${argument.user}`)

@@ -4,34 +4,77 @@
       <v-row class="grey darken-3 ma-0 pa-2">
         <v-col>
           <div class="white--text" @click="RoutePages(0)">HOME</div>
-          <!-- <NuxtLink to="/project-list" class="white--text" style="text-decoration: none">HOME</NuxtLink> -->
         </v-col>
         <v-col>
-          <div class="white--text" @click="RoutePages(3)">PAGES</div>
-          <!-- <a href="#" class="white--text" style="text-decoration: none">PAGES</a> -->
+          <div class="white--text" @click="overlay = !overlay">PAGES</div>
+          <v-overlay :absolute="absolute" :opacity="opacity" :value="overlay">
+            <v-btn
+              v-for="(page, key) in pages"
+              :key="key"
+              :value="page"
+              style="color: white"
+              class="white--text ml-5 mt-5"
+              color="blue"
+              @click="RoutePageChange(key)"
+              >{{ page }}</v-btn
+            >
+            <div style="margin-left: 50%">
+              <v-btn color="primary" class="black--text mt-10" @click="RoutePages(3)">CLOSE</v-btn>
+            </div>
+          </v-overlay>
         </v-col>
         <v-col>
           <div class="white--text" @click="RoutePages(2)">SETTING</div>
-          <!-- <NuxtLink to="/editor-setting" class="white--text" style="text-decoration: none">SETTING</NuxtLink> -->
         </v-col>
-        <v-col><a href="#" class="white--text" style="text-decoration: none" @click="getMarkData()">SAVE</a></v-col>
+        <v-col><a href="#" class="white--text" style="text-decoration: none" @click="setEditorData">SAVE</a></v-col>
       </v-row>
     </v-flex>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
+      absolute: true,
+      overlay: false,
+      opacity: 1,
+      pages: [
+        'NewPage',
+        'page1',
+        'page2',
+        'page3',
+        'page4',
+        'page5',
+        'page6',
+        'page7',
+        'page8',
+        'page9',
+        'page10',
+        'page11',
+        'page12',
+      ],
     }
   },
+  mounted() {
+    console.log('RoutePage')
+    console.log(this.RoutePage)
+    console.log(this.RoutePage !== 'fromSetting')
+  },
   methods: {
-    getMarkData() {
-      localStorage.setItem('markdownData', this.markData)
+    ...mapActions({
+      submit: 'api/sendWebEditor',
+    }),
+    setEditorData() {
+      this.submit()
+      // localStorage.setItem('markdownData', this.markData)
       alert('保存しました')
       this.markData = ''
+      localStorage.setItem('MarkdownData', this.markData)
+      this.$router.push({ path: `/projects` })
     },
     RoutePages(value) {
       const userProjectId = localStorage.getItem('projectCreateUpdate')
@@ -42,57 +85,15 @@ export default {
         // ここで今何ページ目なのかをローカルに入れたデータを取得して表示するようにする
         this.$router.push({ path: `/projects/${userProjectId}/pages/${userProjectId}/settings` })
       } else if (value === 3) {
+        this.overlay = false
         this.$router.push({ path: `/projects/${userProjectId}` })
       } else {
-        this.$router.push({ path: `/projects/` })
+        this.$router.push({ path: `/projects` })
       }
+    },
+    RoutePageChange(key) {
+      this.$router.push({ path: `/projects/${key}` })
     },
   },
 }
 </script>
-
-<!-- <style scoped>
-.markdown-editor {
-  width: 100%;
-  height: 100%;
-}
-nav ul {
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  background-color: black;
-}
-/* ナビ部分 */
-nav ul {
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  padding: 0;
-  margin: 1em auto 0 auto;
-  width: 100%;
-  padding-top: 0.5%;
-  padding-bottom: 0.5%;
-  text-align: center;
-}
-nav li {
-  display: block;
-  width: 50%;
-  border-bottom: 3px solid transparent;
-}
-nav a {
-  display: block;
-  width: 50%;
-  text-decoration: none;
-  color: lightgrey;
-  padding-bottom: 5px;
-}
-nav li.current {
-  font-weight: 900;
-  border-bottom: 3px solid orange;
-}
-
-nav li:hover {
-  color: black;
-  font-weight: 900;
-}
-</style> -->

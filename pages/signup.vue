@@ -11,6 +11,7 @@
             <v-text-field v-model="name" label="name" type="text"></v-text-field>
             <v-text-field v-model="email" label="email" type="text"></v-text-field>
             <v-text-field v-model="password" label="password" type="password"></v-text-field>
+            <v-text-field v-model="confirmPassword" label="確認用password" type="password"></v-text-field>
             <v-row justify="center" class="mt-5 mb-5">
               <v-col cols="4">
                 <ApiEventButton color="grey darken-2" :click-callback="submit">Next</ApiEventButton>
@@ -32,20 +33,25 @@ export default {
     return {
       url: 'http://localost:8080/api/login',
       layout: 'auth',
-      name: '',
-      email: '',
-      password: '',
+      name: '翔',
+      email: '2001195@s.asojuku.ac.jp',
+      password: 123456789,
+      confirmPassword: 123456789,
     }
   },
   mounted() {},
   methods: {
     submit() {
-      const user = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
+      if (this.password === this.confirmPassword) {
+        const user = {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        }
+        this.$store.dispatch('api/postUserInfo', { user })
+      } else {
+        alert('パスワードが確認用と違います')
       }
-      this.$store.dispatch('api/postUserInfo', { user })
     },
   },
 }
