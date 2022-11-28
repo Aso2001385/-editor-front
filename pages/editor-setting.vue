@@ -76,6 +76,11 @@ import ProjectList from '~/components/ProjectList.vue'
 import EditorSetting from '~/components/EditorSetting.vue'
 
 export default {
+  components: {
+    MenuHeader,
+    ProjectList,
+    EditorSetting,
+  },
   data() {
     return {
       selectionGenre: 0,
@@ -185,11 +190,6 @@ export default {
       // console.log(this.HtmlContent)
       // }
     },
-  },
-  components: {
-    MenuHeader,
-    ProjectList,
-    EditorSetting,
   },
 }
 </script>

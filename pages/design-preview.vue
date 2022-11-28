@@ -67,6 +67,9 @@ import previews from '~/assets/previews'
 import ProjectList from '~/components/ProjectList.vue'
 
 export default {
+  components: {
+    ProjectList,
+  },
   data() {
     return {
       selectionGenre: 0,
@@ -160,9 +163,6 @@ export default {
         h2Tag[i].style.color = this.secondary
       }
     },
-  },
-  components: {
-    ProjectList,
   },
 }
 </script>

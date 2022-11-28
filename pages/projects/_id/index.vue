@@ -32,6 +32,7 @@ import previews from '~/assets/previews.json'
 import MenuHeader from '~/components/MenuHeader.vue'
 
 export default {
+  components: { MenuHeader },
   data() {
     return {
       // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
@@ -119,7 +120,6 @@ export default {
       }
     },
   },
-  components: { MenuHeader },
 }
 </script>
 

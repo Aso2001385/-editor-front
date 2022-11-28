@@ -59,6 +59,7 @@ import previews from '~/assets/previews.json'
 import ProjectList from '~/components/ProjectList.vue'
 
 export default {
+  components: { ProjectList },
   data() {
     return {
       projectData: {},
@@ -110,6 +111,5 @@ export default {
       }
     },
   },
-  components: { ProjectList },
 }
 </script>

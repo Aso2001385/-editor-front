@@ -28,6 +28,7 @@
 import MenuHeader from '~/components/MenuHeader.vue'
 
 export default {
+  components: { MenuHeader },
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
@@ -88,8 +89,6 @@ export default {
       }
     },
   },
-
-  components: { MenuHeader },
 }
 </script>
 
