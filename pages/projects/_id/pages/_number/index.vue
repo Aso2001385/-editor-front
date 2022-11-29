@@ -1,7 +1,7 @@
 <!-- デザインを決めていく内容を表示 -->
 <template>
   <div class="markdown-editor">
-    <MenuHeader :EditorContent="markData" />
+    <MenuHeader />
     <client-only>
       <v-btn
         color="grey lighten-3"
@@ -28,6 +28,7 @@
 import MenuHeader from '~/components/MenuHeader.vue'
 
 export default {
+  components: { MenuHeader },
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
@@ -88,8 +89,6 @@ export default {
       }
     },
   },
-
-  components: { MenuHeader },
 }
 </script>
 

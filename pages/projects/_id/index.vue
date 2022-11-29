@@ -1,7 +1,7 @@
 <!-- エディター作成・更新 -->
 <template>
   <div class="markdown-editor">
-    <MenuHeader :EditorContent="markData" />
+    <MenuHeader />
     <client-only>
       <!-- <v-btn
         color="grey lighten-3"
@@ -18,7 +18,7 @@
         language="ja"
         style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
         :class="colorName + '--text'"
-        @change="EditorData()"
+        @change="editorData()"
       />
     </client-only>
   </div>
@@ -32,6 +32,7 @@ import previews from '~/assets/previews.json'
 import MenuHeader from '~/components/MenuHeader.vue'
 
 export default {
+  components: { MenuHeader },
   data() {
     return {
       // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
@@ -85,7 +86,7 @@ export default {
     // localStorage.setItem('HtmlFromMarkdown', marked(localStorage.getItem('MarkdownData')))
   },
   methods: {
-    EditorData() {
+    editorData() {
       const confirm = localStorage.getItem('MarkdownData')
       console.log(confirm == this.markData)
       if (confirm != this.markData) {
@@ -119,7 +120,6 @@ export default {
       }
     },
   },
-  components: { MenuHeader },
 }
 </script>
 

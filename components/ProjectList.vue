@@ -1,20 +1,16 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-container style="background-color: #dcdcdc">
     <v-row>
-      <div
-        :to="project_link"
-        class="white--text"
-        style="text-decoration: none"
-        @click="RoutePages(ProjectData.PreviewId)"
-      >
+      <div :to="project_link" class="white--text" style="text-decoration: none" @click="RoutePages(id)">
         <v-row style="float: left; background-color: white">
-          <div class="pt-5 pb-5" style="width: 100%" :style="{ backgroundColor: ProjectData.PreviewBackColor }">
+          <div class="pt-5 pb-5" style="width: 100%" :style="{ backgroundColor: backColor }">
             <v-col
               cols="12"
               class="black--text"
               style="height: 9rem; width: 60rem; margin-left: 1%; padding-bottom: 10rem"
             >
-              <div id="DesignHtml" class="warp" style="height: 5rem; width: 80%" v-html="ProjectData.PreviewText"></div>
+              <div id="DesignHtml" class="warp" style="height: 5rem; width: 80%" v-html="text"></div>
             </v-col>
           </div>
           <v-col
@@ -34,7 +30,7 @@
                 width: 12rem;
               "
             >
-              {{ ProjectData.PreviewName }}
+              {{ name }}
             </p>
           </v-col>
         </v-row>
@@ -46,7 +42,18 @@
 <script>
 export default {
   props: {
-    ProjectData: Object,
+    receive: {
+      type: Object,
+      default: () => ({
+        id: 0,
+        name: '',
+        text: '',
+        backgroundColor: '',
+        primaryColor: '',
+        secondaryColor: '',
+        projectLink: 0,
+      }),
+    },
   },
   data() {
     return {
@@ -63,6 +70,46 @@ export default {
       count: 0,
     }
   },
+  computed: {
+    id: {
+      get() {
+        return this.receive.id
+      },
+      // set(newVal) {
+      //   this.$emit('changeSkill', { index: this.index, key: 'name', value: newVal })
+      // },
+    },
+    name: {
+      get() {
+        return this.receive.name
+      },
+    },
+    text: {
+      get() {
+        return this.receive.text
+      },
+    },
+    backColor: {
+      get() {
+        return this.receive.backgroundColor
+      },
+    },
+    primaryColor: {
+      get() {
+        return this.receive.primaryColor
+      },
+    },
+    secondaryColor: {
+      get() {
+        return this.receive.secondaryColor
+      },
+    },
+    projectLink: {
+      get() {
+        return this.receive.projectLink
+      },
+    },
+  },
   mounted() {
     this.count = Number(localStorage.getItem('DesignCount'))
     const userProjectId = localStorage.getItem('projectCreateUpdate')
@@ -71,7 +118,7 @@ export default {
     const killDesignSetH2 = localStorage.getItem('DesignSetH2')
     this.designSetH2 = killDesignSetH2.split(',')
 
-    if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
+    if (this.projectLink === this.EDITORSETTING) {
       console.log('ページ遷移が行われている')
       this.project_link = `/projects/${userProjectId}/pages/${userProjectId}/settings`
     }
@@ -88,12 +135,12 @@ export default {
       // 押された瞬間にローカルに押されたページ(createなのかupdateなのかの判定に)
       localStorage.setItem('projectCreateUpdate', value)
       // 1がデザイン 0がプロジェクトの作成更新
-      if (this.ProjectData.ProjectLink === this.EDITORSETTING) {
+      if (this.projectLink === this.EDITORSETTING) {
         // デザインなどの変更ページへ
         this.$router.push({ path: `${this.project_link}` })
-      } else if (this.ProjectData.ProjectLink === this.DESIGNSET) {
+      } else if (this.projectLink === this.DESIGNSET) {
         //
-      } else if (this.ProjectData.ProjectLink === this.DESIGNPREVIEW) {
+      } else if (this.projectLink === this.DESIGNPREVIEW) {
         this.$router.push({ path: `/design-preview` })
       } else {
         // データが保存されていたら確認画面移る/ない場合は普通にcreate-editorの画面が開く

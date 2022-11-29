@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <!-- <div class="markdown-editor"> -->
   <v-flex>
@@ -30,39 +31,29 @@
         <v-row class="pt-10"
           ><a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1)">全体設定</a></v-row
         >
-        <v-row class="pt-10" v-for="item in killData" :key="item" @click="Setting(1)">
+        <v-row v-for="item in killData" :key="item" class="pt-10" @click="Setting(1)">
           <a class="text-h6 black--text">{{ item }}</a>
         </v-row>
       </v-col>
       <v-col cols="4" style="overflow: hidden !important; height: 93vh; overflow-y: auto; background-color: white">
         <EditorSetting v-if="OpenFlg === 0" style="background-color: white" />
         <v-card
-          class="mt-8 mb-2"
           v-for="(preview, index) in default_previews"
+          v-else
           :key="index"
+          class="mt-8 mb-2"
           cols="4"
           style="float: left; width: 80%; margin-left: 10%"
           @click="selectGenre(preview)"
-          v-else
         >
-          <ProjectList
-            :ProjectData="
-              (ProjectData = {
-                PreviewId: preview.id,
-                PreviewName: preview.name,
-                PreviewText: preview.text,
-                PreviewBackColor: preview.backgroundColor,
-                ProjectLink: PROJECT_LINK,
-              })
-            "
-          />
+          <ProjectList :receive="{ ...preview, ...{ projectLink: PROJECT_LINK } }" />
         </v-card>
       </v-col>
       <v-col
         cols="6"
-        v-html="HtmlContent.text"
         style="overflow: hidden !important; height: 92vh; overflow-y: auto"
         :class="HtmlContent.backgroundColor"
+        v-html="HtmlContent.text"
       >
       </v-col>
     </v-row>
@@ -76,6 +67,11 @@ import ProjectList from '~/components/ProjectList.vue'
 import EditorSetting from '~/components/EditorSetting.vue'
 
 export default {
+  components: {
+    MenuHeader,
+    ProjectList,
+    EditorSetting,
+  },
   data() {
     return {
       selectionGenre: 0,
@@ -185,11 +181,6 @@ export default {
       // console.log(this.HtmlContent)
       // }
     },
-  },
-  components: {
-    MenuHeader,
-    ProjectList,
-    EditorSetting,
   },
 }
 </script>

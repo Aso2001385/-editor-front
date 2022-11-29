@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-flex>
     <v-row style="position: absolute; z-index: 2; width: 100%; height: 100%">
@@ -10,19 +11,7 @@
           style="float: left; width: 80%; margin-left: 10%"
           @click="selectGenre(preview)"
         >
-          <ProjectList
-            :ProjectData="
-              (ProjectData = {
-                PreviewId: preview.id,
-                PreviewName: preview.name,
-                PreviewText: preview.text,
-                PreviewBackColor: preview.backgroundColor,
-                PreviewColor: preview.primaryColor,
-                PreviewSecColor: preview.secondaryColor,
-                ProjectLink: PROJECT_LINK,
-              })
-            "
-          />
+          <ProjectList :receive="{ ...preview, ...{ projectLink: PROJECT_LINK } }" />
         </v-card>
       </v-col>
 
@@ -67,6 +56,9 @@ import previews from '~/assets/previews'
 import ProjectList from '~/components/ProjectList.vue'
 
 export default {
+  components: {
+    ProjectList,
+  },
   data() {
     return {
       selectionGenre: 0,
@@ -160,9 +152,6 @@ export default {
         h2Tag[i].style.color = this.secondary
       }
     },
-  },
-  components: {
-    ProjectList,
   },
 }
 </script>

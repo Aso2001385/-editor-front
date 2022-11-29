@@ -3,7 +3,6 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 const API_URL = 'http://localhost:8080/api'
 
-
 export const state = () => ({
   users: [],
   userInfo: [],
@@ -24,13 +23,6 @@ export const mutations = {
 }
 
 export const actions = {
-  async postLogin({ commit }, argument) {
-    // ユーザーの情報を持ってこれている
-    console.log(argument.user)
-    const response = await axios.post(`${API_URL}/users${argument.user}`)
-    console.log(response) // 消す
-    // commit('setUsers', response.data)
-  },
   postLogin: async ({ commit }, argument) => {
     // ユーザーの情報を持ってこれている
     console.log(argument.user)
