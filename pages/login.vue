@@ -12,7 +12,7 @@
             <v-text-field v-model="password" label="password" type="password"></v-text-field>
             <v-row justify="center" class="mt-5 mb-5">
               <v-col cols="4">
-                <ApiEventButton color="grey darken-2" :click-callback="sendLogin">Next</ApiEventButton>
+                <ApiEventButton color="grey darken-2" :click-callback="submit">Next</ApiEventButton>
               </v-col>
             </v-row>
             <v-row class="mt-10" justify="center">
@@ -28,7 +28,7 @@
   </v-container>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex'
+// import { mapActions, mapState } from 'vuex'
 
 export default {
   layout: 'auth',
@@ -36,22 +36,19 @@ export default {
     return {
       url: '/projects',
       email: '2001195@s.asojuku.ac.jp',
-      password: 123456789,
-      kill: ['テスト', 'tesuto'],
+      password: 'AsoΣ2001195',
+      // kill: ['テスト', 'tesuto'],
     }
   },
-  computed: {
-    ...mapState({
-      userInfo: state => state.api.userInfo,
-    }),
-  },
+  computed: {},
   methods: {
-    ...mapActions({
-      submit: 'api/postLogin',
-    }),
-    sendLogin() {
-      this.submit()
-      console.log(this.userInfo[0])
+    async submit() {
+      const user = {
+        email: this.email,
+        password: this.password,
+      }
+      await this.$store.dispatch('api/postLogin', { data: user })
+      await this.$store.dispatch('api/getUsers')
       this.$router.push({ path: this.url })
     },
   },

@@ -2,6 +2,7 @@ import axios from 'axios'
 
 axios.defaults.withCredentials = true
 const API_URL = 'http://localhost:8080/api'
+// const API_URL = 'https://fridayeditor.click/api'
 
 export const state = () => ({
   users: [],
@@ -24,14 +25,6 @@ export const mutations = {
 
 export const actions = {
   postLogin: async ({ commit }, argument) => {
-    // ユーザーの情報を持ってこれている
-    console.log(argument.user)
-    const response = await axios.post(`${API_URL}/users${argument.user}`)
-    console.log(response) // 消す
-    // レスポンスにユーザーidがあるからそれを利用する
-    // commit('setUsers', response.data)
-  },
-  sendLogin: async ({ commit }, argument) => {
     const a = await axios
       .get('http://localhost:8080/sanctum/csrf-cookie')
       .then(response => {
@@ -65,7 +58,11 @@ export const actions = {
   getUsers: async ({ commit }) => {
     // ユーザーの情報を全て取得
     const response = await axios.get(`${API_URL}/users`)
-    console.log(response.data) // 消す
+    // 失敗時のデータのレスポンスを確かめる
+    console.log('response.data')
+    console.log(response.data)
+    // 成功する失敗するでページの遷移を変える
+
     // commit('setUsers', response.data)
   },
   getProjectList: async ({ commit }, argument) => {
