@@ -62,9 +62,9 @@
 
 <script>
 import previews from '../assets/previews.json'
-import MenuHeader from '~/components/MenuHeader.vue'
-import ProjectList from '~/components/ProjectList.vue'
-import EditorSetting from '~/components/EditorSetting.vue'
+import MenuHeader from '@/components/MenuHeader.vue'
+import ProjectList from '@/components/ProjectList.vue'
+import EditorSetting from '@/components/EditorSetting.vue'
 
 export default {
   components: {

@@ -1,8 +1,7 @@
 <!-- デザインを決めていく内容を表示 -->
 <template>
-  <div class="markdown-editor">
-    <MenuHeader />
-    <client-only>
+  <v-main>
+    <client-only style="position: relative">
       <v-btn
         color="grey lighten-3"
         style="z-index: 2; position: absolute; margin-left: 88%; top: 90%"
@@ -14,21 +13,20 @@
       <mavon-editor
         v-model="markData"
         disabled
+        class="d-flex"
         :toolbars="markdownOption"
         language="ja"
-        style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
+        style="height: 100%; width: 100%; overflow-y: auto; z-index: 1; position: absolute"
         :class="colorName + '--text'"
         @change="EditorData()"
       />
     </client-only>
-  </div>
+  </v-main>
 </template>
 
 <script>
-import MenuHeader from '~/components/MenuHeader.vue'
-
 export default {
-  components: { MenuHeader },
+  layout: 'editor',
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
@@ -88,13 +86,7 @@ export default {
         localStorage.setItem('MarkdownColor', this.colorName)
       }
     },
+    setNoteHeight() {},
   },
 }
 </script>
-
-<style>
-.markdown-editor {
-  width: 100%;
-  height: 100%;
-}
-</style>
