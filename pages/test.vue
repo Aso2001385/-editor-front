@@ -45,7 +45,7 @@ export default {
         email: this.email,
         password: this.password,
       }
-      await this.$store.dispatch('api/sendLogin', { data: user })
+      await this.$store.dispatch('api/postLogin', { data: user })
       await this.$store.dispatch('api/getUsers')
       console.log('getTest! data is auth!')
       await this.$store.dispatch('api/getTest')
