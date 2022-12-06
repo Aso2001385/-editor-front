@@ -1,16 +1,9 @@
 <!-- デザインを決めていく内容を表示 -->
 <template>
   <div class="markdown-editor">
-    <MenuHeader />
+    <MenuHeader @settingFlg="openSetting" />
+    <Setting v-if="setOpenFlg === true" />
     <client-only>
-      <v-btn
-        color="grey lighten-3"
-        style="z-index: 2; position: absolute; margin-left: 88%; top: 90%"
-        @click="color(colorNumber)"
-      >
-        <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
-        <div :class="colorName + '--text'">{{ colorName }}</div>
-      </v-btn>
       <mavon-editor
         v-model="markData"
         disabled
@@ -25,14 +18,15 @@
 </template>
 
 <script>
+import { marked } from 'marked'
 import MenuHeader from '~/components/MenuHeader.vue'
+import Setting from '@/pages/setting.vue'
 
 export default {
-  components: { MenuHeader },
+  components: { MenuHeader, Setting },
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
-      SubMarkData: '',
       markdownOption: {
         bold: true,
         italic: true,
@@ -53,6 +47,7 @@ export default {
       iconColor: 'black--text',
       colorNumber: 1,
       colorName: 'black',
+      setOpenFlg: false,
     }
   },
   mounted() {
@@ -64,6 +59,7 @@ export default {
   methods: {
     EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
+      localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
     },
     color(value) {
       if (value === 1) {
@@ -87,6 +83,9 @@ export default {
         this.colorName = 'black'
         localStorage.setItem('MarkdownColor', this.colorName)
       }
+    },
+    openSetting() {
+      this.setOpenFlg = true
     },
   },
 }

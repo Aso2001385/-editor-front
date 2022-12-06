@@ -35,8 +35,8 @@ export default {
       layout: 'auth',
       name: '翔',
       email: '2001195@s.asojuku.ac.jp',
-      password: 123456789,
-      confirmPassword: 123456789,
+      password: 'AsoΣ2001195',
+      confirmPassword: 'AsoΣ2001195',
     }
   },
   mounted() {},
@@ -48,7 +48,7 @@ export default {
           email: this.email,
           password: this.password,
         }
-        this.$store.dispatch('api/postUserInfo', { user })
+        this.$store.dispatch('api/register', { data: user })
       } else {
         alert('パスワードが確認用と違います')
       }

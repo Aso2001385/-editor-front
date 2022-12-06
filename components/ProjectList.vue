@@ -73,6 +73,7 @@ export default {
   computed: {
     id: {
       get() {
+        console.log('idの値は' + this.receive.id)
         return this.receive.id
       },
       // set(newVal) {
@@ -112,16 +113,16 @@ export default {
   },
   mounted() {
     this.count = Number(localStorage.getItem('DesignCount'))
-    const userProjectId = localStorage.getItem('projectCreateUpdate')
+    // const userProjectId = localStorage.getItem('projectCreateUpdate')
     const killDesignSetH1 = localStorage.getItem('DesignSetH1')
     this.designSetH1 = killDesignSetH1.split(',')
     const killDesignSetH2 = localStorage.getItem('DesignSetH2')
     this.designSetH2 = killDesignSetH2.split(',')
 
-    if (this.projectLink === this.EDITORSETTING) {
-      console.log('ページ遷移が行われている')
-      this.project_link = `/projects/${userProjectId}/pages/${userProjectId}/settings`
-    }
+    // if (this.projectLink === this.EDITORSETTING) {
+    //   console.log('ページ遷移が行われている')
+    //   this.project_link = `/projects/${userProjectId}/pages/${userProjectId}`
+    // }
     const design = document.getElementById('DesignHtml')
     design.id = 'disign-set' + this.count
     this.count = this.count + 1
@@ -145,7 +146,6 @@ export default {
       } else {
         // データが保存されていたら確認画面移る/ない場合は普通にcreate-editorの画面が開く
         const confilmMarkdownData = localStorage.getItem('MarkdownData')
-        console.log('markdowndataの中身')
         console.log(confilmMarkdownData !== '')
         if (confilmMarkdownData !== '') {
           //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
@@ -153,22 +153,16 @@ export default {
             '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
           )
           if (confirm) {
-            // trueの場合は保存をする
-            // apiでデータベースに保存させる処理をかく
-            // ローカルのHtmlFronMarkdownデータを
-            // マークダウンデータを初期化する
-            this.$router.push({ path: `/projects/${value}` })
+            localStorage.setItem('ProjectId', value)
+            this.$router.push({ path: `/projects/${value}/pages/1` })
           } else {
-            // データを破棄する
-            // localStorage.setItem('projectCreateUpdate', null)
-            // 更新ならデータベースのデータを入れる
-            // 新規の破棄ならデフォルトのデータを入れる
+            localStorage.setItem('ProjectId', value)
             localStorage.setItem('MarkdownData', '')
             localStorage.setItem('HtmlFromMarkdown', '')
-            this.$router.push({ path: `/projects/${value}` })
+            this.$router.push({ path: `/projects/${value}/pages/1` })
           }
         } else {
-          this.$router.push({ path: `/projects/${value}` })
+          this.$router.push({ path: `/projects/${value}/pages/1` })
         }
       }
     },
