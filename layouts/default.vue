@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <v-main style="background-color: #dcdcdc">
-      <Nuxt />
-    </v-main>
+    <Nuxt class="grey lighten-4" />
   </v-app>
 </template>
 
@@ -14,3 +12,8 @@ export default {
   },
 }
 </script>
+<style lang="sass">
+html
+  &::-webkit-scrollbar
+    display: none
+</style>

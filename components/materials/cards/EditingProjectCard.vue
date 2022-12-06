@@ -1,27 +1,22 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <v-card class="mx-auto" max-width="400">
+  <v-card class="mx-auto" max-width="400" hover :disabled="disabled" @click.prevent="click">
     <div class="pt-4 px-4" :style="'backgroundColor:' + backColor + '; height: 12rem'">
       <div class="warp" v-html="text"></div>
     </div>
     <v-divider />
-    <v-card-subtitle class="py-0 mt-2"> {{ updatedAt | elapsedDateTime }} ago </v-card-subtitle>
-    <v-card-title class="pt-0">{{ name }}</v-card-title>
+    <v-card-subtitle class="py-0 mt-2 orange--text"> now editing... (not saved!) </v-card-subtitle>
+    <v-card-title class="pt-0" :class="textColor">{{ name }}</v-card-title>
   </v-card>
 </template>
 
 <script>
-import timeCommon from '@/plugins/time-common'
 export default {
-  filters: {
-    elapsedDateTime(dateTime) {
-      const now = new Date()
-      const past = new Date(dateTime)
-      const diffMs = now.getTime() - past.getTime()
-      return timeCommon.getDiff(diffMs)
-    },
-  },
   props: {
+    clickCallback: {
+      type: Function,
+      default: () => {},
+    },
     receive: {
       type: Object,
       default: () => ({
@@ -34,14 +29,20 @@ export default {
         updatedAt: '',
       }),
     },
+    isSetLocal: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      disabled: false,
+    }
   },
   computed: {
     id: {
       get() {
         return this.receive.id
-      },
-      set(newVal) {
-        this.$emit('changeId', { index: this.index, key: 'name', value: newVal })
       },
     },
     name: {
@@ -56,6 +57,7 @@ export default {
     },
     backColor: {
       get() {
+        console.log(this.receive.backgroundColor)
         return this.receive.backgroundColor
       },
     },
@@ -73,6 +75,17 @@ export default {
       get() {
         return '2021-11-29 10:11:43'
       },
+    },
+  },
+  methods: {
+    async click() {
+      this.disabled = true
+      try {
+        await this.clickCallback()
+      } catch (error) {
+        console.log(error)
+      }
+      this.disabled = false
     },
   },
 }

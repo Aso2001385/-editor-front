@@ -11,8 +11,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - FES',
-    title: 'FES',
+    titleTemplate: '%s - Friday',
+    title: 'Friday',
     htmlAttrs: {
       lang: 'ja',
     },
@@ -110,9 +110,21 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    hardSource: true,
+  },
 
   env: {
     API_BASE_URL: baseURL,
+  },
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        component: resolve(__dirname, 'pages/404.vue'),
+      })
+    },
   },
 }
