@@ -19,12 +19,12 @@
               >{{ page }}</v-btn
             >
             <div style="margin-left: 50%">
-              <v-btn color="primary" class="black--text mt-10" @click="RoutePages(3)">CLOSE</v-btn>
+              <v-btn color="primary" class="black--text mt-10" @click="RoutePages(2)">CLOSE</v-btn>
             </div>
           </v-overlay>
         </v-col>
         <v-col>
-          <div class="white--text" @click="RoutePages(2)">SETTING</div>
+          <div class="white--text" @click="settingOpen()">SETTING</div>
         </v-col>
         <v-col><a href="#" class="white--text" style="text-decoration: none" @click="setEditorData">SAVE</a></v-col>
       </v-row>
@@ -36,6 +36,9 @@
 import { mapActions } from 'vuex'
 
 export default {
+  props: {
+    openSet: Boolean,
+  },
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
@@ -70,29 +73,33 @@ export default {
     }),
     setEditorData() {
       this.submit()
-      // localStorage.setItem('markdownData', this.markData)
       alert('保存しました')
       this.markData = ''
       localStorage.setItem('MarkdownData', this.markData)
       this.$router.push({ path: `/projects` })
     },
     RoutePages(value) {
-      const userProjectId = localStorage.getItem('projectCreateUpdate')
-      console.log('Homeボタンなどが押された')
       if (value === 0) {
         this.$router.push({ path: `/projects/` })
       } else if (value === 2) {
-        // ここで今何ページ目なのかをローカルに入れたデータを取得して表示するようにする
-        this.$router.push({ path: `/projects/${userProjectId}/pages/${userProjectId}/settings` })
-      } else if (value === 3) {
         this.overlay = false
-        this.$router.push({ path: `/projects/${userProjectId}` })
+        this.RoutePageChange(1)
       } else {
         this.$router.push({ path: `/projects` })
       }
     },
     RoutePageChange(key) {
-      this.$router.push({ path: `/projects/${key}` })
+      const ProjectUrl = localStorage.getItem('ProjectId')
+      const URL = `/projects/${ProjectUrl}/pages/${key}`
+      this.$router.push({ path: URL })
+    },
+    settingOpen() {
+      if (this.openSet === true) {
+        this.$emit('settingFlg', true)
+      } else if (this.openSet === false) {
+        this.$emit('settingFlg', false)
+      }
+      this.$emit('settingFlg', false)
     },
   },
 }

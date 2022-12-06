@@ -1,30 +1,8 @@
-<!-- eslint-disable vue/no-v-html -->
-<!-- ヘッダーからいけるデザインの種類を決めるページ -->
 <template>
   <v-flex>
-    <MenuHeader />
     <v-row style="position: absolute; z-index: 2; top: 4.8rem; width: 100%">
-      <v-col
-        cols="2"
-        style="padding-left: 5%; overflow: hidden !important; height: 92vh; overflow-y: auto; background-color: white"
-      >
-        <v-row class="pt-10">
-          <a class="text-h6 black--text" style="background-color: transparent; font-weight: bold" @click="Setting(0)">
-            基本設定
-          </a>
-        </v-row>
-        <v-row class="pt-10">
-          <a class="text-h6 black--text" style="font-weight: bold" @click="Setting(1, 'allpages')"> 全体設定 </a>
-        </v-row>
-        <v-row v-for="item in pages" :key="item" class="pt-10" @click="Setting(1, item)">
-          <a class="text-h6 black--text">{{ item }}</a>
-        </v-row>
-      </v-col>
-      <v-col cols="4" style="overflow: hidden !important; height: 92vh; overflow-y: auto; background-color: white">
+      <v-col cols="6" style="overflow: hidden !important; height: 92vh; overflow-y: auto; background-color: white">
         <EditorSetting v-if="OpenFlg === 0" style="background-color: white" />
-        <v-chip v-else style="float: right" class="grey darken-3 ma-2 white--text">
-          {{ nowPage }}
-        </v-chip>
         <v-card
           v-for="(preview, index) in default_previews"
           :key="index"
@@ -54,13 +32,15 @@
     </v-row>
   </v-flex>
 </template>
+
+<script></script>
+
 <script>
-// import DemoWebEditor from '@/assets/demo-web-editor.json'
 import Ui from '@/components/Ui'
-import previews from '@/assets/previews'
-import MenuHeader from '@/components/MenuHeader.vue'
-import ProjectList from '@/components/ProjectList.vue'
-import EditorSetting from '@/components/EditorSetting.vue'
+import previews from '~/assets/previews'
+import MenuHeader from '~/components/MenuHeader.vue'
+import ProjectList from '~/components/ProjectList.vue'
+import EditorSetting from '~/components/EditorSetting.vue'
 
 export default {
   components: {
@@ -127,7 +107,7 @@ export default {
   mounted() {
     localStorage.setItem('DesignCount', 0)
     this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
-    const htmlContent = document.getElementById('OpenHtml')
+    var htmlContent = document.getElementById('OpenHtml')
     console.log(document.getElementById('OpenHtml'))
     console.log(this.UserProjectData)
     htmlContent.id = 'html-css'
@@ -144,7 +124,7 @@ export default {
     EditorData() {
       const designSetH1 = []
       const designSetH2 = []
-      for (let i = 0; i < this.default_previews.length; i++) {
+      for (var i = 0; i < this.default_previews.length; i++) {
         designSetH1.push(this.default_previews[i].primaryColor)
         designSetH2.push(this.default_previews[i].secondaryColor)
       }
@@ -169,8 +149,8 @@ export default {
       this.secondary = value.secondaryColor
       this.setBackColor = value.backgroundColor
       const stylePrimary = document.getElementById('html-css')
-      const h1Tag = stylePrimary.getElementsByTagName('h1')
-      const h2Tag = stylePrimary.getElementsByTagName('h2')
+      var h1Tag = stylePrimary.getElementsByTagName('h1')
+      var h2Tag = stylePrimary.getElementsByTagName('h2')
       for (let i = 0; i < h1Tag.length; i++) {
         h1Tag[i].style.color = this.primary
       }

@@ -37,7 +37,6 @@ export default {
       url: '/projects',
       email: '2001195@s.asojuku.ac.jp',
       password: 'AsoΣ2001195',
-      // kill: ['テスト', 'tesuto'],
     }
   },
   computed: {},
@@ -47,8 +46,10 @@ export default {
         email: this.email,
         password: this.password,
       }
+
       await this.$store.dispatch('api/postLogin', { data: user })
       await this.$store.dispatch('api/getUsers')
+
       this.$router.push({ path: this.url })
     },
   },

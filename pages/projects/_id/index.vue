@@ -1,16 +1,9 @@
-<!-- エディター作成・更新 -->
+<!-- エディター作成・更新
 <template>
   <div class="markdown-editor">
-    <MenuHeader />
+    <MenuHeader @settingFlg="openSetting" />
+    <Setting v-if="setOpenFlg === true" />
     <client-only>
-      <!-- <v-btn
-        color="grey lighten-3"
-        style="z-index: 2; position: absolute; margin-left: 88%; top: 90%"
-        @click="color(colorNumber)"
-      >
-        <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
-        <div :class="colorName + '--text'">{{ colorName }}</div>
-      </v-btn> -->
       <mavon-editor
         v-model="markData"
         disabled
@@ -28,11 +21,13 @@
 
 <script>
 import { marked } from 'marked'
-import previews from '@/assets/previews.json'
-import MenuHeader from '@/components/MenuHeader.vue'
+
+import previews from '~/assets/previews.json'
+import MenuHeader from '~/components/MenuHeader.vue'
+import Setting from '~/pages/setting.vue'
 
 export default {
-  components: { MenuHeader },
+  components: { MenuHeader, Setting },
   data() {
     return {
       // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
@@ -62,8 +57,12 @@ export default {
       colorNumber: 1,
       colorName: 'black',
       html: '',
+      setOpenFlg: false,
     }
   },
+
+  // あとで削っていく
+
   mounted() {
     // デフォルトのデータ
     const data = previews
@@ -72,18 +71,11 @@ export default {
     localStorage.setItem('OpenList', 0)
     this.projectGenre = localStorage.getItem('projectCreateUpdate')
     this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
-
-    // if (this.projectGenre === '0') {
-    // createということでデフォルトのデータを表示する
     this.markData = localStorage.getItem('MarkdownData')
     console.log(marked(this.markData))
     this.SubMarkData = this.markData
-    // }
     this.colorName = localStorage.getItem('markdownColor')
     this.color(5)
-
-    // localStorage.setItem('MarkdownData', localStorage.getItem('MarkdownData'))
-    // localStorage.setItem('HtmlFromMarkdown', marked(localStorage.getItem('MarkdownData')))
   },
   methods: {
     editorData() {
@@ -119,6 +111,12 @@ export default {
         localStorage.setItem('MarkdownColor', this.colorName)
       }
     },
+    openSetting(value) {
+      //  settingのページを表示させるようにする
+      if (value === true) {
+        this.setOpenFlg = true
+      }
+    },
   },
 }
 </script>
@@ -128,4 +126,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-</style>
+</style> -->

@@ -7,7 +7,6 @@
   </v-main>
 </template>
 <script>
-import { mapState } from 'vuex'
 import previews from '@/assets/previews.json'
 import ProjectList from '@/components/planets/ProjectList.vue'
 
@@ -25,11 +24,7 @@ export default {
       projects: [],
     }
   },
-  computed: {
-    ...mapState({
-      userInfo: state => state.api.userInfo,
-    }),
-  },
+  computed: {},
   created() {
     console.log(previews)
     const data = previews
@@ -37,17 +32,8 @@ export default {
     localStorage.setItem('id', this.userInfo[0])
     localStorage.setItem('email', this.userInfo[1])
     localStorage.setItem('name', this.userInfo[2])
-    // ユーザーidからプロジェクトリストを取得する
-    // this.getProjectList()
   },
   methods: {
-    // プロジェクトリスト取得
-    // getProjectList() {
-    //   // ログイン情報がどこに保存されているかによって持ってくる場所が変わる
-    //   const userId = 1
-    //   this.$store.dispatch('api/getProjectList', { userId })
-    // },
-    // // valueの中に新規なのか更新なのか
     // RoutePages(value) {
     //   const confilmMarkdownData = localStorage.getItem('MarkdownData')
     //   if (confilmMarkdownData !== '') {

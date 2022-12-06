@@ -32,7 +32,6 @@ export default {
   layout: 'auth',
   data() {
     return {
-      url: 'http://localost:8080/api/login',
       email: '2001195@s.asojuku.ac.jp',
       password: 'AsoΣ2001195',
     }
