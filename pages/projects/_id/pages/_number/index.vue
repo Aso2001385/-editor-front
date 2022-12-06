@@ -1,5 +1,6 @@
 <!-- デザインを決めていく内容を表示 -->
 <template>
+
   <div class="markdown-editor">
     <MenuHeader @settingFlg="openSetting" />
     <Setting v-if="setOpenFlg === true" />
@@ -7,23 +8,22 @@
       <mavon-editor
         v-model="markData"
         disabled
+        class="d-flex"
         :toolbars="markdownOption"
         language="ja"
-        style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
+        style="height: 100%; width: 100%; overflow-y: auto; z-index: 1; position: absolute"
         :class="colorName + '--text'"
         @change="EditorData()"
       />
     </client-only>
-  </div>
+  </v-main>
 </template>
 
 <script>
 import { marked } from 'marked'
-import MenuHeader from '~/components/MenuHeader.vue'
-import Setting from '@/pages/setting.vue'
 
 export default {
-  components: { MenuHeader, Setting },
+  layout: 'editor',
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
@@ -84,16 +84,7 @@ export default {
         localStorage.setItem('MarkdownColor', this.colorName)
       }
     },
-    openSetting() {
-      this.setOpenFlg = true
-    },
+    setNoteHeight() {},
   },
 }
 </script>
-
-<style>
-.markdown-editor {
-  width: 100%;
-  height: 100%;
-}
-</style>

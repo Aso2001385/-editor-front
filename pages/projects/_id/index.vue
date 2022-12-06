@@ -21,6 +21,7 @@
 
 <script>
 import { marked } from 'marked'
+
 import previews from '~/assets/previews.json'
 import MenuHeader from '~/components/MenuHeader.vue'
 import Setting from '~/pages/setting.vue'

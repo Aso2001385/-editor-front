@@ -1,58 +1,73 @@
+<!-- プロジェクトリスト-->
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline"> Welcome to the Vuetify + Nuxt.js template </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower
-            developers to create amazing applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a href="https://vuetifyjs.com" target="_blank" rel="noopener noreferrer"> documentation </a>.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a href="https://chat.vuetifyjs.com/" target="_blank" rel="noopener noreferrer" title="chat"> discord </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a href="https://nuxtjs.org/" target="_blank" rel="noopener noreferrer"> Nuxt Documentation </a>
-          <br />
-          <a href="https://github.com/nuxt/nuxt.js" target="_blank" rel="noopener noreferrer"> Nuxt GitHub </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <v-main class="pa-10">
+    <div class="pa-10">
+      <ProjectList :receive="default_previews" />
+    </div>
+  </v-main>
 </template>
-
 <script>
+import { mapState } from 'vuex'
+import previews from '@/assets/previews.json'
+import ProjectList from '@/components/planets/ProjectList.vue'
+
 export default {
-  name: 'IndexPage',
+  components: {
+    ProjectList,
+  },
+  layout: 'top',
+  data() {
+    return {
+      projectData: {},
+      markdown: '# Marked in the browserRendered by **marked**.',
+      default_previews: null,
+      PROJECT_LINK: 0,
+      projects: [],
+    }
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.api.userInfo,
+    }),
+  },
+  created() {
+    console.log(previews)
+    const data = previews
+    this.default_previews = data
+    localStorage.setItem('id', this.userInfo[0])
+    localStorage.setItem('email', this.userInfo[1])
+    localStorage.setItem('name', this.userInfo[2])
+    // ユーザーidからプロジェクトリストを取得する
+    // this.getProjectList()
+  },
+  methods: {
+    // プロジェクトリスト取得
+    // getProjectList() {
+    //   // ログイン情報がどこに保存されているかによって持ってくる場所が変わる
+    //   const userId = 1
+    //   this.$store.dispatch('api/getProjectList', { userId })
+    // },
+    // // valueの中に新規なのか更新なのか
+    // RoutePages(value) {
+    //   const confilmMarkdownData = localStorage.getItem('MarkdownData')
+    //   if (confilmMarkdownData !== '') {
+    //     //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
+    //     const confirm = window.confirm(
+    //       '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
+    //     )
+    //     if (confirm) {
+    //       // データベースにデータの保存
+    //       this.$router.push({ path: `/projects/${value}` })
+    //     } else {
+    //       localStorage.setItem('projectCreateUpdate', value)
+    //       localStorage.setItem('MarkdownData', '')
+    //       localStorage.setItem('HtmlFromMarkdown', '')
+    //       this.$router.push({ path: `/projects/${value}` })
+    //     }
+    //   } else {
+    //     this.$router.push({ path: `/projects/${value}` })
+    //   }
+    // },
+  },
 }
 </script>

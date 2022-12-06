@@ -52,8 +52,8 @@
 <script></script>
 
 <script>
-import previews from '~/assets/previews'
-import ProjectList from '~/components/ProjectList.vue'
+import previews from '@/assets/previews'
+import ProjectList from '@/components/ProjectList.vue'
 
 export default {
   components: {
