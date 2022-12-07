@@ -2,18 +2,18 @@
 <template>
   <v-main class="pa-10">
     <div class="pa-10">
-      <ProjectList :receive="default_previews" />
+      <!-- <ProjectList :receive="default_previews" /> -->
     </div>
   </v-main>
 </template>
 <script>
 import { mapState } from 'vuex'
 import previews from '@/assets/previews.json'
-import ProjectList from '@/components/planets/ProjectList.vue'
+// import ProjectList from '@/components/planets/ProjectList.vue'
 
 export default {
   components: {
-    ProjectList,
+    // ProjectList,
   },
   layout: 'top',
   data() {

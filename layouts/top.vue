@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <TopHeader :receive="menus" />
+    <TopHeader />
     <!-- <v-row dance>
         <v-col cols="3">
           <div class="white--text text-center" @click="RoutePages(0)"><v-icon>mdi-home-variant</v-icon> HOME</div>
@@ -36,6 +36,7 @@
           </div>
         </v-col>
       </v-row> -->
+
     <!-- <v-btn text class="pa-5">
       <v-icon color="white">mdi-home-variant</v-icon>
       <div class="ml-3 text-h6 white--text text-center">HOME</div>
@@ -67,15 +68,7 @@ export default {
     TopHeader,
   },
   data() {
-    return {
-      menus: [
-        {
-          icon: 'mdi-home-variant',
-          text: 'HOME',
-          to: '/',
-        },
-      ],
-    }
+    return {}
   },
 }
 </script>
