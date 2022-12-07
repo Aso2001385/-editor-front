@@ -35,28 +35,24 @@
 </template>
 <script>
 import previews from '@/assets/previews.json'
-import common from '@/plugins/common'
+import { nestClone } from '@/lib/common'
 // import ProjectCard from '@/components/materials/cards/ProjectCard.vue'
 
 export default {
   // components: { ProjectCard },
+  layout: 'auth',
   props: {
     receive: {
       type: Array,
       default: () => [],
     },
   },
-  layout: 'auth',
   data() {
     return {
       name: 'apiにアクセスして取得した名前を表示するようにする',
       default_previews: null,
       PROJECT_LINK: 2,
     }
-  },
-  created() {
-    const data = previews
-    this.default_previews = data
   },
   computed: {
     editingProject: {
@@ -67,15 +63,18 @@ export default {
     projects: {
       get() {
         console.log('aa')
-        console.log(common.nestClone(this.receive))
+        console.log(nestClone(this.receive))
         console.log(this.editingProject)
-        let projects = common.nestClone(this.receive)
+        let projects = nestClone(this.receive)
         if (this.editingProject) projects = projects.map(project => project.id !== this.editingProject.id)
         return projects
       },
     },
   },
-
+  created() {
+    const data = previews
+    this.default_previews = data
+  },
   methods: {
     jumpToNewProject() {},
   },
