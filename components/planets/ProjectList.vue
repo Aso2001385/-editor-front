@@ -51,9 +51,16 @@ export default {
     },
   },
   methods: {
-    jumpToNewProject() {},
-    jumpToEditingProject(id) {},
-    jumpToProject(id) {},
+    jumpToNewProject() {
+      //  UUIDの部分はデータベースから取ってきたデータを利用する
+      this.$router.push({ path: '/projects/UUID/1' })
+    },
+    jumpToEditingProject(id) {
+      this.$router.push({ path: `/projects/UUID/${id}` })
+    },
+    jumpToProject(id) {
+      this.$router.push({ path: `/projects/UUID/${id}` })
+    },
   },
 }
 </script>
