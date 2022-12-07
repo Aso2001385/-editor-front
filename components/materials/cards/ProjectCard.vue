@@ -6,7 +6,7 @@
     </div>
     <v-divider />
     <v-card-subtitle class="py-0 mt-2"> {{ updatedAt | elapsedDateTime }} ago </v-card-subtitle>
-    <v-card-title class="pt-0" :class="textColor">{{ name }}</v-card-title>
+    <v-card-title class="pt-0">{{ name }}</v-card-title>
   </v-card>
 </template>
 

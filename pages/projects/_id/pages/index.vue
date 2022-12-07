@@ -1,5 +1,3 @@
-<!-- どのページを指定するか -->
-<!-- エディター作成・更新 -->
 <template>
   <div class="markdown-editor">
     <MenuHeader :openSetting="0" />
@@ -23,22 +21,11 @@
 <script>
 import { marked } from 'marked'
 import MenuHeader from '~/components/MenuHeader.vue'
-import Setting from '@/pages/setting.vue'
 
 export default {
   components: { MenuHeader, Setting },
   data() {
     return {
-      // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
-      markData: '',
-      default_previews: '',
-      projectGenre: 0,
-      openCnt: 0,
-      iconColor: 'black--text',
-      colorNumber: 1,
-      colorName: 'black',
-      html: '',
-      setOpenFlg: false,
       markdownOption: {
         bold: true,
         italic: true,
@@ -56,6 +43,16 @@ export default {
         fullscreen: true,
         htmlcode: true,
       },
+      // 始めに表示される内容(既に作成されているeditorの場合はそのデータを表示)
+      markData: '',
+      default_previews: '',
+      projectGenre: 0,
+      openCnt: 0,
+      iconColor: 'black--text',
+      colorNumber: 1,
+      colorName: 'black',
+      html: '',
+      setOpenFlg: false,
     }
   },
 

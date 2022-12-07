@@ -5,17 +5,7 @@
 </template>
 
 <script>
-import timeCommon from '@/plugins/time-common'
-
 export default {
-  filters: {
-    elapsedDateTime(dateTime) {
-      const now = new Date()
-      const past = new Date(dateTime)
-      const diffMs = now.getTime() - past.getTime()
-      return timeCommon.getDiff(diffMs)
-    },
-  },
   props: {
     color: {
       type: String,
@@ -31,10 +21,7 @@ export default {
     },
   },
   data() {
-    return {
-      disabled: false,
-    }
+    return {}
   },
-  computed: {},
 }
 </script>
