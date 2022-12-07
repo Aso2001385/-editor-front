@@ -1,4 +1,3 @@
-<!-- プロジェクトリスト-->
 <template>
   <v-main class="pa-10">
     <div class="pa-10">
@@ -18,7 +17,6 @@ export default {
   data() {
     return {
       projectData: {},
-      markdown: '# Marked in the browserRendered by **marked**.',
       default_previews: null,
       PROJECT_LINK: 0,
       projects: [],
@@ -26,12 +24,8 @@ export default {
   },
   computed: {},
   created() {
-    console.log(previews)
     const data = previews
     this.default_previews = data
-    localStorage.setItem('id', this.userInfo[0])
-    localStorage.setItem('email', this.userInfo[1])
-    localStorage.setItem('name', this.userInfo[2])
   },
   methods: {
     // RoutePages(value) {

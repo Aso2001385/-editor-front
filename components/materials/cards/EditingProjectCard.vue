@@ -6,7 +6,7 @@
     </div>
     <v-divider />
     <v-card-subtitle class="py-0 mt-2 orange--text"> now editing... (not saved!) </v-card-subtitle>
-    <v-card-title class="pt-0" :class="textColor">{{ name }}</v-card-title>
+    <v-card-title class="pt-0">{{ name }}</v-card-title>
   </v-card>
 </template>
 
@@ -27,6 +27,7 @@ export default {
         primaryColor: '',
         secondaryColor: '',
         updatedAt: '',
+        textColor: '',
       }),
     },
     isSetLocal: {
