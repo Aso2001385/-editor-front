@@ -5,11 +5,27 @@
       <div class="text-h4 text--primary text-center">NOT FOUND</div>
     </v-card-text>
     <v-card-text class="justify-center text-center">
-      申し訳ございません<br />
-      指定されたページが見つかりません
+      <slot>
+        申し訳ございません<br />
+        指定されたページが見つかりません
+      </slot>
     </v-card-text>
     <v-card-actions class="justify-center">
-      <v-btn class="ma-2" outlined color="black" link=""> トップページへ </v-btn>
+      <v-btn class="ma-2" outlined color="black" :to="to" link> {{ text }} </v-btn>
     </v-card-actions>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    to: {
+      type: String,
+      default: '/projects',
+    },
+    text: {
+      type: String,
+      default: 'トップページへ',
+    },
+  },
+}
+</script>
