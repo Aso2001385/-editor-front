@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import timeCommon from '@/plugins/time-common'
+import { getDiff } from '@/lib/common'
 
 export default {
   filters: {
@@ -19,7 +19,7 @@ export default {
       const now = new Date()
       const past = new Date(dateTime)
       const diffMs = now.getTime() - past.getTime()
-      return timeCommon.getDiff(diffMs)
+      return getDiff(diffMs)
     },
   },
   props: {
