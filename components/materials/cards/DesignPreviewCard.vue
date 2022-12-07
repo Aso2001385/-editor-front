@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-card class="mx-auto" max-width="400" hover :disabled="disabled" @click.prevent="click()">
     <div class="pt-4 px-4" :style="'backgroundColor:' + backColor + '; height: 12rem'">
