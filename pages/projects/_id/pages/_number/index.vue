@@ -1,10 +1,15 @@
 <!-- デザインを決めていく内容を表示 -->
 <template>
-
-  <div class="markdown-editor">
-    <MenuHeader @settingFlg="openSetting" />
-    <Setting v-if="setOpenFlg === true" />
-    <client-only>
+  <v-main>
+    <client-only style="position: relative">
+      <v-btn
+        color="grey lighten-3"
+        style="z-index: 2; position: absolute; margin-left: 88%; top: 90%"
+        @click="color(colorNumber)"
+      >
+        <v-icon large :class="colorName + '--text'" style="font-size: 35px"> mdi-eyedropper-variant</v-icon>
+        <div :class="colorName + '--text'">{{ colorName }}</div>
+      </v-btn>
       <mavon-editor
         v-model="markData"
         disabled
