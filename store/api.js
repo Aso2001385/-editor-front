@@ -4,8 +4,8 @@ axios.defaults.withCredentials = true
 const API_URL = 'https://fridayeditor.click/api'
 
 export const state = () => ({
-  users: [],
-  userInfo: [],
+  // users: [],
+  // userInfo: [],
 })
 
 export const mutations = {
