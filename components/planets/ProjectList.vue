@@ -3,8 +3,8 @@
     <v-col cols="4" class="mt-2">
       <AddProjectCard :click-callback="() => jumpToNewProject()" />
     </v-col>
-    <v-col v-if="editingProject !== null" class="mt-2" cols="4">
-      <EditingProjectCard :receive="editingProject" :click-callback="() => jumpToEditingProject(editingProject.id)" />
+    <v-col v-if="isSetLocal" class="mt-2" cols="4">
+      <EditingProjectCard :receive="localSaveProject" :click-callback="() => jumpToEditingProject(editingProject.id)" />
     </v-col>
     <v-col v-for="(project, index) in projects" :key="index" class="mt-2" cols="4">
       <ProjectCard :receive="project" :click-callback="() => jumpToProject(project.id)" />
@@ -12,6 +12,7 @@
   </v-row>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import { nestClone } from '@/lib/common'
 import AddProjectCard from '@/components/materials/cards/AddProjectCard.vue'
 import EditingProjectCard from '@/components/materials/cards/EditingProjectCard.vue'
@@ -34,6 +35,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      localSaveProject: 'local/getLocalSaveProject',
+      isSetLocal: 'local/getIsSetLocal',
+    }),
     editingProject: {
       get() {
         return JSON.parse(localStorage.getItem('editingProject'))
@@ -42,6 +47,7 @@ export default {
     projects: {
       get() {
         console.log('aa')
+        console.log('isset' + this.isSetLocal)
         console.log(nestClone(this.receive))
         console.log(this.editingProject)
         let projects = nestClone(this.receive)
@@ -49,6 +55,9 @@ export default {
         return projects
       },
     },
+  },
+  created() {
+    this.$store.dispatch('local/checkLocalSaveProject')
   },
   methods: {
     jumpToNewProject() {
@@ -59,6 +68,10 @@ export default {
       this.$router.push({ path: `/projects/UUID/${id}` })
     },
     jumpToProject(id) {
+      console.log(this.isSetLocal)
+      if (this.isSetLocal) {
+        alert('デンジャー')
+      }
       this.$router.push({ path: `/projects/UUID/${id}` })
     },
   },

@@ -3,7 +3,7 @@
     <v-app-bar color="grey darken-3" app clipped-left>
       <v-spacer />
 
-      <v-btn text class="pa-5">
+      <v-btn text class="pa-5" to="/projects" link>
         <v-icon color="white">mdi-home-variant</v-icon>
         <div class="ml-3 text-h6 white--text text-center">HOME</div>
       </v-btn>
