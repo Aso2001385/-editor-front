@@ -1,19 +1,17 @@
 <template>
-  <div class="markdown-editor">
-    <v-main>
-      <client-only>
-        <mavon-editor
-          v-model="markData"
-          disabled
-          class="d-flex"
-          :toolbars="markdownOption"
-          language="ja"
-          style="height: 100%; width: 100%; overflow-y: auto; z-index: 1; position: absolute"
-          @change="EditorData()"
-        />
-      </client-only>
-    </v-main>
-  </div>
+  <v-main>
+    <client-only style="position: relative">
+      <mavon-editor
+        v-model="markData"
+        disabled
+        class="d-flex"
+        :toolbars="markdownOption"
+        language="ja"
+        style="height: 100%; width: 100%; overflow-y: auto; z-index: 1; position: absolute"
+        @change="EditorData()"
+      />
+    </client-only>
+  </v-main>
 </template>
 
 <script>
@@ -23,6 +21,7 @@ export default {
   layout: 'editor',
   data() {
     return {
+      markData: '# タイトル \n ## サブタイトル',
       markdownOption: {
         bold: true,
         italic: true,
@@ -40,9 +39,12 @@ export default {
         fullscreen: true,
         htmlcode: true,
       },
-      markData: '# タイトル \n ## サブタイトル',
       setOpenFlg: false,
     }
+  },
+  created() {
+    // URLを取得している
+    console.log(location.href)
   },
   mounted() {
     this.markData = localStorage.getItem('MarkdownData')
@@ -52,13 +54,6 @@ export default {
       localStorage.setItem('MarkdownData', this.markData)
       localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
     },
-    setNoteHeight() {},
   },
 }
 </script>
-<style>
-.markdown-editor {
-  width: 100%;
-  height: 100%;
-}
-</style>

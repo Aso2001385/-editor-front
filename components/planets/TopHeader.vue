@@ -1,6 +1,6 @@
 <template>
   <v-app-bar color="grey darken-3" app clipped-left>
-    <MenuButton :to="'/'">
+    <MenuButton :to="'/projects'">
       <template v-slot:icon>mdi-home</template>
       <template v-slot:text>HOME</template>
     </MenuButton>
