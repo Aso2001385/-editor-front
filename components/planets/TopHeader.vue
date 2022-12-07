@@ -1,34 +1,22 @@
 <template>
   <v-app-bar color="grey darken-3" app clipped-left>
+    <MenuButton :to="'/'">
+      <template v-slot:icon>mdi-home</template>
+      <template v-slot:text>HOME</template>
+    </MenuButton>
+
+    <MenuButton :to="'/account'">
+      <template v-slot:icon>mdi-account-circle</template>
+      <template v-slot:text>ACCOUNT</template>
+    </MenuButton>
     <v-spacer />
-    <MenuButton v-for="(menu, index) in menus" :key="index" :icon="menu.icon" :text="menu.text" :to="menu.to" />
   </v-app-bar>
 </template>
 <script>
-import common from '@/plugins/common'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 export default {
   components: {
     MenuButton,
-  },
-  props: {
-    receive: {
-      type: Array,
-      default: () => [
-        {
-          icon: 'mdi-home',
-          text: 'HOME',
-          to: '',
-        },
-      ],
-    },
-  },
-  computed: {
-    menus: {
-      get() {
-        return common.nestClone(this.receive)
-      },
-    },
   },
 }
 </script>
