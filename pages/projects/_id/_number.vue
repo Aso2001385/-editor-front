@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <client-only style="position: relative">
+    <client-only style="position: relative" v-if="openDialog">
       <mavon-editor
         ref="mav"
         v-model="markData"
@@ -11,20 +11,26 @@
         style="height: 100%; width: 100%; overflow-y: auto; z-index: 1; position: absolute"
       />
     </client-only>
+    <pagesError v-else><template #:rt>projectリストへ</template></pagesError>
   </v-main>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { markdownOptions } from '@/lib/markdown-options'
+import pagesError from '@/pages/errors/pagesError.vue'
 
 export default {
+  components: {
+    pagesError,
+  },
   layout: 'editor',
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
       markdownOption: markdownOptions,
       setOpenFlg: false,
+      openDialog: true,
     }
   },
   computed: {
@@ -34,12 +40,34 @@ export default {
   },
   created() {
     // URLを取得している
-    console.log(location.href)
+    // プロジェクトがない場合はリストに
+    // ある場合は、その中のページが1
+    // const getUrl = this.$route.fullPath
+    // const baseUrl = '/projects/'
+    // const Url = getUrl.substring(getUrl.indexOf(baseUrl) + 10)
+    // if (!Url.includes('/')) {
+    //   // 存在しているuuidかを確かめてない場合に遷移させる
+    //   this.openDialog = false
+    //   this.$router.push({ path: '/projects' })
+    // } else {
+    //   this.$router.push({ path: '/projects/UUID/1' })
+    // }
   },
   mounted() {
     const project = this.localSaveProject
     this.markData = project.contents
     console.log('UUID : ' + project.uuid)
+    this.markData = localStorage.getItem('MarkdownData')
+    const getUrl = this.$route.fullPath
+    const baseUrl = '/projects/'
+    const Url = getUrl.substring(getUrl.indexOf(baseUrl) + 10)
+    if (!Url.includes('/')) {
+      // 存在しているuuidかを確かめてない場合に遷移させる
+      this.openDialog = false
+      // this.$router.push({ path: '/projects' })
+    } else {
+      this.$router.push({ path: '/projects/UUID/1' })
+    }
   },
   updated() {
     const projectData = {
