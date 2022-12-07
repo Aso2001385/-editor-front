@@ -1,10 +1,7 @@
 <!-- デザインを決めていく内容を表示 -->
 <template>
-
-  <div class="markdown-editor">
-    <MenuHeader @settingFlg="openSetting" />
-    <Setting v-if="setOpenFlg === true" />
-    <client-only>
+  <v-main>
+    <client-only style="position: relative">
       <mavon-editor
         v-model="markData"
         disabled
