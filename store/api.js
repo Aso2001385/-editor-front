@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Octokit } from "@octokit/core";
 
 axios.defaults.withCredentials = true
 const API_URL = 'https://fridayeditor.click/api'
@@ -91,5 +92,17 @@ export const actions = {
     const response = await axios.get(`${API_URL}/users`)
     console.log('response.data')
     console.log(response.data)
+  },
+  getMarkDown: async({ commit },argument) =>{
+    console.log(argument)
+    const octokit = new Octokit({
+      auth: this.$config.AUTH_TOKEN
+    })
+
+    const res = await octokit.request(this.$config.MARK_DOWN_API_BASE_URL, {
+      text: argument.data
+    })
+
+    console.log(res)
   },
 }
