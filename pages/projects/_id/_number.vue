@@ -80,6 +80,7 @@ export default {
       texteditor: '# タイトル## サブタイトル* ジャンル１* 項目１* 項目２**** ジャンル',
     }
     this.$store.dispatch('local/setLocalSaveProject', { data: projectData })
+    // this.$store.dispatch('api/getMarkDown', { data: this.markData })
   },
 }
 </script>
