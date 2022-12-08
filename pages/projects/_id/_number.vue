@@ -1,27 +1,23 @@
 <template>
-  <v-main id="v-main">
-    <div>
-      <client-only v-if="openDialog" style="position: relative">
-        <HeaderVue id="nameHeader" />
-        <mavon-editor
-          v-model="markData"
-          disabled
-          class="d-flex"
-          :toolbars="markdownOption"
-          language="ja"
-          style="height: 100%; width: 100%; z-index: 1; overflow-y: auto; position: absolute"
-          @change="EditorData()"
-        />
-        <FooterVue id="nameFooter" :height="footerHei" />
-      </client-only>
-
-      <pagesError v-else><template v-slot:rt>projectリストへ</template></pagesError>
-    </div>
+  <v-main>
+    <client-only style="position: relative" v-if="openDialog">
+      <mavon-editor
+        ref="mav"
+        v-model="markData"
+        disabled
+        class="d-flex"
+        :toolbars="markdownOption"
+        language="ja"
+        style="height: 100%; width: 100%; overflow-y: auto; z-index: 1; position: absolute"
+      />
+    </client-only>
+    <pagesError v-else><template #:rt>projectリストへ</template></pagesError>
   </v-main>
 </template>
 
 <script>
-import { marked } from 'marked'
+import { mapGetters } from 'vuex'
+import { markdownOptions } from '@/lib/markdown-options'
 import pagesError from '@/pages/errors/pagesError.vue'
 import HeaderVue from '@/components/parts/headers/Header.vue'
 import FooterVue from '@/components/parts/footers/Footer.vue'
@@ -35,23 +31,7 @@ export default {
   data() {
     return {
       markData: '# タイトル \n ## サブタイトル',
-      markdownOption: {
-        bold: true,
-        italic: true,
-        header: true,
-        underline: true,
-        strikethrough: true,
-        mark: true,
-        quote: true,
-        ol: true,
-        ul: true,
-        link: true,
-        imagelink: true,
-        code: true,
-        table: true,
-        fullscreen: true,
-        htmlcode: true,
-      },
+      markdownOption: markdownOptions,
       setOpenFlg: false,
       openDialog: true,
       headerHei: '0px',
@@ -61,11 +41,19 @@ export default {
       htmlData: '',
     }
   },
+  computed: {
+    ...mapGetters({
+      localSaveProject: 'local/getLocalSaveProject',
+    }),
+  },
   created() {
     const answer = 790 * 0.1
     this.footerHei = Math.ceil(answer) + 'px'
   },
   mounted() {
+    const project = this.localSaveProject
+    this.markData = project.contents
+    console.log('UUID : ' + project.uuid)
     this.markData = localStorage.getItem('MarkdownData')
     const getUrl = this.$route.fullPath
     const baseUrl = '/projects/'
@@ -144,6 +132,18 @@ export default {
       const plusPaddingSpace = Math.ceil(headerRect.height) + 10
       difficultStyle.style.paddingBottom = plusPaddingSpace + 'px'
     },
+  updated() {
+    const projectData = {
+      id: 'UUID',
+      number: '2',
+      name: 'testPro',
+      primaryColor: '#F57C00',
+      secondaryColor: '#FFB74D',
+      text: this.markData,
+      texteditor: '# タイトル## サブタイトル* ジャンル１* 項目１* 項目２**** ジャンル',
+    }
+    this.$store.dispatch('local/setLocalSaveProject', { data: projectData })
+    // this.$store.dispatch('api/getMarkDown', { data: this.markData })
   },
 }
 </script>

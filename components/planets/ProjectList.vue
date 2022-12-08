@@ -1,17 +1,23 @@
 <template>
-  <v-row>
-    <v-col cols="4" class="mt-2">
-      <AddProjectCard :click-callback="() => jumpToNewProject()" />
-    </v-col>
-    <v-col v-if="editingProject !== null" class="mt-2" cols="4">
-      <EditingProjectCard :receive="editingProject" :click-callback="() => jumpToEditingProject(editingProject.id)" />
-    </v-col>
-    <v-col v-for="(project, index) in projects" :key="index" class="mt-2" cols="4">
-      <ProjectCard :receive="project" :click-callback="() => jumpToProject(project.id)" />
-    </v-col>
-  </v-row>
+  <div>
+    <v-row>
+      <v-col cols="4" class="mt-2">
+        <AddProjectCard :click-callback="() => jumpToNewProject()" />
+      </v-col>
+      <v-col v-if="isSetLocal" class="mt-2" cols="4">
+        <EditingProjectCard
+          :receive="localSaveProject"
+          :click-callback="() => jumpToEditingProject(editingProject.id)"
+        />
+      </v-col>
+      <v-col v-for="(project, index) in projects" :key="index" class="mt-2" cols="4">
+        <ProjectCard :receive="project" :click-callback="() => jumpToProject(project.id)" />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import { nestClone } from '@/lib/common'
 import AddProjectCard from '@/components/materials/cards/AddProjectCard.vue'
 import EditingProjectCard from '@/components/materials/cards/EditingProjectCard.vue'
@@ -34,6 +40,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      localSaveProject: 'local/getLocalSaveProject',
+      isSetLocal: 'local/getIsSetLocal',
+    }),
     editingProject: {
       get() {
         return JSON.parse(localStorage.getItem('editingProject'))
@@ -42,6 +52,7 @@ export default {
     projects: {
       get() {
         console.log('aa')
+        console.log('isset' + this.isSetLocal)
         console.log(nestClone(this.receive))
         console.log(this.editingProject)
         let projects = nestClone(this.receive)
@@ -50,16 +61,38 @@ export default {
       },
     },
   },
+  created() {
+    this.$store.dispatch('local/checkLocalSaveProject')
+  },
   methods: {
     jumpToNewProject() {
       //  UUIDの部分はデータベースから取ってきたデータを利用する
-      this.$router.push({ path: '/projects/UUID/1' })
+      if (this.isSetLocal) {
+        if (this.jumpConfirm) {
+          this.$store.dispatch('local/deleteLocalSaveProject')
+        }
+      } else {
+        this.$router.push({ path: '/projects/UUID/1' })
+      }
     },
     jumpToEditingProject(id) {
       this.$router.push({ path: `/projects/UUID/${id}` })
     },
     jumpToProject(id) {
-      this.$router.push({ path: `/projects/UUID/${id}` })
+      console.log(this.isSetLocal)
+      if (this.isSetLocal) {
+        if (this.jumpConfirm()) {
+          this.$store.dispatch('local/deleteLocalSaveProject')
+          this.$router.push({ path: `/projects/UUID/${id}` })
+        }
+      } else {
+        this.$router.push({ path: `/projects/UUID/${id}` })
+      }
+    },
+    jumpConfirm() {
+      return window.confirm(
+        '\n編集中のプロジェクトがあります。\n\nこのまま別のプロジェクトへ進むと、保存されていない変更は失われます。\n本当に続行してもよろしいですか？\n'
+      )
     },
   },
 }
