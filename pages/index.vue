@@ -1,73 +1,24 @@
 <!-- プロジェクトリスト-->
 <template>
-  <v-main class="pa-10">
-    <div class="pa-10">
-      <!-- <ProjectList :receive="default_previews" /> -->
-    </div>
+  <v-main class="align-center">
+    <v-card class="ma-auto py-10 rounded-xl" flat max-width="600">
+      <v-card-text class="justify-center px-10">
+        <div class="text-h1 text--primary text-center">404</div>
+        <div class="text-h4 text--primary text-center">NOT FOUND</div>
+      </v-card-text>
+      <v-card-text class="justify-center text-center">
+        申し訳ございません<br />
+        指定されたページが見つかりません
+      </v-card-text>
+      <v-card-actions class="justify-center">
+        <v-btn class="ma-2" outlined color="black" to="/projects" link> プロジェクト一覧へ </v-btn>
+      </v-card-actions>
+    </v-card>
   </v-main>
 </template>
 <script>
-import { mapState } from 'vuex'
-import previews from '@/assets/previews.json'
-// import ProjectList from '@/components/planets/ProjectList.vue'
-
 export default {
-  components: {
-    // ProjectList,
-  },
   layout: 'top',
-  data() {
-    return {
-      projectData: {},
-      markdown: '# Marked in the browserRendered by **marked**.',
-      default_previews: null,
-      PROJECT_LINK: 0,
-      projects: [],
-    }
-  },
-  computed: {
-    ...mapState({
-      userInfo: state => state.api.userInfo,
-    }),
-  },
-  created() {
-    console.log(previews)
-    const data = previews
-    this.default_previews = data
-    localStorage.setItem('id', this.userInfo[0])
-    localStorage.setItem('email', this.userInfo[1])
-    localStorage.setItem('name', this.userInfo[2])
-    // ユーザーidからプロジェクトリストを取得する
-    // this.getProjectList()
-  },
-  methods: {
-    // プロジェクトリスト取得
-    // getProjectList() {
-    //   // ログイン情報がどこに保存されているかによって持ってくる場所が変わる
-    //   const userId = 1
-    //   this.$store.dispatch('api/getProjectList', { userId })
-    // },
-    // // valueの中に新規なのか更新なのか
-    // RoutePages(value) {
-    //   const confilmMarkdownData = localStorage.getItem('MarkdownData')
-    //   if (confilmMarkdownData !== '') {
-    //     //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
-    //     const confirm = window.confirm(
-    //       '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
-    //     )
-    //     if (confirm) {
-    //       // データベースにデータの保存
-    //       this.$router.push({ path: `/projects/${value}` })
-    //     } else {
-    //       localStorage.setItem('projectCreateUpdate', value)
-    //       localStorage.setItem('MarkdownData', '')
-    //       localStorage.setItem('HtmlFromMarkdown', '')
-    //       this.$router.push({ path: `/projects/${value}` })
-    //     }
-    //   } else {
-    //     this.$router.push({ path: `/projects/${value}` })
-    //   }
-    // },
-  },
+  data() {},
 }
 </script>
