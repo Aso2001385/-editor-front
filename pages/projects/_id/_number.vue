@@ -19,13 +19,13 @@
 import { mapGetters } from 'vuex'
 import { markdownOptions } from '@/lib/markdown-options'
 import pagesError from '@/pages/errors/pagesError.vue'
-import HeaderVue from '@/components/parts/headers/Header.vue'
-import FooterVue from '@/components/parts/footers/Footer.vue'
+// import HeaderVue from '@/components/parts/headers/Header.vue'
+// import FooterVue from '@/components/parts/footers/Footer.vue'
 export default {
   components: {
     pagesError,
-    HeaderVue,
-    FooterVue,
+    // HeaderVue,
+    // FooterVue,
   },
   layout: 'editor',
   data() {
@@ -55,6 +55,9 @@ export default {
     this.markData = project.contents
     console.log('UUID : ' + project.uuid)
     this.markData = localStorage.getItem('MarkdownData')
+    const user = sessionStorage.getItem('user')
+    console.log('sessionから持ってこれているかの確認')
+    console.log(user)
     const getUrl = this.$route.fullPath
     const baseUrl = '/projects/'
     //  「projects/」移行のURLを取得している
@@ -71,50 +74,25 @@ export default {
   methods: {
     async EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
-      localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
+      // localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
       const template = document.getElementsByClassName('v-show-content').item(0)
-      // console.log(template)
       const perment = document.getElementsByClassName('v-note-show').item(0)
       const editScreen = document.getElementsByClassName('v-note-edit').item(0)
-      const header = document.getElementById('nameHeader')
-      const footer = document.getElementById('nameFooter')
-
-      // const inp = document.importNode(header, true)
-      // const footInp = document.importNode(footer, true)
-      perment.insertBefore(header, template)
-      // perment.insertBefore(footer, template.nextSibling)
-      // perment.insertBefore(footer, document.importNode(template, true))
+      // const header = document.getElementById('nameHeader')
+      // const footer = document.getElementById('nameFooter')
+      // perment.insertBefore(header, template)
       const impo = document.importNode(template, true)
       //  ここでよくわからない現象が起きている
       // 104行目のconsoleを実行したら103行目の結果にv-show-contentの中にfooterの記述が入る
       // 104行目がない場合は103行目の結果は挿入されず表示される
+      console.log(template)
       console.log(impo)
-      console.log(
-        document
-          .getElementsByClassName('v-show-content')[0]
-          .appendChild(document.createTextNode(impo.appendChild(footer)))
-      )
-      // const getData = document
-      //   .getElementsByClassName('v-show-content')[0]
-      //   .appendChild(document.createTextNode(document.importNode(template, true)))
-      // console.log(getData)
-
-      // perment.insertBefore(header, getData)
-      // console.log(lastElementChild + 'こ要素取得')
-      // const textbox_element = document.querySelector('p')
-      // textbox_element.id = 'footer_dev'
-      // 新しいHTML要素を作成
-      // const new_element = document.createElement('div')
-      // new_element.textContent = '親要素'
-      // // 指定した要素の中の末尾に挿入
-      // textbox_element.appendChild(new_element)
-
-      // const footerDev = document.getElementById('footer_dev')
-      // template.insertBefore(footer, footerDev)
-
+      // console.log(
+      //   document
+      //     .getElementsByClassName('v-show-content')[0]
+      //     .appendChild(document.createTextNode(impo.appendChild(footer)))
+      // )
       console.log(perment)
-      console.log('permentの中身を確認')
-      // console.log(footInp)
       const headerDom = document.getElementById('nameHeader')
       const displayScreen = document.getElementsByClassName('v-note-show').item(0)
       // pcに合わせたサイズを指定している
@@ -132,18 +110,19 @@ export default {
       const plusPaddingSpace = Math.ceil(headerRect.height) + 10
       difficultStyle.style.paddingBottom = plusPaddingSpace + 'px'
     },
-  updated() {
-    const projectData = {
-      id: 'UUID',
-      number: '2',
-      name: 'testPro',
-      primaryColor: '#F57C00',
-      secondaryColor: '#FFB74D',
-      text: this.markData,
-      texteditor: '# タイトル## サブタイトル* ジャンル１* 項目１* 項目２**** ジャンル',
-    }
-    this.$store.dispatch('local/setLocalSaveProject', { data: projectData })
-    // this.$store.dispatch('api/getMarkDown', { data: this.markData })
+    updated() {
+      const projectData = {
+        id: 'UUID',
+        number: '2',
+        name: 'testPro',
+        primaryColor: '#F57C00',
+        secondaryColor: '#FFB74D',
+        text: this.markData,
+        texteditor: '# タイトル## サブタイトル* ジャンル１* 項目１* 項目２**** ジャンル',
+      }
+      this.$store.dispatch('local/setLocalSaveProject', { data: projectData })
+      // this.$store.dispatch('api/getMarkDown', { data: this.markData })
+    },
   },
 }
 </script>
@@ -160,8 +139,7 @@ code {
 }
 </style>
 
-<!-- height: 85vh -->
-<style lang="sass">
+<!-- <style lang="sass">
 .v-note-show
   overflow: hidden !important
 .v-show-content
@@ -175,4 +153,4 @@ code {
 #nameFooter
   width: 50%
   z-index: 2
-</style>
+</style> -->
