@@ -1,8 +1,12 @@
 <template>
-  <v-btn class="pa-5" :to="to" text nuxt>
-    <v-icon color="white"><slot name="icon"></slot></v-icon>
-    <div class="ml-3 text-h6 white--text text-center"><slot name="text"></slot></div>
-  </v-btn>
+  <!-- <v-btn class="pa-5" :to="to" nuxt> -->
+  <a class="pa-5" :href="to">
+    <div class="ml-3 text-h6 white--text text-center">
+      <v-icon color="white" style="float: left; margin-top: 2px; padding: 1px"><slot name="icon"></slot></v-icon>
+      <slot name="text"></slot>
+    </div>
+  </a>
+  <!-- </v-btn> -->
 </template>
 <script>
 export default {
@@ -14,3 +18,10 @@ export default {
   },
 }
 </script>
+<style scoped>
+a {
+  width: 3rem;
+  margin-right: 10%;
+  text-decoration: none;
+}
+</style>

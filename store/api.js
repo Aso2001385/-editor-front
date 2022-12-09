@@ -15,7 +15,6 @@ export const mutations = {
     state.user = response
   },
   setUser(state, response) {
-    console.log('行われているかの確認')
     console.log(response)
     sessionStorage.setItem('user', response[0].name)
     state.user = response
@@ -88,17 +87,51 @@ export const actions = {
       console.log('undefuind')
     }
   },
-  // getTest: async ({ commit }) => {
-  //   const response = await axios.get(`${API_URL}/cors/test`)
-  //   console.log(response.data) // 消す
-  // },
   getUsers: async ({ commit }) => {
-    // ユーザーの情報を全て取得
     const response = await axios.get(`${API_URL}/users`)
     console.log('response.data')
     console.log(response.data)
-    console.log(response.data[0].email)
     commit('setUser', response.data)
+  },
+  getUser: async ({ commit }, argument) => {
+    const response = await axios.get(`${API_URL}/users/${argument}`)
+    console.log(response.data)
+  },
+  putUser: async ({ commit }, argument) => {
+    const response = await axios.put(`${API_URL}/users/${argument}`)
+    console.log(response.data)
+  },
+  delUser: async ({ commit }, argument) => {
+    const response = await axios.delete(`${API_URL}/users/${argument}`)
+    console.log(response.data)
+  },
+  putUserPass: async ({ commit }) => {
+    const response = await axios.put(`${API_URL}/users/password`)
+    console.log(response.data)
+  },
+  postSearch: async ({ commit }) => {
+    const response = await axios.post(`${API_URL}/users/serarch`)
+    console.log(response.data)
+  },
+  getProjects: async ({ commit }) => {
+    const response = await axios.get(`${API_URL}/projects`)
+    console.log(response.data)
+  },
+  postProjects: async ({ commit }) => {
+    const response = await axios.get(`${API_URL}/projects`)
+    console.log(response.data)
+  },
+  getProjects: async ({ commit }, argument) => {
+    const response = await axios.get(`${API_URL}/projects/${argument}`)
+    console.log(response.data)
+  },
+  putProjects: async ({ commit }, argument) => {
+    const response = await axios.put(`${API_URL}/projects/${argument}`)
+    console.log(response.data)
+  },
+  delProjects: async ({ commit }, argument) => {
+    const response = await axios.delete(`${API_URL}/projects/${argument}`)
+    console.log(response.data)
   },
   getMarkDown: async ({ commit }, argument) => {
     console.log(argument)
