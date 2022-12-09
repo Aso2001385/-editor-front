@@ -36,10 +36,8 @@
 <script>
 import previews from '@/assets/previews.json'
 import { nestClone } from '@/lib/common'
-// import ProjectCard from '@/components/materials/cards/ProjectCard.vue'
 
 export default {
-  // components: { ProjectCard },
   layout: 'auth',
   props: {
     receive: {
