@@ -1,73 +1,29 @@
 <!-- プロジェクトリスト-->
 <template>
   <v-main class="pa-10">
-    <div class="pa-10">
-      <!-- <ProjectList :receive="default_previews" /> -->
+    <div class="pa-10 algin-center" >
+      <h1 class="mb-10">ようこそ！</h1>
+      <a href="/projects" >プロジェクトリストへ進む</a>
+      <div class="py-10">
+        <p>このWebサイトは現在制作中のものです。実際の登録処理等は行われません。</p>
+        <p>
+          近日中にユーザーの登録を含む機能が実装され、デモ版として再度公開される予定です。<br>
+          その際、このデモ版で公開されている画面の機能も登録処理が行われるように変更される予定です。
+        </p>
+        <p>
+          登録されたデータは、アップデートに伴い削除される可能性があります。<br>
+          現在は登録処理が行われないため、データは保存されません。
+        </p>
+      </div>
     </div>
   </v-main>
 </template>
 <script>
-import { mapState } from 'vuex'
-import previews from '@/assets/previews.json'
-// import ProjectList from '@/components/planets/ProjectList.vue'
-
 export default {
-  components: {
-    // ProjectList,
-  },
+
   layout: 'top',
   data() {
-    return {
-      projectData: {},
-      markdown: '# Marked in the browserRendered by **marked**.',
-      default_previews: null,
-      PROJECT_LINK: 0,
-      projects: [],
-    }
-  },
-  computed: {
-    ...mapState({
-      userInfo: state => state.api.userInfo,
-    }),
-  },
-  created() {
-    console.log(previews)
-    const data = previews
-    this.default_previews = data
-    localStorage.setItem('id', this.userInfo[0])
-    localStorage.setItem('email', this.userInfo[1])
-    localStorage.setItem('name', this.userInfo[2])
-    // ユーザーidからプロジェクトリストを取得する
-    // this.getProjectList()
-  },
-  methods: {
-    // プロジェクトリスト取得
-    // getProjectList() {
-    //   // ログイン情報がどこに保存されているかによって持ってくる場所が変わる
-    //   const userId = 1
-    //   this.$store.dispatch('api/getProjectList', { userId })
-    // },
-    // // valueの中に新規なのか更新なのか
-    // RoutePages(value) {
-    //   const confilmMarkdownData = localStorage.getItem('MarkdownData')
-    //   if (confilmMarkdownData !== '') {
-    //     //  前回編集していた情報が0(新規作成ページ)だった場合そのデータを保存しておくか削除させるかをユーザーに決めさせる
-    //     const confirm = window.confirm(
-    //       '編集途中のプロジェクトがあります。保存しますか？(保存しない場合、編集したデータは破棄されます。)'
-    //     )
-    //     if (confirm) {
-    //       // データベースにデータの保存
-    //       this.$router.push({ path: `/projects/${value}` })
-    //     } else {
-    //       localStorage.setItem('projectCreateUpdate', value)
-    //       localStorage.setItem('MarkdownData', '')
-    //       localStorage.setItem('HtmlFromMarkdown', '')
-    //       this.$router.push({ path: `/projects/${value}` })
-    //     }
-    //   } else {
-    //     this.$router.push({ path: `/projects/${value}` })
-    //   }
-    // },
+  
   },
 }
 </script>
