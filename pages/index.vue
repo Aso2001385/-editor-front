@@ -1,19 +1,21 @@
 <!-- プロジェクトリスト-->
 <template>
-  <v-main class="align-center">
-    <v-card class="ma-auto py-10 rounded-xl" flat max-width="600">
-      <v-card-text class="justify-center px-10">
-        <div class="text-h1 text--primary text-center">404</div>
-        <div class="text-h4 text--primary text-center">NOT FOUND</div>
-      </v-card-text>
-      <v-card-text class="justify-center text-center">
-        申し訳ございません<br />
-        指定されたページが見つかりません
-      </v-card-text>
-      <v-card-actions class="justify-center">
-        <v-btn class="ma-2" outlined color="black" to="/projects" link> プロジェクト一覧へ </v-btn>
-      </v-card-actions>
-    </v-card>
+  <v-main class="pa-10">
+    <div class="pa-10 algin-center">
+      <h1 class="mb-10">ようこそ！</h1>
+      <a href="/projects">プロジェクトリストへ進む</a>
+      <div class="py-10">
+        <p>このWebサイトは現在制作中のものです。実際の登録処理等は行われません。</p>
+        <p>
+          近日中にユーザーの登録を含む機能が実装され、デモ版として再度公開される予定です。<br />
+          その際、このデモ版で公開されている画面の機能も登録処理が行われるように変更される予定です。
+        </p>
+        <p>
+          登録されたデータは、アップデートに伴い削除される可能性があります。<br />
+          現在は登録処理が行われないため、データは保存されません。
+        </p>
+      </div>
+    </div>
   </v-main>
 </template>
 <script>

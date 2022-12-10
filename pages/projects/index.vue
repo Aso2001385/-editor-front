@@ -22,12 +22,25 @@ export default {
       projects: [],
     }
   },
-  computed: {},
+  computed: {
+    user() {
+      console.log('ユーザーの中身確認')
+      return this.$store.state.user
+    },
+  },
   created() {
     const data = previews
     this.default_previews = data
   },
+  mounted() {
+    this.getAccount()
+  },
   methods: {
+    getAccount() {
+      console.log('this.user')
+      const usr = this.$store.state.user
+      console.log(usr)
+    },
     // RoutePages(value) {
     //   const confilmMarkdownData = localStorage.getItem('MarkdownData')
     //   if (confilmMarkdownData !== '') {

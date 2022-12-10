@@ -3,6 +3,13 @@
     <!-- ②ナビゲーションメニュー -->
     <nav class="header-nav">
       <ul class="nav-list">
+        <!-- <li v-for="(page, index) in pages" :key="index" class="nav-item">
+          <a>
+            <nuxt-link :to="`projects/${project.uuid}/${page.number}/preview`">
+              {{ page.name }}
+            </nuxt-link>
+          </a>
+        </li> -->
         <li class="nav-item"><a href="https://crestadesign.org/">About</a></li>
         <li class="nav-item"><a href="https://crestadesign.org/">News</a></li>
         <li class="nav-item"><a href="https://crestadesign.org/">Access</a></li>
@@ -43,7 +50,7 @@ export default {
   height: 90vh
   width: 100vw
   left: 0
-  top: 0
+  top: 10vh
   opacity: 0
   visibility: hidden
   transition: 0.5s

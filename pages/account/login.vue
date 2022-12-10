@@ -48,6 +48,7 @@ export default {
       }
 
       await this.$store.dispatch('api/postLogin', { data: user })
+      // 変更全てのユーザーではなく、一人分のユーザー情報取得にする
       await this.$store.dispatch('api/getUsers')
 
       this.$router.push({ path: this.url })

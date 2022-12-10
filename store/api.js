@@ -1,18 +1,32 @@
 import axios from 'axios'
-import { Octokit } from "@octokit/core";
+import { Octokit } from '@octokit/core'
 
 axios.defaults.withCredentials = true
-const API_URL = 'https://fridayeditor.click/api'
+// const API_URL = 'this.$config.API_BASE_URL'
+const API_URL = 'http://localhost:8080'
 
 export const state = () => ({
   // users: [],
-  // userInfo: [],
+  user: [],
+  markDown: '',
 })
+
+export const getters = {
+  markDown: state => {
+    return state.markDown
+  },
+}
 
 export const mutations = {
   setUsers(state, response) {
     console.log(response)
-    state.userInfo = response
+    state.user = response
+  },
+  setUser(state, response) {
+    console.log('行われているかの確認')
+    console.log(response)
+    sessionStorage.setItem('user', response[0].name)
+    state.user = response
   },
   putUsers(state, response) {
     console.log(response)
@@ -20,6 +34,9 @@ export const mutations = {
   },
   setWebEditor(state, response) {
     console.log(response)
+  },
+  setMarkDown(state, response) {
+    state.markDown = response
   },
 }
 
@@ -64,7 +81,6 @@ export const actions = {
           .post(`https://fridayeditor.click/login`, argument.data)
           .then(response => {
             console.log(response.data)
-            return response.data
           })
           .catch(err => {
             console.log('大変だ!Postアクセスに失敗してしまった!' + err)
@@ -83,26 +99,29 @@ export const actions = {
       console.log('undefuind')
     }
   },
-  getTest: async ({ commit }) => {
-    const response = await axios.get(`${API_URL}/cors/test`)
-    console.log(response.data) // 消す
-  },
+  // getTest: async ({ commit }) => {
+  //   const response = await axios.get(`${API_URL}/cors/test`)
+  //   console.log(response.data) // 消す
+  // },
   getUsers: async ({ commit }) => {
     // ユーザーの情報を全て取得
     const response = await axios.get(`${API_URL}/users`)
     console.log('response.data')
     console.log(response.data)
+    console.log(response.data[0].email)
+    commit('setUser', response.data)
   },
-  getMarkDown: async({ commit },argument) =>{
-    console.log(argument)
+
+  getMarkDown: async ({ commit }, argument) => {
     const octokit = new Octokit({
-      auth: this.$config.AUTH_TOKEN
+      auth: this.$config.AUTH_TOKEN,
     })
 
     const res = await octokit.request(this.$config.MARK_DOWN_API_BASE_URL, {
-      text: argument.data
+      text: argument.data,
     })
 
     console.log(res)
+    commit('setMarkDown', res.data)
   },
 }
