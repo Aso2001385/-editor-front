@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <client-only style="position: relative" v-if="openDialog">
+    <client-only v-if="openDialog" style="position: relative">
       <mavon-editor
         ref="mav"
         v-model="markData"
