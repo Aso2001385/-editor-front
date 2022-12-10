@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="grey darken-2" app clipped-left>
+    <v-app-bar color="grey darken-3" app clipped-left>
       <v-toolbar-title class="white--text"
         ><strong
           ><NuxtLink to="/projects" style="color: white; text-decoration: none">FRIDAY</NuxtLink></strong
