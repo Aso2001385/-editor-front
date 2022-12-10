@@ -9,30 +9,42 @@ export const state = () => ({
   // users: [],
   user: [],
   markDown: '',
+  projects: [],
+  project: {},
+  page: {},
 })
 
 export const getters = {
+  user: state => {
+    return state.user
+  },
+  projects: state => {
+    return state.projects
+  },
+  project: state => {
+    return state.project
+  },
+  page: state => {
+    return state.page
+  },
   markDown: state => {
     return state.markDown
   },
 }
 
 export const mutations = {
-  setUsers(state, response) {
-    console.log(response)
-    state.user = response
-  },
   setUser(state, response) {
-    console.log(response)
-    sessionStorage.setItem('user', response[0].name)
+    sessionStorage.setItem('user', response)
     state.user = response
   },
-  putUsers(state, response) {
-    console.log(response)
-    // state.userInfo = response
+  projects(state, response) {
+    state.projects = response
   },
-  setWebEditor(state, response) {
-    console.log(response)
+  project(state, response) {
+    state.project = response
+  },
+  page(state, response) {
+    state.page = response
   },
   setMarkDown(state, response) {
     state.markDown = response
@@ -41,119 +53,133 @@ export const mutations = {
 
 export const actions = {
   register: async ({ commit }, argument) => {
-    console.log(argument.data)
-    const a = await axios
+    return await axios
       .get('https://fridayeditor.click/sanctum/csrf-cookie')
-      .then(response => {
-        console.log('よし!csrfトークンの初期化に成功したぞ!')
-        const ax = axios
+      .then(async () => {
+        return await axios
           .post(`https://fridayeditor.click/api/users`, argument.data)
-          .then(response => {
-            console.log(response.data)
-            return response.data
+          .then(normalResponse => {
+            commit('setUser', argument.data)
+            return true
           })
-          .catch(err => {
-            console.log(err.response.data)
-            console.log('大変だ!Postアクセスに失敗してしまった!' + err)
+          .catch(() => {
+            return false
           })
-        return ax
       })
-      .catch(er => {
-        console.log(er.headers)
-        console.log('csrfトークンの初期化に失敗した!なんということだ!' + er)
+      .catch(() => {
+        return false
       })
-
-    if (a) {
-      console.log('data...is...!?')
-      console.log(a)
-    } else {
-      console.log('undefuind')
-    }
   },
+
   postLogin: async ({ commit }, argument) => {
-    console.log('headers')
-    const a = await axios
+    return await axios
       .get('https://fridayeditor.click/sanctum/csrf-cookie')
-      .then(response => {
-        console.log('よし!csrfトークンの初期化に成功したぞ!')
-        const ax = axios
+      .then(async () => {
+        return await axios
           .post(`https://fridayeditor.click/login`, argument.data)
-          .then(response => {
-            console.log(response.data)
+          .then(normalResponse => {
+            commit('setUser', normalResponse.data)
+            return true
           })
-          .catch(err => {
-            console.log('大変だ!Postアクセスに失敗してしまった!' + err)
+          .catch(() => {
+            return false
           })
-        return ax
       })
-      .catch(er => {
-        console.log(er.headers)
-        console.log('csrfトークンの初期化に失敗した!なんということだ!' + er)
+      .catch(() => {
+        return false
       })
-
-    if (a) {
-      console.log('data...is...!?')
-      console.log(a)
-    } else {
-      console.log('undefuind')
-    }
-  },
-  getUsers: async ({ commit }) => {
-    const response = await axios.get(`${API_URL}/users`)
-    console.log('response.data')
-    console.log(response.data)
-    commit('setUser', response.data)
-  },
-  getUser: async ({ commit }, argument) => {
-    const response = await axios.get(`${API_URL}/users/${argument}`)
-    console.log(response.data)
   },
   putUser: async ({ commit }, argument) => {
-    const response = await axios.put(`${API_URL}/users/${argument}`)
-    console.log(response.data)
+    return await axios
+      .put(`${API_URL}/users`, argument.data)
+      .then(normalResponse => {
+        commit('setUser', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
-  delUser: async ({ commit }, argument) => {
-    const response = await axios.delete(`${API_URL}/users/${argument}`)
-    console.log(response.data)
+  // delUser: async ({ commit }, argument) => {
+  //   const response = await axios.delete(`${API_URL}/users/${argument}`)
+  //   console.log(response.data)
+  // },
+  putUserPass: async ({ commit }, argument) => {
+    return await axios
+      .put(`${API_URL}/users/password`, argument.data)
+      .then(normalResponse => {
+        commit('setUser', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
-  putUserPass: async ({ commit }) => {
-    const response = await axios.put(`${API_URL}/users/password`)
-    console.log(response.data)
-  },
-  postSearch: async ({ commit }) => {
-    const response = await axios.post(`${API_URL}/users/serarch`)
-    console.log(response.data)
-  },
+  // postSearch: async ({ commit }) => {
+  //   const response = await axios.post(`${API_URL}/users/serarch`)
+  //   console.log(response.data)
+  // },
   getProjects: async ({ commit }) => {
-    const response = await axios.get(`${API_URL}/projects`)
-    console.log(response.data)
+    return await axios
+      .get(`${API_URL}/projects`)
+      .then(normalResponse => {
+        commit('setProjects', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
-  postProjects: async ({ commit }) => {
-    const response = await axios.get(`${API_URL}/projects`)
-    console.log(response.data)
+  postProjects: async ({ commit }, argument) => {
+    return await axios
+      .post(`${API_URL}/projects`, argument.data)
+      .then(normalResponse => {
+        commit('setProject', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
-  getProjects: async ({ commit }, argument) => {
-    const response = await axios.get(`${API_URL}/projects/${argument}`)
-    console.log(response.data)
+  getProject: async ({ commit }, argument) => {
+    return await axios
+      .get(`${API_URL}/projects/${argument.id}`)
+      .then(normalResponse => {
+        commit('setProject', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
   putProjects: async ({ commit }, argument) => {
-    const response = await axios.put(`${API_URL}/projects/${argument}`)
-    console.log(response.data)
+    return await axios
+      .put(`${API_URL}/projects`, argument.data)
+      .then(normalResponse => {
+        commit('setProject', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
   delProjects: async ({ commit }, argument) => {
-    const response = await axios.delete(`${API_URL}/projects/${argument}`)
-    console.log(response.data)
+    return await axios
+      .delete(`${API_URL}/projects/${argument}`)
+      .then(normalResponse => {
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
   getMarkDown: async ({ commit }, argument) => {
     const octokit = new Octokit({
       auth: this.$config.AUTH_TOKEN,
     })
-
     const res = await octokit.request(this.$config.MARK_DOWN_API_BASE_URL, {
       text: argument.data,
     })
-
-    console.log(res)
     commit('setMarkDown', res.data)
   },
 }
