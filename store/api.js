@@ -16,6 +16,7 @@ export const state = () => ({
 
 export const getters = {
   user: state => {
+    console.log('getters開始')
     return state.user
   },
   projects: state => {
@@ -60,6 +61,25 @@ export const actions = {
           .post(`https://fridayeditor.click/api/users`, argument.data)
           .then(normalResponse => {
             commit('setUser', argument.data)
+            return true
+          })
+          .catch(() => {
+            return false
+          })
+      })
+      .catch(() => {
+        return false
+      })
+  },
+  confirmRegister: async ({ commit }, argument) => {
+    //  後で変更される
+    return await axios
+      .get('https://fridayeditor.click/sanctum/csrf-cookie')
+      .then(async () => {
+        return await axios
+          .post(`https://fridayeditor.click/api/users`, argument.data)
+          .then(normalResponse => {
+            commit('setUser', normalResponse.data)
             return true
           })
           .catch(() => {
