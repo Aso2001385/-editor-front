@@ -175,9 +175,9 @@ export const actions = {
   },
   getMarkDown: async ({ commit }, argument) => {
     const octokit = new Octokit({
-      auth: this.$config.AUTH_TOKEN,
+      auth: process.env.AUTH_TOKEN,
     })
-    const res = await octokit.request(this.$config.MARK_DOWN_API_BASE_URL, {
+    const res = await octokit.request(process.env.MARK_DOWN_API_BASE_URL, {
       text: argument.data,
     })
     commit('setMarkDown', res.data)

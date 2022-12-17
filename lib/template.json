@@ -1,0 +1,612 @@
+[
+  {
+    "name": "body",
+    "attributes": [
+      {
+        "name": "back-color",
+        "value": "#1c2024"
+      },
+      {
+        "name": "padding",
+        "value": "1em"
+      }
+    ]
+  },
+  {
+    "name": "h1",
+    "attributes": [
+      {
+        "name": "width",
+        "value": "100%"
+      },
+      {
+        "name": "height",
+        "value": "100%"
+      },
+      {
+        "name": "padding",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "margin",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "back-ground",
+        "value": "red"
+      },
+      {
+        "name": "box-shadow",
+        "value": "0px 4px 4px rgba(0, 0, 0, 0.25)"
+      },
+      {
+        "name": "font-family",
+        "value": "Itim"
+      },
+
+      {
+        "name": "font-weight",
+        "value": "30"
+      },
+      {
+        "name": "font-size",
+        "value": "3em"
+      },
+      {
+        "name": "color",
+        "value": "#d0b458"
+      },
+      {
+        "name": "line-height",
+        "value": ""
+      },
+      {
+        "name": "letter-spacing",
+        "value": "0.1em"
+      },
+      {
+        "name": "text-indent",
+        "value": "0em"
+      },
+      {
+        "name": "text-decoration-line",
+        "value": "line-through"
+      },
+      {
+        "name": "text-shadow",
+        "value": " 0px 4px 4px rgba(0, 0, 0, 0.2)"
+      },
+      {
+        "name": "border-top",
+        "value": ""
+      },
+      {
+        "name": "border-right",
+        "value": ""
+      },
+      {
+        "name": "border-bottom",
+        "value": ""
+      },
+      {
+        "name": "border-left",
+        "value": ""
+      },
+      {
+        "name": "border-radius",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "h2",
+    "attributes": [
+      {
+        "name": "width",
+        "value": "100%"
+      },
+      {
+        "name": "height",
+        "value": "100%"
+      },
+      {
+        "name": "padding",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "margin",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "back-ground",
+        "value": "none"
+      },
+      {
+        "name": "box-shadow",
+        "value": "0px 4px 4px rgba(0, 0, 0, 0.25)"
+      },
+      {
+        "name": "font-family",
+        "value": "Itim"
+      },
+      {
+        "name": "font-weight",
+        "value": "30"
+      },
+      {
+        "name": "font-size",
+        "value": "3em"
+      },
+      {
+        "name": "color",
+        "value": "#d0b458"
+      },
+      {
+        "name": "line-height",
+        "value": ""
+      },
+      {
+        "name": "letter-spacing",
+        "value": "0.1em"
+      },
+      {
+        "name": "text-indent",
+        "value": "0em"
+      },
+      {
+        "name": "text-shadow",
+        "value": " 0px 4px 4px rgba(0, 0, 0, 0.2)"
+      },
+      {
+        "name": "border-top",
+        "value": ""
+      },
+      {
+        "name": "border-right",
+        "value": ""
+      },
+      {
+        "name": "border-bottom",
+        "value": ""
+      },
+      {
+        "name": "border-left",
+        "value": ""
+      },
+      {
+        "name": "border-radius",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "h3",
+    "attributes": [
+      {
+        "name": "width",
+        "value": "100%"
+      },
+      {
+        "name": "height",
+        "value": "100%"
+      },
+      {
+        "name": "padding",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "margin",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "back-ground",
+        "value": "none"
+      },
+      {
+        "name": "box-shadow",
+        "value": "0px 4px 4px rgba(0, 0, 0, 0.25)"
+      },
+      {
+        "name": "font-family",
+        "value": "Itim"
+      },
+
+      {
+        "name": "font-weight",
+        "value": "30"
+      },
+      {
+        "name": "font-size",
+        "value": "3em"
+      },
+      {
+        "name": "color",
+        "value": "#d0b458"
+      },
+      {
+        "name": "line-height",
+        "value": ""
+      },
+      {
+        "name": "letter-spacing",
+        "value": "0.1em"
+      },
+      {
+        "name": "text-indent",
+        "value": "0em"
+      },
+      {
+        "name": "text-decoration-line",
+        "value": "line-through"
+      },
+      {
+        "name": "text-shadow",
+        "value": " 0px 4px 4px rgba(0, 0, 0, 0.2)"
+      },
+      {
+        "name": "border-top",
+        "value": ""
+      },
+      {
+        "name": "border-right",
+        "value": ""
+      },
+      {
+        "name": "border-bottom",
+        "value": ""
+      },
+      {
+        "name": "border-left",
+        "value": ""
+      },
+      {
+        "name": "border-radius",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "h4",
+    "attributes": [
+      {
+        "name": "width",
+        "value": "100%"
+      },
+      {
+        "name": "height",
+        "value": "100%"
+      },
+      {
+        "name": "padding",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "margin",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "back-ground",
+        "value": "none"
+      },
+      {
+        "name": "box-shadow",
+        "value": "0px 4px 4px rgba(0, 0, 0, 0.25)"
+      },
+      {
+        "name": "font-family",
+        "value": "Itim"
+      },
+
+      {
+        "name": "font-weight",
+        "value": "30"
+      },
+      {
+        "name": "font-size",
+        "value": "3em"
+      },
+      {
+        "name": "color",
+        "value": "#d0b458"
+      },
+      {
+        "name": "line-height",
+        "value": ""
+      },
+      {
+        "name": "letter-spacing",
+        "value": "0.1em"
+      },
+      {
+        "name": "text-indent",
+        "value": "0em"
+      },
+      {
+        "name": "text-decoration-line",
+        "value": "line-through"
+      },
+      {
+        "name": "text-shadow",
+        "value": " 0px 4px 4px rgba(0, 0, 0, 0.2)"
+      },
+      {
+        "name": "border-top",
+        "value": ""
+      },
+      {
+        "name": "border-right",
+        "value": ""
+      },
+      {
+        "name": "border-bottom",
+        "value": ""
+      },
+      {
+        "name": "border-left",
+        "value": ""
+      },
+      {
+        "name": "border-radius",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "h5",
+    "attributes": [
+      {
+        "name": "width",
+        "value": "100%"
+      },
+      {
+        "name": "height",
+        "value": "100%"
+      },
+      {
+        "name": "padding",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "margin",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "back-ground",
+        "value": "none"
+      },
+      {
+        "name": "box-shadow",
+        "value": "0px 4px 4px rgba(0, 0, 0, 0.25)"
+      },
+      {
+        "name": "font-family",
+        "value": "Itim"
+      },
+
+      {
+        "name": "font-weight",
+        "value": "30"
+      },
+      {
+        "name": "font-size",
+        "value": "3em"
+      },
+      {
+        "name": "color",
+        "value": "#d0b458"
+      },
+      {
+        "name": "line-height",
+        "value": ""
+      },
+      {
+        "name": "letter-spacing",
+        "value": "0.1em"
+      },
+      {
+        "name": "text-indent",
+        "value": "0em"
+      },
+      {
+        "name": "text-decoration-line",
+        "value": "line-through"
+      },
+      {
+        "name": "text-shadow",
+        "value": " 0px 4px 4px rgba(0, 0, 0, 0.2)"
+      },
+      {
+        "name": "border-top",
+        "value": ""
+      },
+      {
+        "name": "border-right",
+        "value": ""
+      },
+      {
+        "name": "border-bottom",
+        "value": ""
+      },
+      {
+        "name": "border-left",
+        "value": ""
+      },
+      {
+        "name": "border-radius",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "h6",
+    "attributes": [
+      {
+        "name": "width",
+        "value": "100%"
+      },
+      {
+        "name": "height",
+        "value": "100%"
+      },
+      {
+        "name": "padding",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "margin",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "back-ground",
+        "value": "none"
+      },
+      {
+        "name": "box-shadow",
+        "value": "0px 4px 4px rgba(0, 0, 0, 0.25)"
+      },
+      {
+        "name": "font-family",
+        "value": "Itim"
+      },
+
+      {
+        "name": "font-weight",
+        "value": "30"
+      },
+      {
+        "name": "font-size",
+        "value": "3em"
+      },
+      {
+        "name": "color",
+        "value": "#d0b458"
+      },
+      {
+        "name": "line-height",
+        "value": ""
+      },
+      {
+        "name": "letter-spacing",
+        "value": "0.1em"
+      },
+      {
+        "name": "text-indent",
+        "value": "0em"
+      },
+      {
+        "name": "text-decoration-line",
+        "value": "line-through"
+      },
+      {
+        "name": "text-shadow",
+        "value": " 0px 4px 4px rgba(0, 0, 0, 0.2)"
+      },
+      {
+        "name": "border-top",
+        "value": ""
+      },
+      {
+        "name": "border-right",
+        "value": ""
+      },
+      {
+        "name": "border-bottom",
+        "value": ""
+      },
+      {
+        "name": "border-left",
+        "value": ""
+      },
+      {
+        "name": "border-radius",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "p",
+    "attributes": [
+      {
+        "name": "width",
+        "value": "100%"
+      },
+      {
+        "name": "height",
+        "value": "100%"
+      },
+      {
+        "name": "padding",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "margin",
+        "value": "0em 0em 0em 0em"
+      },
+      {
+        "name": "back-ground",
+        "value": "none"
+      },
+      {
+        "name": "box-shadow",
+        "value": "0px 4px 4px rgba(0, 0, 0, 0.25)"
+      },
+      {
+        "name": "font-family",
+        "value": "Itim"
+      },
+
+      {
+        "name": "font-weight",
+        "value": "30"
+      },
+      {
+        "name": "font-size",
+        "value": "3em"
+      },
+      {
+        "name": "color",
+        "value": "#d0b458"
+      },
+      {
+        "name": "line-height",
+        "value": ""
+      },
+      {
+        "name": "letter-spacing",
+        "value": "0.1em"
+      },
+      {
+        "name": "text-indent",
+        "value": "0em"
+      },
+      {
+        "name": "text-decoration-line",
+        "value": "line-through"
+      },
+      {
+        "name": "text-shadow",
+        "value": " 0px 4px 4px rgba(0, 0, 0, 0.2)"
+      },
+      {
+        "name": "border-top",
+        "value": ""
+      },
+      {
+        "name": "border-right",
+        "value": ""
+      },
+      {
+        "name": "border-bottom",
+        "value": ""
+      },
+      {
+        "name": "border-left",
+        "value": ""
+      },
+      {
+        "name": "border-radius",
+        "value": ""
+      }
+    ]
+  }
+]
