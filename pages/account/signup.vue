@@ -31,16 +31,16 @@ export default {
   layout: 'auth',
   data() {
     return {
-      url: 'http://localost:8080/api/login',
+      url: '',
       layout: 'auth',
-      // name: '翔',
-      // email: '2001195@s.asojuku.ac.jp',
-      // password: 'AsoΣ2001195',
-      // confirmPassword: 'AsoΣ2001195',
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      name: '翔',
+      email: '2001195@s.asojuku.ac.jp',
+      password: 'AsoΣ2001195',
+      confirmPassword: 'AsoΣ2001195',
+      // name: '',
+      // email: '',
+      // password: '',
+      // confirmPassword: '',
     }
   },
   mounted() {},
@@ -52,7 +52,11 @@ export default {
           email: this.email,
           password: this.password,
         }
+
         this.$store.dispatch('api/register', { data: user })
+        this.$router.push({
+          path: '/account/confirmSignup',
+        })
       } else {
         alert('パスワードが確認用と違います')
       }
