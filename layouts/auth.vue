@@ -3,7 +3,7 @@
     <v-app-bar color="grey darken-3" app clipped-left>
       <v-toolbar-title class="white--text"
         ><strong
-          ><NuxtLink to="/projects" style="color: white; text-decoration: none">FRIDAY</NuxtLink></strong
+          ><NuxtLink to="/" style="color: white; text-decoration: none">FRIDAY</NuxtLink></strong
         ></v-toolbar-title
       >
     </v-app-bar>
