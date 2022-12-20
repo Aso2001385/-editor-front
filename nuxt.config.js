@@ -123,6 +123,8 @@ export default {
 
   env: {
     API_BASE_URL: baseURL,
+    AUTH_TOKEN,
+    MARK_DOWN_API_BASE_URL,
   },
 
   router: {
