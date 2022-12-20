@@ -34,7 +34,6 @@ export default {
   layout: 'auth',
   data() {
     return {
-      url: '/projects',
       email: '',
       password: '',
     }
@@ -51,8 +50,8 @@ export default {
         password: this.password,
       }
       await this.$store.dispatch('api/postLogin', { data: user })
-      if (this.user.length === undefined) {
-        this.$router.push({ path: this.url })
+      if (this.user.id) {
+        this.$router.push({ path: '/' })
       }
     },
   },
