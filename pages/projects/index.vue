@@ -1,7 +1,7 @@
 <template>
   <v-main class="pa-10">
     <div class="pa-10">
-      <ProjectList :receive="default_previews" />
+      <ProjectList :receive="default_previews.projects" />
     </div>
   </v-main>
 </template>
@@ -22,15 +22,21 @@ export default {
       projects: [],
     }
   },
+
   computed: {
     user() {
-      console.log('ユーザーの中身確認')
       return this.$store.state.user
     },
   },
   created() {
     const data = previews
     this.default_previews = data
+    const getUser = JSON.parse(sessionStorage.getItem('user'))
+    console.log(getUser.id)
+    const userId = getUser.id
+    // apiで取得してその情報を渡す
+    this.$store.dispatch('api/getProjects', { id: userId })
+    this.default_previews = JSON.parse(sessionStorage.getItem('userProjects'))
   },
   mounted() {
     this.getAccount()
@@ -41,6 +47,10 @@ export default {
       const usr = this.$store.state.user
       console.log(usr)
     },
+    getProjects() {
+      // this.$store.dispatch('api/getProjects', { data: user })
+    },
+
     // RoutePages(value) {
     //   const confilmMarkdownData = localStorage.getItem('MarkdownData')
     //   if (confilmMarkdownData !== '') {

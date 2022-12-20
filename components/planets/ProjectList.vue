@@ -41,6 +41,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      newProject: 'api/project',
       localSaveProject: 'local/getLocalSaveProject',
       isSetLocal: 'local/getIsSetLocal',
     }),
@@ -65,13 +66,14 @@ export default {
     this.$store.dispatch('local/checkLocalSaveProject')
   },
   methods: {
-    jumpToNewProject() {
+    async jumpToNewProject() {
       //  UUIDの部分はデータベースから取ってきたデータを利用する
       if (this.isSetLocal) {
         if (this.jumpConfirm) {
           this.$store.dispatch('local/deleteLocalSaveProject')
         }
       } else {
+        await this.$store.dispatch('api/postProjects')
         this.$router.push({ path: '/projects/UUID/1' })
       }
     },
