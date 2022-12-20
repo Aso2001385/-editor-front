@@ -71,7 +71,7 @@ export const actions = {
       .get('https://fridayeditor.click/sanctum/csrf-cookie')
       .then(async () => {
         return await axios
-          .post(`https://fridayeditor.click/api/users`, argument.data)
+          .post(`${API_URL}/users`, argument.data)
           .then(normalResponse => {
             commit('setUser', normalResponse.data)
             return true
@@ -90,7 +90,7 @@ export const actions = {
       .get('https://fridayeditor.click/sanctum/csrf-cookie')
       .then(async () => {
         return await axios
-          .post(`https://fridayeditor.click/api/users`, argument.data)
+          .post(`${API_URL}/verifications`, argument.data)
           .then(normalResponse => {
             commit('setUser', normalResponse.data)
             return true
@@ -98,6 +98,17 @@ export const actions = {
           .catch(() => {
             return false
           })
+      })
+      .catch(() => {
+        return false
+      })
+  },
+  reSendEmail: async ({ commit }, argument) => {
+    return await axios
+      .get(`${API_URL}/verifications/${argument.email}`)
+      .then(normalResponse => {
+        commit('setUser', normalResponse.data)
+        return true
       })
       .catch(() => {
         return false

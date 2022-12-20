@@ -9,15 +9,18 @@
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
             <p>入力したメールアドレス宛に確認コードが送信されています。</p>
-            <v-text-field v-model="user.email" label="email" type="text" disabled></v-text-field>
-            <v-text-field v-model="token" label="確認コード9桁入力してください。" type="text"></v-text-field>
+            <v-text-field v-model="email" label="email" type="text" disabled></v-text-field>
+            <v-otp-input v-model="code" :length="6" />
             <v-row justify="center" class="mt-5 mb-5">
               <v-col cols="4">
-                <ApiEventButton color="grey darken-3" :click-callback="back">Back</ApiEventButton>
+                <ApiEventButton color="grey darken-3" :click-callback="reSend">Re Send</ApiEventButton>
               </v-col>
               <v-col cols="4">
                 <ApiEventButton color="grey darken-3" :click-callback="submit">Next</ApiEventButton>
               </v-col>
+            </v-row>
+            <v-row class="mt-10" justify="center">
+              <NuxtLink to="/account/signup">戻る</NuxtLink>
             </v-row>
           </div>
         </v-card>
@@ -32,9 +35,8 @@ export default {
   layout: 'auth',
   data() {
     return {
-      url: '/projects',
       email: '',
-      token: '',
+      code: '',
     }
   },
   computed: {
@@ -42,29 +44,34 @@ export default {
       user: 'api/user',
     }),
   },
-  mounted() {
+  created() {
     console.log(this.user)
+    if (!this.user.email) {
+      this.$router.push({ path: '/account/signup' })
+    }
     this.email = this.user.email
   },
   methods: {
     async submit() {
-      if (this.token !== '') {
+      if (this.code !== '') {
         const user = {
           email: this.email,
-          token: this.token,
+          code: this.code,
         }
-        console.log(user)
-        //    後で変更入る
-        await this.$store.dispatch('/api/register', { data: user })
 
-        //   //   成功失敗で遷移を変える
-        await this.$router.push({ path: this.url })
+        await this.$store.dispatch('api/confirmRegister', { data: user })
+        if (this.user.id) {
+          console.log(this.user)
+          // await this.$router.push({ path: '/projects' })
+        } else {
+          alert('失敗しました。再度入力してください。')
+        }
       } else {
         alert('確認コードを入力しましょう。')
       }
     },
-    back() {
-      this.$router.push({ path: '/account/signup' })
+    async reSend() {
+      await this.$store.dispatch('api/reSendEmail', { email: this.user.email })
     },
   },
 }
