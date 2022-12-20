@@ -5,31 +5,31 @@
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Size </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[13].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['font-size'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Weight </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[14].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['font-weight'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="2" class="d-flex align-center"> LineHeigh </v-col>
+        <v-col cols="2" class="d-flex align-center"> Line<br />Height </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[16].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['line-height'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Spacing </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[17].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['letter-spacing'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Indent </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[18].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['text-indent'].value" hide-details="auto" solo required />
         </v-col>
-        <v-col cols="2" class="d-flex align-center"> color </v-col>
+        <v-col cols="2" class="d-flex align-center"> Color </v-col>
         <v-col cols="4">
-          <PalletPicker :receive="attributes[15]" />
+          <PalletPicker :receive="attributes['color']" />
         </v-col>
       </v-row>
     </v-col>
@@ -38,21 +38,21 @@
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Top </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[2].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['padding-top'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Bottom </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[3].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['padding-bottom'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Left </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[4].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['padding-left'].value" hide-details="auto" solo required />
         </v-col>
-        <v-col cols="2" class="d-flex align-center"> Right </v-col>
+        <v-col cols="2" class="d-flex align-right"> Right </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[5].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['padding-right'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
@@ -67,11 +67,11 @@
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Top </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[6].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['margin-top'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Bottom </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[7].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['margin-bottom'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
@@ -84,28 +84,28 @@
 
     <v-col cols="12" class="text-h6 d-flex align-center"> BackGround </v-col>
     <v-col cols="12" class="align-center">
-      <PalletPicker :receive="attributes[10]" />
+      <PalletPicker :receive="attributes['back-ground']" />
     </v-col>
     <v-col cols="12" class="text-h6 d-flex align-center"> BoxShadow </v-col>
     <v-col cols="12" class="align-center">
       <v-row>
         <v-col cols="2" class="d-flex align-center"> X </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[20].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['box-shadow-x'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Y </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[21].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['box-shadow-y'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Blur </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[22].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['box-shadow-blur'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Color </v-col>
         <v-col cols="4">
-          <PalletPicker :receive="attributes[23]" />
+          <PalletPicker :receive="attributes['box-shadow-color']" />
         </v-col>
       </v-row>
     </v-col>
@@ -115,21 +115,21 @@
       <v-row>
         <v-col cols="2" class="d-flex align-center"> X </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[24].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['text-shadow-x'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Y </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[25].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['text-shadow-y'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Blur </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[26].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['text-shadow-blur'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Color </v-col>
         <v-col cols="4">
-          <PalletPicker :receive="attributes[27]" />
+          <PalletPicker :receive="attributes['text-shadow-color']" />
         </v-col>
       </v-row>
     </v-col>
@@ -139,21 +139,21 @@
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Top </v-col>
         <v-col cols="4">
-          <v-select v-model="attributes[32].value" :items="borderStyles" solo hide-details="auto" />
+          <v-select v-model="attributes['border-style-top'].value" :items="borderStyles" solo hide-details="auto" />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Bottom </v-col>
         <v-col cols="4">
-          <v-select v-model="attributes[34].value" :items="borderStyles" solo hide-details="auto" />
+          <v-select v-model="attributes['border-style-bottom'].value" :items="borderStyles" solo hide-details="auto" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Left </v-col>
         <v-col cols="4">
-          <v-select v-model="attributes[35].value" :items="borderStyles" solo hide-details="auto" />
+          <v-select v-model="attributes['border-style-left'].value" :items="borderStyles" solo hide-details="auto" />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Right </v-col>
         <v-col cols="4">
-          <v-select v-model="attributes[33].value" :items="borderStyles" solo hide-details="auto" />
+          <v-select v-model="attributes['border-style-right'].value" :items="borderStyles" solo hide-details="auto" />
         </v-col>
       </v-row>
       <v-row>
@@ -168,21 +168,21 @@
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Top </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[28].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['border-width-top'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Bottom </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[30].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['border-width-bottom'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Left </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[31].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['border-width-left'].value" hide-details="auto" solo required />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Right </v-col>
         <v-col cols="4">
-          <v-text-field v-model="attributes[29].value" hide-details="auto" solo required />
+          <v-text-field v-model="attributes['border-width-right'].value" hide-details="auto" solo required />
         </v-col>
       </v-row>
       <v-row>
@@ -197,21 +197,21 @@
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Top </v-col>
         <v-col cols="4">
-          <PalletPicker :receive="attributes[36]" />
+          <PalletPicker :receive="attributes['border-color-top']" />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Bottom </v-col>
         <v-col cols="4">
-          <PalletPicker :receive="attributes[38]" />
+          <PalletPicker :receive="attributes['border-color-bottom']" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="2" class="d-flex align-center"> Left </v-col>
         <v-col cols="4">
-          <PalletPicker :receive="attributes[39]" />
+          <PalletPicker :receive="attributes['border-color-left']" />
         </v-col>
         <v-col cols="2" class="d-flex align-center"> Right </v-col>
         <v-col cols="4">
-          <PalletPicker :receive="attributes[37]" />
+          <PalletPicker :receive="attributes['border-color-right']" />
         </v-col>
       </v-row>
       <v-row>
@@ -231,8 +231,8 @@ export default {
   },
   props: {
     receive: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -255,46 +255,46 @@ export default {
   watch: {
     paddingAll: {
       handler() {
-        this.attributes[2].value =
-          this.attributes[3].value =
-          this.attributes[4].value =
-          this.attributes[5].value =
+        this.attributes['padding-top'].value =
+          this.attributes['padding-bottom'].value =
+          this.attributes['padding-left'].value =
+          this.attributes['padding-right'].value =
             this.paddingAll.value
       },
       deep: true,
     },
     marginAll: {
       handler() {
-        this.attributes[6].value = this.attributes[7].value = this.marginAll.value
+        this.attributes['margin-top'].value = this.attributes['margin-bottom'].value = this.marginAll.value
       },
       deep: true,
     },
     borderStyleAll: {
       handler() {
-        this.attributes[32].value =
-          this.attributes[33].value =
-          this.attributes[34].value =
-          this.attributes[35].value =
+        this.attributes['border-style-top'].value =
+          this.attributes['border-style-bottom'].value =
+          this.attributes['border-style-left'].value =
+          this.attributes['border-style-right'].value =
             this.borderStyleAll.value
       },
       deep: true,
     },
     borderWidthAll: {
       handler() {
-        this.attributes[28].value =
-          this.attributes[29].value =
-          this.attributes[30].value =
-          this.attributes[31].value =
+        this.attributes['border-width-top'].value =
+          this.attributes['border-width-bottom'].value =
+          this.attributes['border-width-left'].value =
+          this.attributes['border-width-right'].value =
             this.borderWidthAll.value
       },
       deep: true,
     },
     borderColorAll: {
       handler() {
-        this.attributes[36].value =
-          this.attributes[37].value =
-          this.attributes[38].value =
-          this.attributes[39].value =
+        this.attributes['border-color-top'].value =
+          this.attributes['border-color-bottom'].value =
+          this.attributes['border-color-left'].value =
+          this.attributes['border-color-right'].value =
             this.borderColorAll.value
       },
       deep: true,

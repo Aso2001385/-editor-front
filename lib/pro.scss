@@ -1,6 +1,6 @@
 :root {
   // body
-  --body-back-color: #1c2024;
+  --body-back-ground: #1c2024;
   --body-padding: 1em;
   --primary: '#1976D2';
   --secondary: '#424242';
@@ -396,7 +396,7 @@
   --list-li-marker-color: rgb(203, 68, 68);
 }
 #contents {
-  background-color: var(--body-back-color) !important;
+  background-color: var(--body-back-ground) !important;
   padding: var(--body-padding);
   font-size: 16px;
 
@@ -729,6 +729,7 @@
 
   ol {
     counter-reset: item;
+    color: var(--list-ul-color) !important;
   }
 
   li::marker {

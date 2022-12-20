@@ -2,11 +2,11 @@
   <v-row>
     <v-col cols="12" class="text-h6 d-flex align-center"> BackGround </v-col>
     <v-col cols="12" class="align-center">
-      <PalletPicker :receive="attributes[0]" />
+      <PalletPicker :receive="attributes['back-ground']" />
     </v-col>
     <v-col cols="12" class="text-h6 d-flex align-center"> Padding </v-col>
     <v-col cols="12" class="d-flex align-center">
-      <v-text-field v-model="attributes[1].value" hide-details="auto" solo required />
+      <v-text-field v-model="attributes['padding'].value" hide-details="auto" solo required />
     </v-col>
     <v-col cols="12" class="text-h6 d-flex align-center"> AllFontColor </v-col>
     <v-col cols="12" class="align-center">
@@ -45,12 +45,12 @@ export default {
   },
   props: {
     receive: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => {},
     },
     all: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -77,60 +77,60 @@ export default {
   watch: {
     fontColorAll: {
       handler() {
-        this.alls[1].attributes[15].value =
-          this.alls[2].attributes[15].value =
-          this.alls[3].attributes[15].value =
-          this.alls[4].attributes[15].value =
-          this.alls[5].attributes[15].value =
-          this.alls[6].attributes[15].value =
+        this.alls.h1.attributes.color.value =
+          this.alls.h2.attributes.color.value =
+          this.alls.h3.attributes.color.value =
+          this.alls.h4.attributes.color.value =
+          this.alls.h5.attributes.color.value =
+          this.alls.h6.attributes.color.value =
             this.fontColorAll.value
       },
       deep: true,
     },
     fontShadowXAll: {
       handler() {
-        this.alls[1].attributes[24].value =
-          this.alls[2].attributes[24].value =
-          this.alls[3].attributes[24].value =
-          this.alls[4].attributes[24].value =
-          this.alls[5].attributes[24].value =
-          this.alls[6].attributes[24].value =
+        this.alls.h1.attributes['text-shadow-x'].value =
+          this.alls.h2.attributes['text-shadow-x'].value =
+          this.alls.h3.attributes['text-shadow-x'].value =
+          this.alls.h4.attributes['text-shadow-x'].value =
+          this.alls.h5.attributes['text-shadow-x'].value =
+          this.alls.h6.attributes['text-shadow-x'].value =
             this.fontShadowXAll.value
       },
       deep: true,
     },
     fontShadowYAll: {
       handler() {
-        this.alls[1].attributes[25].value =
-          this.alls[2].attributes[25].value =
-          this.alls[3].attributes[25].value =
-          this.alls[4].attributes[25].value =
-          this.alls[5].attributes[25].value =
-          this.alls[6].attributes[25].value =
+        this.alls.h1.attributes['text-shadow-y'].value =
+          this.alls.h2.attributes['text-shadow-y'].value =
+          this.alls.h3.attributes['text-shadow-y'].value =
+          this.alls.h4.attributes['text-shadow-y'].value =
+          this.alls.h5.attributes['text-shadow-y'].value =
+          this.alls.h6.attributes['text-shadow-y'].value =
             this.fontShadowYAll.value
       },
       deep: true,
     },
     fontShadowBlurAll: {
       handler() {
-        this.alls[1].attributes[26].value =
-          this.alls[2].attributes[26].value =
-          this.alls[3].attributes[26].value =
-          this.alls[4].attributes[26].value =
-          this.alls[5].attributes[26].value =
-          this.alls[6].attributes[26].value =
+        this.alls.h1.attributes['text-shadow-blur'].value =
+          this.alls.h2.attributes['text-shadow-blur'].value =
+          this.alls.h3.attributes['text-shadow-blur'].value =
+          this.alls.h4.attributes['text-shadow-blur'].value =
+          this.alls.h5.attributes['text-shadow-blur'].value =
+          this.alls.h6.attributes['text-shadow-blur'].value =
             this.fontShadowBlurAll.value
       },
       deep: true,
     },
     fontShadowColorAll: {
       handler() {
-        this.alls[1].attributes[27].value =
-          this.alls[2].attributes[27].value =
-          this.alls[3].attributes[27].value =
-          this.alls[4].attributes[27].value =
-          this.alls[5].attributes[27].value =
-          this.alls[6].attributes[27].value =
+        this.alls.h1.attributes['text-shadow-color'].value =
+          this.alls.h2.attributes['text-shadow-color'].value =
+          this.alls.h3.attributes['text-shadow-color'].value =
+          this.alls.h4.attributes['text-shadow-color'].value =
+          this.alls.h5.attributes['text-shadow-color'].value =
+          this.alls.h6.attributes['text-shadow-color'].value =
             this.fontShadowColorAll.value
       },
       deep: true,
