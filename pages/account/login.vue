@@ -28,7 +28,7 @@
   </v-container>
 </template>
 <script>
-// import { mapActions, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   layout: 'auth',
@@ -39,19 +39,21 @@ export default {
       password: '',
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      user: 'api/user',
+    }),
+  },
   methods: {
     async submit() {
       const user = {
         email: this.email,
         password: this.password,
       }
-
       await this.$store.dispatch('api/postLogin', { data: user })
-      // 変更全てのユーザーではなく、一人分のユーザー情報取得にする
-      await this.$store.dispatch('api/getUsers')
-
-      this.$router.push({ path: this.url })
+      if (this.user.length === undefined) {
+        this.$router.push({ path: this.url })
+      }
     },
   },
 }
