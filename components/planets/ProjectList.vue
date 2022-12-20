@@ -74,21 +74,21 @@ export default {
         }
       } else {
         await this.$store.dispatch('api/postProjects')
-        this.$router.push({ path: '/projects/UUID/1' })
+        this.$router.push({ path: '/projects/1/1' })
       }
     },
     jumpToEditingProject(id) {
-      this.$router.push({ path: `/projects/UUID/${id}` })
+      this.$router.push({ path: `/projects/1/${id}` })
     },
     jumpToProject(id) {
       console.log(this.isSetLocal)
       if (this.isSetLocal) {
         if (this.jumpConfirm()) {
           this.$store.dispatch('local/deleteLocalSaveProject')
-          this.$router.push({ path: `/projects/UUID/${id}` })
+          this.$router.push({ path: `/projects/1/${id}` })
         }
       } else {
-        this.$router.push({ path: `/projects/UUID/${id}` })
+        this.$router.push({ path: `/projects/1/${id}` })
       }
     },
     jumpConfirm() {

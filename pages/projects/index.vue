@@ -29,6 +29,7 @@ export default {
     },
   },
   created() {
+    this.getAccount()
     const data = previews
     this.default_previews = data
     const getUser = JSON.parse(sessionStorage.getItem('user'))
@@ -38,14 +39,14 @@ export default {
     this.$store.dispatch('api/getProjects', { id: userId })
     this.default_previews = JSON.parse(sessionStorage.getItem('userProjects'))
   },
-  mounted() {
-    this.getAccount()
-  },
   methods: {
-    getAccount() {
-      console.log('this.user')
-      const usr = this.$store.state.user
-      console.log(usr)
+    async getAccount() {
+      if (sessionStorage.getItem('user') === null) {
+        await this.$router.push({ path: '/' })
+      }
+      // console.log('this.user')
+      // const usr = this.$store.state.user
+      // console.log(usr)
     },
     getProjects() {
       // this.$store.dispatch('api/getProjects', { data: user })

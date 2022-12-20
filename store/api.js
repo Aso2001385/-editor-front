@@ -17,7 +17,6 @@ export const state = () => ({
 
 export const getters = {
   user: state => {
-    console.log('getters開始')
     return state.user
   },
   projects: state => {
@@ -42,7 +41,7 @@ export const getters = {
 
 export const mutations = {
   setUser(state, response) {
-    sessionStorage.setItem('user', response)
+    sessionStorage.setItem('user', JSON.stringify(response))
     state.user = response
   },
   setProjects(state, response) {
@@ -163,7 +162,7 @@ export const actions = {
         return false
       })
   },
-  postProjects: async ({ commit }, argument) => {
+  postProject: async ({ commit }, argument) => {
     return await axios
       .post(`${API_URL}/projects`, argument.data)
       .then(normalResponse => {

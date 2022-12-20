@@ -8,15 +8,15 @@
           </v-card-title>
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
-            <v-text-field v-model="name" label="name" required></v-text-field>
-            <v-row justify="center" class="mt-5">
-              <v-col cols="4">
+            <v-text-field v-model="name" label="name" readonly></v-text-field>
+            <!-- <v-row justify="center" class="mt-5"> -->
+            <!-- <v-col cols="4">
                 <ApiEventButton color="grey darken-3" :click-callback="submit"> Next </ApiEventButton>
               </v-col>
             </v-row>
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/user-update">メールアドレス・パスワードの変更ですか？こちらから変更</NuxtLink>
-            </v-row>
+            </v-row> -->
           </div>
         </v-card>
         <!-- <v-container class="pb-10 fill-width mt-10 grey lighten-5">
@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      name: 'apiにアクセスして取得した名前を表示するようにする',
+      name: '翔',
       default_previews: null,
       PROJECT_LINK: 2,
     }
@@ -73,7 +73,15 @@ export default {
     const data = previews
     this.default_previews = data
   },
+  mounted() {
+    this.getAccount()
+  },
   methods: {
+    async getAccount() {
+      if (sessionStorage.getItem('user') === null) {
+        await this.$router.push({ path: '/' })
+      }
+    },
     jumpToNewProject() {},
   },
 }
