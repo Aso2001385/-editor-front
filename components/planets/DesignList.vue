@@ -50,14 +50,13 @@ export default {
     async jumpToNewDesign() {
       //  UUIDの部分はデータベースから取ってきたデータを利用する
       const newDesign = {
-        name: 'デザイン' + this.designs.length + 1,
+        name: 'Design' + this.designs.length + 1,
         point: 0,
         contents: temp,
       }
       await this.$store.dispatch('api/postDesign', newDesign)
       this.$router.push({ path: `/designs/${this.newDesign.id}/edit` })
     },
-
     jumpToDesign(id) {
       this.$router.push({ path: `/designs/${id}/edit` })
     },
