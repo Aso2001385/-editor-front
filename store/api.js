@@ -2,16 +2,17 @@ import axios from 'axios'
 import { Octokit } from '@octokit/core'
 
 axios.defaults.withCredentials = true
-// const API_URL = 'this.$config.API_BASE_URL'
-const API_URL = 'http://localhost:8080'
+const API_URL = process.env.API_BASE_URL
+// const API_URL = 'http://localhost:8080'
 
 export const state = () => ({
   // users: [],
   user: [],
   markDown: '',
   projects: [],
-  project: {},
   page: {},
+  designs: [],
+  design: {},
 })
 
 export const getters = {
@@ -28,6 +29,12 @@ export const getters = {
   page: state => {
     return state.page
   },
+  designs: state => {
+    return state.designs
+  },
+  design: state => {
+    return state.design
+  },
   markDown: state => {
     return state.markDown
   },
@@ -38,14 +45,20 @@ export const mutations = {
     sessionStorage.setItem('user', response)
     state.user = response
   },
-  projects(state, response) {
+  setProjects(state, response) {
     state.projects = response
   },
-  project(state, response) {
+  setProject(state, response) {
     state.project = response
   },
-  page(state, response) {
+  setPage(state, response) {
     state.page = response
+  },
+  setDesigns(state, response) {
+    state.design = response
+  },
+  setDesign(state, response) {
+    state.design = response
   },
   setMarkDown(state, response) {
     state.markDown = response
@@ -60,7 +73,7 @@ export const actions = {
         return await axios
           .post(`https://fridayeditor.click/api/users`, argument.data)
           .then(normalResponse => {
-            commit('setUser', argument.data)
+            commit('setUser', normalResponse.data)
             return true
           })
           .catch(() => {
@@ -141,7 +154,7 @@ export const actions = {
   // },
   getProjects: async ({ commit }) => {
     return await axios
-      .get(`${API_URL}/projects`)
+      .get(`${API_URL}/users/projects`)
       .then(normalResponse => {
         commit('setProjects', normalResponse.data)
         return true
@@ -172,7 +185,7 @@ export const actions = {
         return false
       })
   },
-  putProjects: async ({ commit }, argument) => {
+  putProject: async ({ commit }, argument) => {
     return await axios
       .put(`${API_URL}/projects`, argument.data)
       .then(normalResponse => {
@@ -187,6 +200,50 @@ export const actions = {
     return await axios
       .delete(`${API_URL}/projects/${argument}`)
       .then(normalResponse => {
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  },
+  getDesigns: async ({ commit }, argument) => {
+    return await axios
+      .get(`${API_URL}/users/designs`)
+      .then(normalResponse => {
+        commit('setDesigns', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  },
+  getDesign: async ({ commit }, argument) => {
+    return await axios
+      .get(`${API_URL}/designs/${argument.id}`)
+      .then(normalResponse => {
+        commit('setDesign', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  },
+  postDesign: async ({ commit }, argument) => {
+    return await axios
+      .post(`${API_URL}/designs`, argument.data)
+      .then(normalResponse => {
+        commit('setDesign', normalResponse.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  },
+  putDesign: async ({ commit }, argument) => {
+    return await axios
+      .put(`${API_URL}/designs`, argument.data)
+      .then(normalResponse => {
+        commit('setDesign', normalResponse.data)
         return true
       })
       .catch(() => {
