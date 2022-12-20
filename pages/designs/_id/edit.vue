@@ -6,10 +6,10 @@
         <v-row style="height: 100%" no-gutters>
           <v-col cols="3" class="grey lighten-2">
             <v-item-group v-model="window" class="pa-3">
-              <v-item v-for="(tem, index) in temps" :key="index" v-slot="{ active, toggle }">
+              <v-item v-for="(tem, index) in Object.keys(temps)" :key="index" v-slot="{ active, toggle }">
                 <div>
                   <v-btn :input-value="active" large text block @click="toggle">
-                    {{ tem.name }}
+                    {{ temps[tem].name }}
                   </v-btn>
                 </div>
               </v-item>
@@ -18,22 +18,22 @@
           <v-col cols="9" style="height: 100%" max-height="auto">
             <v-window v-model="window" style="height: 100%" class="elevation-1" vertical>
               <v-window-item
-                v-for="(tem, index) in temps"
+                v-for="(tem, index) in Object.keys(temps)"
                 :key="index"
                 class="overflow-y-auto"
                 style="max-height: 90vh"
               >
-                <div v-if="tem.name === 'body'" class="pa-5">
-                  <Body :receive="tem.attributes" :all="temps" />
+                <div v-if="temps[tem].name === 'body'" class="pa-5">
+                  <Body :receive="temps[tem].attributes" :all="temps" />
                 </div>
-                <div v-else-if="tem.name === 'table'" class="pa-5">
-                  <Table :receive="tem.attributes" />
+                <div v-else-if="temps[tem].name === 'table'" class="pa-5">
+                  <Table :receive="temps[tem].attributes" />
                 </div>
-                <div v-else-if="tem.name === 'list'" class="pa-5">
-                  <List :receive="tem.attributes" />
+                <div v-else-if="temps[tem].name === 'list'" class="pa-5">
+                  <List :receive="temps[tem].attributes" />
                 </div>
                 <div v-else class="pa-5">
-                  <Headline :receive="tem.attributes" />
+                  <Headline :receive="temps[tem].attributes" />
                 </div>
               </v-window-item>
             </v-window>
