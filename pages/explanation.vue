@@ -3,7 +3,7 @@
   <v-main class="pa-10">
     <div class="pa-10 algin-center">
       <h1 class="mb-10">プロジェクトの説明</h1>
-      <p><a href="/projects">プロジェクトリストへ進む</a></p>
+      <p><a href="/account/login">プロジェクトへ進む</a></p>
       <p><a href="/">ようこそ！</a></p>
       <div class="py-10">
         <p>

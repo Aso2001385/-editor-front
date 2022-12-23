@@ -10,9 +10,9 @@
           :click-callback="() => jumpToEditingProject(editingProject.id)"
         />
       </v-col>
-      <v-col v-for="(project, index) in projects" :key="index" class="mt-2" cols="4">
+      <!-- <v-col v-for="(project, index) in projects" :key="index" class="mt-2" cols="4">
         <ProjectCard :receive="project" :click-callback="() => jumpToProject(project.id)" />
-      </v-col>
+      </v-col> -->
     </v-row>
   </div>
 </template>
@@ -21,17 +21,21 @@ import { mapGetters } from 'vuex'
 import { nestClone } from '@/lib/common'
 import AddProjectCard from '@/components/materials/cards/AddProjectCard.vue'
 import EditingProjectCard from '@/components/materials/cards/EditingProjectCard.vue'
-import ProjectCard from '@/components/materials/cards/ProjectCard.vue'
+// import ProjectCard from '@/components/materials/cards/ProjectCard.vue'
 export default {
   components: {
     AddProjectCard,
     EditingProjectCard,
-    ProjectCard,
+    // ProjectCard,
   },
   props: {
     receive: {
       type: Array,
       default: () => [],
+    },
+    userId: {
+      type: Number,
+      default: () => 0,
     },
   },
   data() {
@@ -52,7 +56,6 @@ export default {
     },
     projects: {
       get() {
-        console.log('aa')
         console.log('isset' + this.isSetLocal)
         console.log(nestClone(this.receive))
         console.log(this.editingProject)
@@ -63,32 +66,70 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('local/checkLocalSaveProject')
+    localStorage.getItem('MarkdownData')
+    this.$store.dispatch('local/setLocalSaveProject', { data: localStorage.getItem('MarkdownData') })
+    // const user = sessionStorage.getItem('user')
+    // this.$store.dispatch('local/checkLocalSaveProject')
+    // console.log(user)
+    // this.$store.dispatch('api/getProjects', { data: user })
+  },
+  mounted() {
+    this.getAccount()
+    console.log(this.localSaveProject)
+    // this.localSaveProject = localStorage.getItem('HtmlFromMarkdown')
+    // const user = JSON.stringify(sessionStorage.getItem('user'))
+    // this.$store.dispatch('local/checkLocalSaveProject')
+    // this.$store.dispatch('api/getProjects', { data: user })
   },
   methods: {
+    getAccount() {
+      this.localSaveProject = localStorage.getItem('HtmlFromMarkdown')
+    },
     async jumpToNewProject() {
       //  UUIDの部分はデータベースから取ってきたデータを利用する
+
+      // ローカルに有るかないか
       if (this.isSetLocal) {
-        if (this.jumpConfirm) {
-          this.$store.dispatch('local/deleteLocalSaveProject')
+        console.log('確認:true')
+        // いいえを選択したら、消すこともなくページの遷移など何も行わない
+        // if (this.jumpConfirm) {
+        if (
+          window.confirm(
+            '\n編集中のプロジェクトがあります。\n\nこのまま別のプロジェクトへ進むと、保存されていない変更は失われます。\n本当に続行してもよろしいですか？\n'
+          )
+        ) {
+          // ローカルのデータを消した上でデータベースから取得した作成済みのプロジェクトの編集に移る
+          await this.$store.dispatch('local/deleteLocalSaveProject')
+          console.log(this.newProject)
+          await this.$store.dispatch('local/setLocalSaveProject', { data: this.newProject })
+          localStorage.setItem('MarkdownData', '')
+          // いらないかも
+          localStorage.setItem('HtmlFromMarkdown', '')
+          // とりあえず1のプロジェクトに
+          this.$router.push({ path: `/projects/1/${this.userId}` })
         }
       } else {
-        await this.$store.dispatch('api/postProjects')
-        this.$router.push({ path: '/projects/UUID/1' })
+        console.log('確認:false')
+        // await this.$store.dispatch('api/postProjects')
+        localStorage.setItem('MarkdownData', '')
+        // いらないかも
+        localStorage.setItem('HtmlFromMarkdown', '')
+        await this.$store.dispatch('local/setLocalSaveProject', { data: this.newProject })
+        this.$router.push({ path: '/projects/1/1' })
       }
     },
     jumpToEditingProject(id) {
-      this.$router.push({ path: `/projects/UUID/${id}` })
+      this.$router.push({ path: `/projects/1/${this.userId}` })
     },
     jumpToProject(id) {
       console.log(this.isSetLocal)
       if (this.isSetLocal) {
         if (this.jumpConfirm()) {
           this.$store.dispatch('local/deleteLocalSaveProject')
-          this.$router.push({ path: `/projects/UUID/${id}` })
+          this.$router.push({ path: `/projects/1/${this.userId}` })
         }
       } else {
-        this.$router.push({ path: `/projects/UUID/${id}` })
+        this.$router.push({ path: `/projects/1/${this.userId}` })
       }
     },
     jumpConfirm() {
