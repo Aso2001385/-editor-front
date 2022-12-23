@@ -71,7 +71,7 @@
         </v-row>
       </v-container>
     </v-dialog>
-    <ProjectPreviewModal v-if="previewFlg" ref="modal" />
+    <ProjectPreviewModal v-if="preview" ref="modal" />
     <Nuxt class="grey lighten-4" />
   </v-app>
 </template>
@@ -98,7 +98,7 @@ export default {
         name: 'test1',
         ui: '[]',
       }
-      this.$store.dispatch('api/postProject', { data: project })
+      this.$store.dispatch('api/putProject', { data: project })
       this.$router.push({ path: '/projects' })
     },
     modal() {

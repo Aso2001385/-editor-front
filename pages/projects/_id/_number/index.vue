@@ -8,7 +8,6 @@
         :toolbars="markdownOption"
         language="ja"
         style="height: 93vh; overflow: hidden !important; overflow-y: auto; z-index: 1"
-        :class="colorName + '--text'"
         @change="EditorData"
       />
     </client-only>
@@ -19,7 +18,7 @@
 
 <script>
 import { marked } from 'marked'
-import previews from '~/assets/previews.json'
+// import previews from '~/assets/previews.json'
 
 export default {
   layout: 'design',
@@ -48,38 +47,28 @@ export default {
         fullscreen: true,
         htmlcode: true,
       },
-      // iconColor: 'black--text',
-      // colorNumber: 1,
-      colorName: 'black',
       html: '',
     }
   },
   mounted() {
     // デフォルトのデータ
-    const data = previews
-    this.default_previews = data
-    // いらないかも
-    localStorage.setItem('OpenList', 0)
+    // const data = previews
+    // this.default_previews = data
+
     this.projectGenre = localStorage.getItem('projectId')
     // this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')
     this.markData = localStorage.getItem('MarkdownData')
     console.log(marked(this.markData))
-    this.SubMarkData = this.markData
   },
   methods: {
-    EditorData() {
-      const confirm = localStorage.getItem('MarkdownData')
-      console.log(confirm == this.markData)
-      //   if (confirm != this.markData) {
+    async EditorData() {
       localStorage.setItem('MarkdownData', this.markData)
-      console.log('動いている')
+      localStorage.setItem('localSaveProject', this.markData)
+      // いらないかも
       localStorage.setItem('HtmlFromMarkdown', marked(this.markData))
-      //   } else {
-      //     this.markData = confirm
-      //   }
+      // await this.$store.dispatch('local/setLocalSaveProject', { data: this.newProject })
     },
   },
-  // components: { MenuHeader },
 }
 </script>
 
