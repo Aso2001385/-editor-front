@@ -11,12 +11,13 @@
             <v-text-field v-model="email" label="email" type="text"></v-text-field>
             <v-text-field v-model="password" label="password" type="password"></v-text-field>
             <v-row justify="center" class="mt-5 mb-5">
-              <v-col cols="4">
-                <ApiEventButton color="grey darken-3" :click-callback="submit">Next</ApiEventButton>
-              </v-col>
+              <EventButton color="grey darken-3" :click-callback="submit">Next</EventButton>
             </v-row>
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/account/signup">サインインページへ</NuxtLink>
+            </v-row>
+            <v-row class="mt-10" justify="center">
+              <NuxtLink to="/designs">デザインへ</NuxtLink>
             </v-row>
             <!-- <v-row class="mt-10" justify="center">
               <NuxtLink to="/account/sign-up">パスワードを忘れましたか？</NuxtLink>
@@ -29,8 +30,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-
+import EventButton from '@/components/materials/buttons/EventButton.vue'
 export default {
+  components: {
+    EventButton,
+  },
   layout: 'auth',
   data() {
     return {
@@ -51,7 +55,10 @@ export default {
       }
       await this.$store.dispatch('api/postLogin', { data: user })
       if (this.user.id) {
-        this.$router.push({ path: '/' })
+        console.log(this.user)
+        // this.$router.push({ path: this.url })
+      } else {
+        console.log(this.user)
       }
     },
   },

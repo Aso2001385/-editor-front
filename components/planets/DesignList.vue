@@ -15,7 +15,9 @@ import { mapGetters } from 'vuex'
 // import { nestClone } from '@/lib/common'
 import AddDesignCard from '@/components/materials/cards/AddDesignCard.vue'
 import DesignPreviewCard from '@/components/materials/cards/DesignPreviewCard.vue'
+
 import temp from '@/lib/template.json'
+import { nestClone } from '~/lib/common'
 export default {
   components: {
     AddDesignCard,
@@ -34,6 +36,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: 'api/user',
       disigns: 'api/designs',
       newDisign: 'api/design',
     }),
@@ -49,13 +52,22 @@ export default {
   methods: {
     async jumpToNewDesign() {
       //  UUIDの部分はデータベースから取ってきたデータを利用する
-      const newDesign = {
-        name: 'Design' + this.designs.length + 1,
-        point: 0,
-        contents: temp,
+      console.log(this.user)
+      console.log(this.designs)
+      if (this.designs) {
+        console.log(this.designs)
+      } else {
+        this.designs = []
       }
+      const newDesign = {
+        name: 'Design' + (this.designs.length + 1),
+        point: 0,
+        contents: JSON.stringify(temp),
+      }
+      console.log(JSON.stringify(newDesign))
+      console.log(nestClone(newDesign))
       await this.$store.dispatch('api/postDesign', newDesign)
-      this.$router.push({ path: `/designs/${this.newDesign.id}/edit` })
+      // this.$router.push({ path: `/designs/${this.newDesign.id}/edit` })
     },
     jumpToDesign(id) {
       this.$router.push({ path: `/designs/${id}/edit` })
