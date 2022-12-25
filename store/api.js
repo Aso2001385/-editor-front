@@ -3,7 +3,7 @@ import { Octokit } from '@octokit/core'
 
 axios.defaults.withCredentials = true
 const API_URL = process.env.API_BASE_URL
-// const API_URL = 'http://localhost:8080'
+const BASE_URL = process.env.BASE_URL
 
 export const state = () => ({
   // users: [],
@@ -68,10 +68,10 @@ export const mutations = {
 export const actions = {
   register: async ({ commit }, argument) => {
     return await axios
-      .get('https://fridayeditor.click/sanctum/csrf-cookie')
+      .get(`${BASE_URL}/sanctum/csrf-cookie`)
       .then(async () => {
         return await axios
-          .post(`https://fridayeditor.click/api/users`, argument.data)
+          .post(`${API_URL}/users`, argument.data)
           .then(normalResponse => {
             commit('setUser', normalResponse.data)
             return true
@@ -87,10 +87,10 @@ export const actions = {
   confirmRegister: async ({ commit }, argument) => {
     //  後で変更される
     return await axios
-      .get('https://fridayeditor.click/sanctum/csrf-cookie')
+      .get(`${BASE_URL}/sanctum/csrf-cookie`)
       .then(async () => {
         return await axios
-          .post(`https://fridayeditor.click/api/users`, argument.data)
+          .post(`${API_URL}/users`, argument.data)
           .then(normalResponse => {
             commit('setUser', normalResponse.data)
             return true
@@ -106,10 +106,10 @@ export const actions = {
 
   postLogin: async ({ commit }, argument) => {
     return await axios
-      .get('https://fridayeditor.click/sanctum/csrf-cookie')
+      .get(`${BASE_URL}/sanctum/csrf-cookie`)
       .then(async () => {
         return await axios
-          .post(`https://fridayeditor.click/login`, argument.data)
+          .post(`${BASE_URL}/login`, argument.data)
           .then(normalResponse => {
             commit('setUser', normalResponse.data)
             return true
