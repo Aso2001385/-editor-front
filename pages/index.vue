@@ -2,7 +2,7 @@
   <v-main class="pa-10">
     <div class="pa-10 algin-center">
       <h1 class="mb-10">ようこそ！</h1>
-      <p><a href="/projects">プロジェクトリストへ進む</a></p>
+      <p><a href="/account/login">プロジェクトへ進む</a></p>
       <p><a href="/explanation">プロジェクトの説明</a></p>
       <div class="py-10">
         <p>このWebサイトは現在制作中のものです。実際の登録処理等は行われません。</p>

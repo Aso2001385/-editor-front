@@ -13,11 +13,11 @@ export const state = () => ({
   page: {},
   designs: [],
   design: {},
+  project: [],
 })
 
 export const getters = {
   user: state => {
-    console.log('getters開始')
     return state.user
   },
   projects: state => {
@@ -42,13 +42,16 @@ export const getters = {
 
 export const mutations = {
   setUser(state, response) {
-    sessionStorage.setItem('user', response)
+    sessionStorage.setItem('user', JSON.stringify(response))
     state.user = response
   },
   setProjects(state, response) {
+    console.log('response')
+    console.log(response)
     state.projects = response
   },
   setProject(state, response) {
+    console.log(response)
     state.project = response
   },
   setPage(state, response) {
@@ -90,7 +93,7 @@ export const actions = {
       .get(`${BASE_URL}/sanctum/csrf-cookie`)
       .then(async () => {
         return await axios
-          .post(`${API_URL}/users`, argument.data)
+          .post(`${API_URL}/verifications`, argument.data)
           .then(normalResponse => {
             commit('setUser', normalResponse.data)
             return true
@@ -98,6 +101,17 @@ export const actions = {
           .catch(() => {
             return false
           })
+      })
+      .catch(() => {
+        return false
+      })
+  },
+  reSendEmail: async ({ commit }, argument) => {
+    return await axios
+      .get(`${API_URL}/verifications/${argument.email}`)
+      .then(normalResponse => {
+        commit('setUser', normalResponse.data)
+        return true
       })
       .catch(() => {
         return false
@@ -152,9 +166,12 @@ export const actions = {
   //   const response = await axios.post(`${API_URL}/users/serarch`)
   //   console.log(response.data)
   // },
-  getProjects: async ({ commit }) => {
+
+  // ユーザーのプロジェクト情報など取得
+  // データが取得できていない
+  getProjects: async ({ commit }, argument) => {
     return await axios
-      .get(`${API_URL}/users/projects`)
+      .get(`${API_URL}/users/${argument.data}`)
       .then(normalResponse => {
         commit('setProjects', normalResponse.data)
         return true
@@ -163,21 +180,24 @@ export const actions = {
         return false
       })
   },
-  postProjects: async ({ commit }, argument) => {
+  getProject: async ({ commit }, argument) => {
     return await axios
-      .post(`${API_URL}/projects`, argument.data)
+      .get(`${API_URL}/projects/${argument.data}`)
       .then(normalResponse => {
+        console.log('成功しているよー')
         commit('setProject', normalResponse.data)
         return true
       })
       .catch(() => {
+        console.log('中身を知るよー　エラー')
         return false
       })
   },
-  getProject: async ({ commit }, argument) => {
+  postProject: async ({ commit }, argument) => {
     return await axios
-      .get(`${API_URL}/projects/${argument.id}`)
+      .post(`${API_URL}/projects`, argument.data)
       .then(normalResponse => {
+        console.log('postProjectの確認')
         commit('setProject', normalResponse.data)
         return true
       })
@@ -187,7 +207,7 @@ export const actions = {
   },
   putProject: async ({ commit }, argument) => {
     return await axios
-      .put(`${API_URL}/projects`, argument.data)
+      .post(`${API_URL}/projects`, argument.data)
       .then(normalResponse => {
         commit('setProject', normalResponse.data)
         return true

@@ -27,36 +27,47 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   layout: 'auth',
   data() {
     return {
       url: '',
       layout: 'auth',
-      name: '翔',
-      email: '2001195@s.asojuku.ac.jp',
-      password: 'AsoΣ2001195',
-      confirmPassword: 'AsoΣ2001195',
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       // name: '',
       // email: '',
       // password: '',
       // confirmPassword: '',
     }
   },
-  mounted() {},
+  computed: {
+    ...mapGetters({
+      user: 'api/user',
+    }),
+  },
+  created() {
+    if (this.user.id) {
+      this.$router.push({
+        path: '/',
+      })
+    }
+  },
   methods: {
-    submit() {
+    async submit() {
       if (this.password === this.confirmPassword) {
-        const user = {
-          name: this.name,
-          email: this.email,
-          password: this.password,
+        const data = { name: this.name, email: this.email, password: this.password }
+        await this.$store.dispatch('api/register', { data })
+        if (this.user) {
+          this.$router.push({
+            path: '/account/confirmSignup',
+          })
+        } else {
+          alert('登録に失敗しました')
         }
-
-        this.$store.dispatch('api/register', { data: user })
-        this.$router.push({
-          path: '/account/confirmSignup',
-        })
       } else {
         alert('パスワードが確認用と違います')
       }

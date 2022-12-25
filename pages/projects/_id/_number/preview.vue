@@ -44,7 +44,15 @@ export default {
     this.loading = false
     this.styles('red')
   },
+  mounted() {
+    this.getAccount()
+  },
   methods: {
+    async getAccount() {
+      if (sessionStorage.getItem('user') === null) {
+        await this.$router.push({ path: '/' })
+      }
+    },
     async getMarkDownPage() {
       // await this.$store.dispatch('api/Page', { data: { uuid: this.$route.uuid, number: this.$route.number } })
       // const text = this.page.contents

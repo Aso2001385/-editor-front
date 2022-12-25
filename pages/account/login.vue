@@ -38,7 +38,6 @@ export default {
   layout: 'auth',
   data() {
     return {
-      url: '/projects',
       email: '',
       password: '',
     }

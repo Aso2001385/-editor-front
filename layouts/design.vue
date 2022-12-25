@@ -10,7 +10,7 @@
         <v-icon color="white">mdi-text-box-multiple</v-icon>
         <div class="ml-3 text-h6 white--text text-center">PAGES</div>
       </v-btn>
-      <v-btn text class="pa-5" @click="modal">
+      <v-btn text class="pa-5" @click="modal()">
         <v-icon color="white">mdi-file-cog</v-icon>
         <div class="ml-3 text-h6 white--text text-center">PREVIEW</div>
       </v-btn>
@@ -18,7 +18,7 @@
         <v-icon color="white">mdi-file-cog</v-icon>
         <div class="ml-3 text-h6 white--text text-center">SETTINGS</div>
       </v-btn>
-      <v-btn text class="pa-5">
+      <v-btn text class="pa-5" @click="projectSave()">
         <v-icon color="white">mdi-content-save-alert</v-icon>
         <div class="ml-3 text-h6 white--text text-center">SAVE</div>
       </v-btn>
@@ -71,7 +71,7 @@
         </v-row>
       </v-container>
     </v-dialog>
-    <ProjectPreviewModal v-if="previewFlg" ref="modal" />
+    <ProjectPreviewModal v-if="preview" ref="modal" />
     <Nuxt class="grey lighten-4" />
   </v-app>
 </template>
@@ -93,7 +93,17 @@ export default {
     jumpToProjectList() {
       this.$router.push({ path: '/projects' })
     },
-    modal() {},
+    projectSave() {
+      const project = {
+        name: 'test1',
+        ui: '[]',
+      }
+      this.$store.dispatch('api/putProject', { data: project })
+      this.$router.push({ path: '/projects' })
+    },
+    modal() {
+      this.$router.push({ path: '/projects/1/1/preview' })
+    },
   },
 }
 </script>
