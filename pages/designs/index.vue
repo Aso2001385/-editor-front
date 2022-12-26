@@ -40,9 +40,6 @@ export default {
       if (sessionStorage.getItem('user') === '') {
         this.$router.push({ path: '/' })
       }
-      console.log('this.user')
-      const usr = this.$store.state.user
-      console.log(usr)
     },
     // RoutePages(value) {
     //   const confilmMarkdownData = localStorage.getItem('MarkdownData')

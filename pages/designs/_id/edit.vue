@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      markDown: 'api/markDown',
+      markDown: 'api/design/markDown',
       // page: 'api/getterPage',
       // localSaveProject: 'local/getLocalSaveProject',
     }),
@@ -89,7 +89,7 @@ export default {
   },
   async created() {
     this.temps = temp
-    await this.$store.dispatch('api/getMarkDown', { data: preMarkDown })
+    await this.$store.dispatch('api/design/getMarkDown', { data: preMarkDown })
   },
 }
 </script>

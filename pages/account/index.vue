@@ -9,26 +9,8 @@
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
             <v-text-field v-model="name" label="name" readonly></v-text-field>
-            <!-- <v-row justify="center" class="mt-5"> -->
-            <!-- <v-col cols="4">
-                <ApiEventButton color="grey darken-3" :click-callback="submit"> Next </ApiEventButton>
-              </v-col>
-            </v-row>
-            <v-row class="mt-10" justify="center">
-              <NuxtLink to="/user-update">メールアドレス・パスワードの変更ですか？こちらから変更</NuxtLink>
-            </v-row> -->
           </div>
         </v-card>
-        <!-- <v-container class="pb-10 fill-width mt-10 grey lighten-5">
-          <v-row class="grey darken-2">
-            <h3 class="white--text d-flex justify-left pa-4 gray">利用できるデザインセット</h3>
-          </v-row>
-          <v-row class="pl-10 pr-10">
-            <v-col v-for="(project, index) in default_previews" :key="index" class="mt-2" cols="12">
-              <ProjectCard :receive="project" :click-callback="() => jumpToProject()" />
-            </v-col>
-          </v-row>
-        </v-container> -->
       </v-col>
     </v-row>
   </v-container>

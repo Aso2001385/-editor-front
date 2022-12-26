@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'api/user',
+      user: 'api/account/user',
     }),
   },
   created() {
@@ -60,7 +60,7 @@ export default {
     async submit() {
       if (this.password === this.confirmPassword) {
         const data = { name: this.name, email: this.email, password: this.password }
-        await this.$store.dispatch('api/register', { data })
+        await this.$store.dispatch('api/account/register', { data })
         if (this.user) {
           this.$router.push({
             path: '/account/confirmSignup',
