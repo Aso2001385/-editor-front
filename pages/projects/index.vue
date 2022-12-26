@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      projects: 'api/projects',
+      projects: 'api/projects/list',
     }),
   },
   created() {
@@ -40,7 +40,7 @@ export default {
       if (sessionStorage.getItem('user') === null) {
         await this.$router.push({ path: '/' })
       }
-      if (await this.$store.dispatch('api/getProjects', { data: this.getUser.id })) {
+      if (await this.$store.dispatch('api/projects/getList', { data: this.getUser.id })) {
         console.log('データの取得成功')
         this.default_previews = JSON.parse()
       } else {

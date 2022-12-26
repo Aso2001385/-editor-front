@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      newProject: 'api/project',
+      newProject: 'api/projects/project',
       localSaveProject: 'local/getLocalSaveProject',
       isSetLocal: 'local/getIsSetLocal',
     }),
