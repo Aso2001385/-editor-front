@@ -1,3 +1,4 @@
+// 使わない予定
 import axios from 'axios'
 import { Octokit } from '@octokit/core'
 
