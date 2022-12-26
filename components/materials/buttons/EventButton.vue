@@ -44,7 +44,6 @@ export default {
       } catch (error) {
         console.log(error)
       }
-      await new Promise(resolve => setTimeout(resolve, 3000))
       this.disabled = false
     },
   },

@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-main>
+    <DesignEditHeader :click-callback="seveDesign" />
     <v-row style="height: 100%" no-gutters>
       <v-col cols="6">
         <v-row style="height: 100%" no-gutters>
@@ -54,8 +55,9 @@ import temp from '@/lib/template.json'
 import preMarkDown from '@/lib/pre-md.json'
 import Body from '@/components/materials/inputs/Body.vue'
 import Table from '@/components/materials/inputs/Table.vue'
-import Headline from '@/components/materials/inputs/Headline'
+import Headline from '@/components/materials/inputs/Headline.vue'
 import List from '@/components/materials/inputs/List.vue'
+import DesignEditHeader from '@/components/planets/DesignEditHeader.vue'
 import '@/lib/pro.scss'
 export default {
   components: {
@@ -63,8 +65,9 @@ export default {
     Table,
     List,
     Headline,
+    DesignEditHeader,
   },
-  layout: 'editor',
+
   data() {
     return {
       window: 0,
@@ -82,7 +85,6 @@ export default {
     temps: {
       handler() {
         styleSetter(this.temps)
-        console.log(JSON.stringify(this.temps))
       },
       deep: true,
     },
@@ -90,6 +92,14 @@ export default {
   async created() {
     this.temps = temp
     await this.$store.dispatch('api/design/getMarkDown', { data: preMarkDown })
+  },
+  methods: {
+    async seveDesign() {
+      const design = {
+        contents: this.temps,
+      }
+      await this.$store.dispatch('api/putDesign', { data: design })
+    },
   },
 }
 </script>
