@@ -19,6 +19,9 @@
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/designs">デザインへ</NuxtLink>
             </v-row>
+            <v-row class="mt-10" justify="center">
+              <EventButton color="grey darken-3" :click-callback="test">テスト</EventButton>
+            </v-row>
             <!-- <v-row class="mt-10" justify="center">
               <NuxtLink to="/account/sign-up">パスワードを忘れましたか？</NuxtLink>
             </v-row> -->
@@ -38,13 +41,14 @@ export default {
   layout: 'auth',
   data() {
     return {
-      email: '',
-      password: '',
+      email: process.env.LOGIN_TEST_MAIL,
+      password: process.env.LOGIN_TEST_PASS,
     }
   },
   computed: {
     ...mapGetters({
       user: 'api/user',
+      designs: 'api/designs',
     }),
   },
   methods: {
@@ -60,6 +64,12 @@ export default {
       } else {
         console.log(this.user)
       }
+    },
+    async test() {
+      console.log('テストー')
+      await this.$store.dispatch('api/getDesigns')
+      await this.$store.dispatch('api/corsTest')
+      await this.$store.dispatch('api/getUsers')
     },
   },
 }

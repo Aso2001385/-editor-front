@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Octokit } from '@octokit/core'
+import { nestClone } from '@/lib/common'
 
 axios.defaults.withCredentials = true
 const API_URL = process.env.API_BASE_URL
@@ -227,13 +228,17 @@ export const actions = {
       })
   },
   getDesigns: async ({ commit }, argument) => {
+    console.log('designs')
     return await axios
       .get(`${API_URL}/users/designs`)
       .then(normalResponse => {
         commit('setDesigns', normalResponse.data)
+        console.table(nestClone(normalResponse.data))
         return true
       })
-      .catch(() => {
+      .catch(e => {
+        console.log('designs - e')
+        console.log(e)
         return false
       })
   },
@@ -278,5 +283,27 @@ export const actions = {
       text: argument.data,
     })
     commit('setMarkDown', res.data)
+  },
+  corsTest: async () => {
+    return await axios
+      .get(`${API_URL}/cors/test`)
+      .then(res => {
+        console.log('cors')
+        console.log(res)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  },
+  getUsers: async () => {
+    return await axios
+      .get(`${API_URL}/users`)
+      .then(res => {
+        console.log('users')
+        console.log(res)
+      })
+      .catch(e => {
+        console.log(e)
+      })
   },
 }

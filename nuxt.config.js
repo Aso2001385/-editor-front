@@ -2,15 +2,18 @@ import colors from 'vuetify/es5/util/colors'
 import ja from 'vuetify/lib/locale/ja'
 
 require('dotenv').config()
-const { BASE_URL, API_BASE_URL, MARK_DOWN_API_BASE_URL, AUTH_TOKEN } = process.env
+const { BASE_URL, API_BASE_URL, MARK_DOWN_API_BASE_URL, MARK_DOWN_API_AUTH_TOKEN, LOGIN_TEST_MAIL, LOGIN_TEST_PASS } =
+  process.env
 const baseURL = API_BASE_URL
 
 export default {
   publicRuntimeConfig: {
-    AUTH_TOKEN,
+    MARK_DOWN_API_AUTH_TOKEN,
     MARK_DOWN_API_BASE_URL,
     API_BASE_URL,
     BASE_URL,
+    LOGIN_TEST_MAIL,
+    LOGIN_TEST_PASS,
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -124,9 +127,11 @@ export default {
 
   env: {
     API_BASE_URL: baseURL,
-    AUTH_TOKEN,
+    MARK_DOWN_API_AUTH_TOKEN,
     MARK_DOWN_API_BASE_URL,
     BASE_URL,
+    LOGIN_TEST_MAIL,
+    LOGIN_TEST_PASS,
   },
 
   router: {
