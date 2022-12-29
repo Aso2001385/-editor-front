@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      markDown: 'api/markDown',
+      markDown: 'api/design/markDown',
       // page: 'api/getterPage',
       // localSaveProject: 'local/getLocalSaveProject',
     }),
@@ -61,7 +61,7 @@ export default {
         text +=
           "# GoodMorningWorld\n### Dr.Stone\n---\nおはよう世界!GoodMorningWorld!\n- てん\n- てん\n  - てんてん\n```javaScript\nconsole.log(new Ans('que'))\n```\n"
       }
-      await this.$store.dispatch('api/getMarkDown', { data: text })
+      await this.$store.dispatch('api/design/getMarkDown', { data: text })
     },
     styles(color) {
       styleSetter(template)

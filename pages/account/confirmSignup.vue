@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'api/user',
+      user: 'api/account/user',
     }),
   },
   created() {
@@ -59,7 +59,7 @@ export default {
           code: this.code,
         }
 
-        await this.$store.dispatch('api/confirmRegister', { data: user })
+        await this.$store.dispatch('api/account/confirmRegister', { data: user })
         if (this.user.id) {
           console.log(this.user)
           // await this.$router.push({ path: '/projects' })
@@ -71,7 +71,7 @@ export default {
       }
     },
     async reSend() {
-      await this.$store.dispatch('api/reSendEmail', { email: this.user.email })
+      await this.$store.dispatch('api/account/reSendEmail', { email: this.user.email })
     },
   },
 }

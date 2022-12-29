@@ -47,8 +47,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'api/user',
       designs: 'api/designs',
+      user: 'api/account/user',
     }),
   },
   methods: {
@@ -57,13 +57,15 @@ export default {
         email: this.email,
         password: this.password,
       }
-      await this.$store.dispatch('api/postLogin', { data: user })
-      if (this.user.id) {
-        console.log(this.user)
-        // this.$router.push({ path: this.url })
-      } else {
-        console.log(this.user)
+      const userInfo = await this.$store.dispatch('api/account/postLogin', { data: user })
+      console.log(userInfo)
+      if (userInfo === true) {
+        this.$router.push({ path: '/projects' })
       }
+      // 下記の書き方だとユーザー情報取得しても遷移していなかったから変更しました
+      // if (this.user.id) {
+      //   this.$router.push({ path: '/projects' })
+      // }
     },
     async test() {
       console.log('テストー')
