@@ -18,25 +18,25 @@ export default {
       type: Function,
       default: () => {},
     },
-    receive: {
-      type: String,
-      default: () => '',
-      // receive: {
-      //   type: Object,
-      //   default: () => ({
-      //     id: 0,
-      //     name: '',
-      //     text: '',
-      //     backgroundColor: '',
-      //     primaryColor: '',
-      //     secondaryColor: '',
-      //     updatedAt: '',
-      //     textColor: '',
-      //   }),
-    },
+    // receive: {
+    //   type: String,
+    //   default: () => '',
+    // receive: {
+    //   type: Object,
+    //   default: () => ({
+    //     id: 0,
+    //     name: '',
+    //     text: '',
+    //     backgroundColor: '',
+    //     primaryColor: '',
+    //     secondaryColor: '',
+    //     updatedAt: '',
+    //     textColor: '',
+    //   }),
+    // },
     name: {
       type: String,
-      default: () => 'project1',
+      default: () => 'project',
     },
     isSetLocal: {
       type: Boolean,
@@ -45,6 +45,9 @@ export default {
   },
   data() {
     return {
+      // 中身を配列形式で保存するようにする
+      receive: '',
+      // receive: ['id','name','text',]
       disabled: false,
     }
   },
@@ -88,6 +91,7 @@ export default {
   },
   mounted() {
     console.log(this.receive)
+    this.receive = localStorage.getItem('HtmlFromMarkdown')
   },
   methods: {
     async click() {

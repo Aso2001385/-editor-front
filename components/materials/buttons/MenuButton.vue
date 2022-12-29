@@ -16,6 +16,12 @@ export default {
       default: '/projects',
     },
   },
+  methods: {
+    reload() {
+      location.reload()
+      this.$router.push({ path: '/projects' })
+    },
+  },
 }
 </script>
 <style scoped>

@@ -5,10 +5,7 @@
         <AddProjectCard :click-callback="() => jumpToNewProject()" />
       </v-col>
       <v-col v-if="isSetLocal" class="mt-2" cols="4">
-        <EditingProjectCard
-          :receive="localSaveProject"
-          :click-callback="() => jumpToEditingProject(editingProject.id)"
-        />
+        <EditingProjectCard :click-callback="() => jumpToEditingProject(editingProject.id)" />
       </v-col>
       <!-- <v-col v-for="(project, index) in projects" :key="index" class="mt-2" cols="4">
         <ProjectCard :receive="project" :click-callback="() => jumpToProject(project.id)" />
@@ -45,7 +42,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      newProject: 'api/projects/project',
+      newProject: 'api/project',
       localSaveProject: 'local/getLocalSaveProject',
       isSetLocal: 'local/getIsSetLocal',
     }),
@@ -66,8 +63,10 @@ export default {
     },
   },
   created() {
-    localStorage.getItem('MarkdownData')
-    this.$store.dispatch('local/setLocalSaveProject', { data: localStorage.getItem('MarkdownData') })
+    console.log('created行われているかの確認')
+    this.$store.dispatch('local/setLocalSaveProject', {
+      data: localStorage.getItem('MarkdownData'),
+    })
     // const user = sessionStorage.getItem('user')
     // this.$store.dispatch('local/checkLocalSaveProject')
     // console.log(user)
@@ -75,7 +74,6 @@ export default {
   },
   mounted() {
     this.getAccount()
-    console.log(this.localSaveProject)
     // this.localSaveProject = localStorage.getItem('HtmlFromMarkdown')
     // const user = JSON.stringify(sessionStorage.getItem('user'))
     // this.$store.dispatch('local/checkLocalSaveProject')

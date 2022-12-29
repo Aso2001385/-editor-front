@@ -27,7 +27,6 @@ export const getters = {
 
 export const actions = {
   setLocalSaveProject({ commit }, argument) {
-    console.log('新しいプロジェクトの取得')
     console.log(argument)
     localStorage.setItem('isSetLocal', true)
     localStorage.setItem(KEY, JSON.stringify(argument.data))
