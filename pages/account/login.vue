@@ -59,9 +59,9 @@ export default {
       }
       const userInfo = await this.$store.dispatch('api/account/postLogin', { data: user })
       console.log(userInfo)
-      if (userInfo === true) {
-        this.$router.push({ path: '/projects' })
-      }
+      // if (userInfo === true) {
+      //   this.$router.push({ path: '/projects' })
+      // }
       // 下記の書き方だとユーザー情報取得しても遷移していなかったから変更しました
       // if (this.user.id) {
       //   this.$router.push({ path: '/projects' })
