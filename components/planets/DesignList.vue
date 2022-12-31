@@ -4,8 +4,8 @@
       <v-col cols="4" class="mt-2">
         <AddDesignCard :click-callback="() => jumpToNewDesign()" />
       </v-col>
-      <v-col v-for="(disign, index) in disigns" :key="index" class="mt-2" cols="4">
-        <DesignPreviewCard :receive="disign" :click-callback="() => jumpToDesign(disign.id)" />
+      <v-col v-for="(design, index) in designs" :key="index" class="mt-2" cols="4">
+        <DesignPreviewCard :receive="design" :click-callback="() => jumpToDesign(disign.id)" />
       </v-col>
     </v-row>
   </div>
@@ -37,7 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       user: 'api/user',
-      disigns: 'api/designs',
+      designs: 'api/designs',
       newDisign: 'api/design',
     }),
     editingDesign: {
@@ -48,6 +48,8 @@ export default {
   },
   async created() {
     await this.$store.dispatch('api/getDesigns')
+    console.log('designs')
+    console.log(this.designs)
   },
   methods: {
     async jumpToNewDesign() {
@@ -66,7 +68,7 @@ export default {
       }
       console.log(JSON.stringify(newDesign))
       console.log(nestClone(newDesign))
-      await this.$store.dispatch('api/postDesign', newDesign)
+      await this.$store.dispatch('api/postDesign', { data: newDesign })
       // this.$router.push({ path: `/designs/${this.newDesign.id}/edit` })
     },
     jumpToDesign(id) {

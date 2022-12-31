@@ -19,6 +19,9 @@
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/designs">デザインへ</NuxtLink>
             </v-row>
+            <v-row class="mt-10" justify="center">
+              <EventButton color="grey darken-3" :click-callback="test">テスト</EventButton>
+            </v-row>
             <!-- <v-row class="mt-10" justify="center">
               <NuxtLink to="/account/sign-up">パスワードを忘れましたか？</NuxtLink>
             </v-row> -->
@@ -38,13 +41,16 @@ export default {
   layout: 'auth',
   data() {
     return {
-      email: '',
-      password: '',
+      email: process.env.LOGIN_TEST_MAIL,
+      password: process.env.LOGIN_TEST_PASS,
     }
   },
   computed: {
     ...mapGetters({
-      user: 'api/account/user',
+      auth: 'api/users/auth',
+      users: 'api/users/collection',
+      user: 'api/users/resource',
+      design: 'api/designs/resource',
     }),
   },
   methods: {
@@ -53,15 +59,36 @@ export default {
         email: this.email,
         password: this.password,
       }
-      const userInfo = await this.$store.dispatch('api/account/postLogin', { data: user })
+      const userInfo = await this.$store.dispatch('api/users/postLogin', { data: user })
+      console.log('userInfo')
       console.log(userInfo)
-      if (userInfo === true) {
-        this.$router.push({ path: '/projects' })
-      }
+      console.log('auth')
+      console.log(this.auth)
+      console.log('users')
+      console.log(this.users)
+
+      // if (userInfo === true) {
+      //   this.$router.push({ path: '/projects' })
+      // }
       // 下記の書き方だとユーザー情報取得しても遷移していなかったから変更しました
       // if (this.user.id) {
       //   this.$router.push({ path: '/projects' })
       // }
+    },
+    async test() {
+      console.log('テストー')
+      await this.$store.dispatch('api/users/gets')
+      console.log('gets is')
+      console.log(this.users)
+      await this.$store.dispatch('api/users/get', { id: this.auth.id })
+      console.log('get is ')
+      console.log(this.user)
+      await this.$store.dispatch('api/users/put', {
+        id: this.auth.id,
+        data: { name: Math.random().toString(32).substring(2) },
+      })
+      console.log('put is')
+      console.log(this.user)
     },
   },
 }

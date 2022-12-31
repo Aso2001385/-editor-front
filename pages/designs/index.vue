@@ -6,6 +6,7 @@
   </v-main>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import previews from '@/assets/previews.json'
 import DesignList from '@/components/planets/DesignList.vue'
 
@@ -23,10 +24,9 @@ export default {
     }
   },
   computed: {
-    user() {
-      console.log('ユーザーの中身確認')
-      return this.$store.state.user
-    },
+    ...mapGetters({
+      user: 'api/user',
+    }),
   },
   created() {
     const data = previews
@@ -40,6 +40,8 @@ export default {
       if (sessionStorage.getItem('user') === '') {
         this.$router.push({ path: '/' })
       }
+      console.log('this.user')
+      console.log(this.user)
     },
     // RoutePages(value) {
     //   const confilmMarkdownData = localStorage.getItem('MarkdownData')

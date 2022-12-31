@@ -2,15 +2,24 @@ import colors from 'vuetify/es5/util/colors'
 import ja from 'vuetify/lib/locale/ja'
 
 require('dotenv').config()
-const { BASE_URL, API_BASE_URL, MARK_DOWN_API_BASE_URL, AUTH_TOKEN } = process.env
-const baseURL = API_BASE_URL
+
+const {
+  API_BASE_URL,
+  MARK_DOWN_API_BASE_URL,
+  MARK_DOWN_API_AUTH_TOKEN,
+  LOGIN_TEST_NAME,
+  LOGIN_TEST_MAIL,
+  LOGIN_TEST_PASS,
+} = process.env
 
 export default {
   publicRuntimeConfig: {
-    AUTH_TOKEN,
-    MARK_DOWN_API_BASE_URL,
     API_BASE_URL,
-    BASE_URL,
+    MARK_DOWN_API_AUTH_TOKEN,
+    MARK_DOWN_API_BASE_URL,
+    LOGIN_TEST_NAME,
+    LOGIN_TEST_MAIL,
+    LOGIN_TEST_PASS,
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -74,13 +83,13 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL,
+    baseURL: `${API_BASE_URL}/api`,
     credentials: true,
   },
 
   proxy: {
     '/api': {
-      target: baseURL,
+      target: `${API_BASE_URL}/api`,
       pathRewrite: {
         '^/api': '/',
       },
@@ -123,10 +132,12 @@ export default {
   },
 
   env: {
-    API_BASE_URL: baseURL,
-    AUTH_TOKEN,
+    API_BASE_URL,
+    MARK_DOWN_API_AUTH_TOKEN,
     MARK_DOWN_API_BASE_URL,
-    BASE_URL,
+    LOGIN_TEST_NAME,
+    LOGIN_TEST_MAIL,
+    LOGIN_TEST_PASS,
   },
 
   router: {
