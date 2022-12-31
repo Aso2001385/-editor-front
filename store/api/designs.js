@@ -22,7 +22,7 @@ export const mutations = crudMutations({
   },
 })
 
-export const actions = crudActions(axios, `${API_URL}/projects`, {
+export const actions = crudActions(axios, `${API_URL}/designs`, {
   getMarkDown: async ({ commit }, argument) => {
     const response = await getMD(argument.data)
     commit('setMarkDown', response)

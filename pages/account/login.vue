@@ -47,8 +47,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      designs: 'api/designs',
-      user: 'api/account/user',
+      auth: 'api/users/auth',
+      users: 'api/users/collection',
+      user: 'api/users/resource',
+      design: 'api/designs/resource',
     }),
   },
   methods: {
@@ -57,8 +59,14 @@ export default {
         email: this.email,
         password: this.password,
       }
-      const userInfo = await this.$store.dispatch('api/account/postLogin', { data: user })
+      const userInfo = await this.$store.dispatch('api/users/postLogin', { data: user })
+      console.log('userInfo')
       console.log(userInfo)
+      console.log('auth')
+      console.log(this.auth)
+      console.log('users')
+      console.log(this.users)
+
       // if (userInfo === true) {
       //   this.$router.push({ path: '/projects' })
       // }
@@ -69,9 +77,18 @@ export default {
     },
     async test() {
       console.log('テストー')
-      await this.$store.dispatch('api/getDesigns')
-      await this.$store.dispatch('api/corsTest')
-      await this.$store.dispatch('api/getUsers')
+      await this.$store.dispatch('api/users/gets')
+      console.log('gets is')
+      console.log(this.users)
+      await this.$store.dispatch('api/users/get', { id: this.auth.id })
+      console.log('get is ')
+      console.log(this.user)
+      await this.$store.dispatch('api/users/put', {
+        id: this.auth.id,
+        data: { name: Math.random().toString(32).substring(2) },
+      })
+      console.log('put is')
+      console.log(this.user)
     },
   },
 }
