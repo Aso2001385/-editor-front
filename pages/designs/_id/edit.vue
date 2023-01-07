@@ -42,7 +42,7 @@
         </v-row>
       </v-col>
       <v-col cols="6" class="overflow-y-auto" style="max-height: 90vh">
-        <div id="contents" v-html="markDown"></div>
+        <div id="contents" v-html="markdown"></div>
       </v-col>
     </v-row>
   </v-main>
@@ -52,7 +52,7 @@
 import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import temp from '@/lib/template.json'
-import preMarkDown from '@/lib/pre-md.json'
+import preMarkdown from '@/lib/pre-md.json'
 import Body from '@/components/materials/inputs/Body.vue'
 import Table from '@/components/materials/inputs/Table.vue'
 import Headline from '@/components/materials/inputs/Headline.vue'
@@ -76,7 +76,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      markDown: 'api/design/markDown',
+      markdown: 'api/designs/markdown',
+      design: 'api/designs/resource',
       // page: 'api/getterPage',
       // localSaveProject: 'local/getLocalSaveProject',
     }),
@@ -91,14 +92,16 @@ export default {
   },
   async created() {
     this.temps = temp
-    await this.$store.dispatch('api/design/getMarkDown', { data: preMarkDown })
+    // await this.$store.dispatch('api/designs/get',{id:this.$route.params.id})
+    await this.$store.dispatch('api/designs/getMarkdown', { data: preMarkdown })
+    this.temp = this.design.contents
   },
   methods: {
     async seveDesign() {
       const design = {
         contents: this.temps,
       }
-      await this.$store.dispatch('api/putDesign', { data: design })
+      await this.$store.dispatch('api/designs/put', { id: this.design.uuid, data: design })
     },
   },
 }

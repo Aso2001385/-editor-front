@@ -17,14 +17,14 @@ export const getters = crudGetters({
 })
 
 export const mutations = crudMutations({
-  setMarkDown(state, response) {
+  setMarkdown(state, response) {
     state.markdown = response
   },
 })
 
 export const actions = crudActions(axios, `${API_URL}/projects`, {
-  getMarkDown: async ({ commit }, argument) => {
+  getMarkdown: async ({ commit }, argument) => {
     const response = await getMD(argument.data)
-    commit('setMarkDown', response)
+    commit('setMarkdown', response)
   },
 })

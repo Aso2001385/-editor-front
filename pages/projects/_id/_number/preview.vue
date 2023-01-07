@@ -3,7 +3,7 @@
   <v-main style="position: relative">
     <HeaderVue />
     <div style="position: absolute; overflow-y: auto; height: 90vh; width: 100%">
-      <div id="contents" v-html="markDown"></div>
+      <div id="contents" v-html="markdown"></div>
       <div class="blue darken-4">dgadgdsafa</div>
     </div>
     <div v-if="loading" style="height: 90vh; display: grid; place-items: center">
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      markDown: 'api/design/markDown',
+      markdown: 'api/design/markdown',
       // page: 'api/getterPage',
       // localSaveProject: 'local/getLocalSaveProject',
     }),
@@ -40,7 +40,7 @@ export default {
   async created() {
     // created() {
     this.loading = true
-    await this.getMarkDownPage()
+    await this.getMarkdownPage()
     this.loading = false
     this.styles('red')
   },
@@ -53,7 +53,7 @@ export default {
         await this.$router.push({ path: '/' })
       }
     },
-    async getMarkDownPage() {
+    async getMarkdownPage() {
       // await this.$store.dispatch('api/Page', { data: { uuid: this.$route.uuid, number: this.$route.number } })
       // const text = this.page.contents
       let text = ''
@@ -61,7 +61,7 @@ export default {
         text +=
           "# GoodMorningWorld\n### Dr.Stone\n---\nおはよう世界!GoodMorningWorld!\n- てん\n- てん\n  - てんてん\n```javaScript\nconsole.log(new Ans('que'))\n```\n"
       }
-      await this.$store.dispatch('api/design/getMarkDown', { data: text })
+      await this.$store.dispatch('api/design/getMarkdown', { data: text })
     },
     styles(color) {
       styleSetter(template)

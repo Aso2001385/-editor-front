@@ -5,23 +5,22 @@
         <AddDesignCard :click-callback="() => jumpToNewDesign()" />
       </v-col>
       <v-col v-for="(design, index) in designs" :key="index" class="mt-2" cols="4">
-        <DesignPreviewCard :receive="design" :click-callback="() => jumpToDesign(disign.id)" />
+        <PreviewCard :receive="designRelease(design)" :click-callback="() => jumpToDesign(design.uuid)" />
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
-// import { nestClone } from '@/lib/common'
 import AddDesignCard from '@/components/materials/cards/AddDesignCard.vue'
-import DesignPreviewCard from '@/components/materials/cards/DesignPreviewCard.vue'
+import PreviewCard from '@/components/materials/cards/PreviewCard.vue'
 
 import temp from '@/lib/template.json'
-import { nestClone } from '~/lib/common'
+import htmlPreset from '@/lib/pre-html.json'
 export default {
   components: {
     AddDesignCard,
-    DesignPreviewCard,
+    PreviewCard,
   },
   props: {
     receive: {
@@ -36,9 +35,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'api/user',
-      designs: 'api/designs',
-      newDisign: 'api/design',
+      auth: 'api/user/auth',
+      authFlg: 'api/user/authFlg',
+      designs: 'api/designs/collection',
+      newDesign: 'api/designs/resource',
     }),
     editingDesign: {
       get() {
@@ -47,32 +47,31 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch('api/getDesigns')
-    console.log('designs')
-    console.log(this.designs)
+    await this.$store.dispatch('api/designs/gets')
   },
   methods: {
     async jumpToNewDesign() {
-      //  UUIDの部分はデータベースから取ってきたデータを利用する
-      console.log(this.user)
-      console.log(this.designs)
-      if (this.designs) {
-        console.log(this.designs)
-      } else {
-        this.designs = []
-      }
+      if (!this.designs) this.designs = []
       const newDesign = {
         name: 'Design' + (this.designs.length + 1),
         point: 0,
         contents: JSON.stringify(temp),
       }
-      console.log(JSON.stringify(newDesign))
-      console.log(nestClone(newDesign))
-      await this.$store.dispatch('api/postDesign', { data: newDesign })
-      // this.$router.push({ path: `/designs/${this.newDesign.id}/edit` })
+      if (await this.$store.dispatch('api/designs/post', { data: newDesign })) {
+        this.$router.push({ path: `/designs/${this.newDesign.uuid}/edit` })
+      }
     },
     jumpToDesign(id) {
       this.$router.push({ path: `/designs/${id}/edit` })
+    },
+    designRelease(primitiveDesign) {
+      return {
+        uuid: primitiveDesign.uuid,
+        name: primitiveDesign.name,
+        text: htmlPreset.text,
+        design: primitiveDesign.contents,
+        updatedAt: primitiveDesign.updated_at,
+      }
     },
   },
 }
