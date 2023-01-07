@@ -17,6 +17,9 @@
               <NuxtLink to="/account/signup">サインインページへ</NuxtLink>
             </v-row>
             <v-row class="mt-10" justify="center">
+              <NuxtLink to="/account/no_auth_signup">認証なしサインインページへ</NuxtLink>
+            </v-row>
+            <v-row class="mt-10" justify="center">
               <NuxtLink to="/designs">デザインへ</NuxtLink>
             </v-row>
             <v-row class="mt-10" justify="center">

@@ -15,25 +15,25 @@ export const mutations = {
 }
 
 export const getters = {
-  getLocalSaveProject() {
+  getSave() {
     return localStorage.getItem(HTMLDATA)
     // return JSON.parse(localStorage.getItem(KEY))
   },
-  getIsSetLocal: state => {
+  getIsSet: state => {
     console.log('getter is set ' + state.isSetLocal)
     return state.isSetLocal
   },
 }
 
 export const actions = {
-  setLocalSaveProject({ commit }, argument) {
+  setSave({ commit }, argument) {
     console.log('新しいプロジェクトの取得')
     console.log(argument)
     localStorage.setItem('isSetLocal', true)
     localStorage.setItem(KEY, JSON.stringify(argument.data))
     commit(SETTER, true)
   },
-  deleteLocalSaveProject({ commit }) {
+  deleteSave({ commit }) {
     localStorage.clear()
     commit(SETTER, false)
   },

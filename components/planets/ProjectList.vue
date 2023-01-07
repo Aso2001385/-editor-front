@@ -41,19 +41,25 @@ export default {
   data() {
     return {
       disabled: false,
+      editingProject: {
+        id: 'k1kfk3k2lfklef',
+        name: 'project1',
+      },
     }
   },
+  // 一覧はcollection
+  // 個人、プロジェクト一つはresource
   computed: {
     ...mapGetters({
-      newProject: 'api/projects/project',
-      localSaveProject: 'local/getLocalSaveProject',
-      isSetLocal: 'local/getIsSetLocal',
+      newProject: 'api/projects/resource',
+      localSaveProject: 'local/project/getSave',
+      isSetLocal: 'local/project/getIsSet',
     }),
-    editingProject: {
-      get() {
-        return JSON.parse(localStorage.getItem('editingProject'))
-      },
-    },
+    // editingProject: {
+    //   get() {
+    //     return JSON.parse(localStorage.getItem('editingProject'))
+    //   },
+    // },
     projects: {
       get() {
         console.log('isset' + this.isSetLocal)
@@ -67,7 +73,7 @@ export default {
   },
   created() {
     localStorage.getItem('MarkdownData')
-    this.$store.dispatch('local/setLocalSaveProject', { data: localStorage.getItem('MarkdownData') })
+    this.$store.dispatch('local/project/setSave', { data: localStorage.getItem('MarkdownData') })
     // const user = sessionStorage.getItem('user')
     // this.$store.dispatch('local/checkLocalSaveProject')
     // console.log(user)
@@ -86,22 +92,26 @@ export default {
       this.localSaveProject = localStorage.getItem('HtmlFromMarkdown')
     },
     async jumpToNewProject() {
-      //  UUIDの部分はデータベースから取ってきたデータを利用する
-
-      // ローカルに有るかないか
       if (this.isSetLocal) {
         console.log('確認:true')
-        // いいえを選択したら、消すこともなくページの遷移など何も行わない
-        // if (this.jumpConfirm) {
         if (
           window.confirm(
             '\n編集中のプロジェクトがあります。\n\nこのまま別のプロジェクトへ進むと、保存されていない変更は失われます。\n本当に続行してもよろしいですか？\n'
           )
         ) {
-          // ローカルのデータを消した上でデータベースから取得した作成済みのプロジェクトの編集に移る
-          await this.$store.dispatch('local/deleteLocalSaveProject')
+          const projectName = {
+            name: 'project1',
+            ui: JSON.stringify({
+              id: 1,
+              name: 'ABC',
+              updated_at: '2010-12-01 12:02:00',
+            }),
+          }
+          await this.$store.dispatch('local/project/deleteSave')
+          console.log('プロジェクト作成した時に情報が生成取得できているかの確認')
+          await this.$store.dispatch('api/projects/post', { data: projectName })
           console.log(this.newProject)
-          await this.$store.dispatch('local/setLocalSaveProject', { data: this.newProject })
+          await this.$store.dispatch('local/project/setSave', { data: this.newProject })
           localStorage.setItem('MarkdownData', '')
           // いらないかも
           localStorage.setItem('HtmlFromMarkdown', '')
@@ -112,21 +122,21 @@ export default {
         console.log('確認:false')
         // await this.$store.dispatch('api/postProjects')
         localStorage.setItem('MarkdownData', '')
-        // いらないかも
         localStorage.setItem('HtmlFromMarkdown', '')
-        await this.$store.dispatch('local/setLocalSaveProject', { data: this.newProject })
+        await this.$store.dispatch('local/project/setSave', { data: this.newProject })
         this.$router.push({ path: '/projects/1/1' })
       }
     },
-    jumpToEditingProject(id) {
+    jumpToEditingProject() {
       this.$router.push({ path: `/projects/1/${this.userId}` })
     },
     jumpToProject(id) {
+      console.log(id)
       console.log(this.isSetLocal)
       if (this.isSetLocal) {
         if (this.jumpConfirm()) {
-          this.$store.dispatch('local/deleteLocalSaveProject')
-          this.$router.push({ path: `/projects/1/${this.userId}` })
+          this.$store.dispatch('local/project/deleteSave')
+          this.$router.push({ path: `/projects/${id}/${this.userId}` })
         }
       } else {
         this.$router.push({ path: `/projects/1/${this.userId}` })
