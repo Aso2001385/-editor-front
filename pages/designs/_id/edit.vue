@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-main>
-    <HeaderVue :route-name="'designEditor'" :receive="{ uuid: design.uuid, contents: temps }" />
+    <VariableHeader :route-name="'designEditor'" :receive="{ uuid: design.uuid, contents: temps }" />
     <v-row style="height: 100%" no-gutters>
       <v-col cols="6">
         <v-row style="height: 100%" no-gutters>
@@ -56,14 +56,14 @@ import preHtml from '@/lib/pre-html.json'
 import Body from '@/components/materials/inputs/Body.vue'
 import Table from '@/components/materials/inputs/Table.vue'
 import Headline from '@/components/materials/inputs/Headline.vue'
-import HeaderVue from '@/components/planets/Header.vue'
+import VariableHeader from '@/components/planets/VariableHeader.vue'
 import List from '@/components/materials/inputs/List.vue'
 import '@/lib/pro.scss'
 import { tagOrder } from '~/lib/common'
 
 export default {
   components: {
-    HeaderVue,
+    VariableHeader,
     Body,
     Table,
     List,

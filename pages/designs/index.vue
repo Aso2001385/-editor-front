@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <VariableHeader />
     <v-main class="pa-10">
       <div class="pa-10">
         <DesignList />
@@ -12,11 +12,11 @@
 import { mapGetters } from 'vuex'
 import previews from '@/assets/previews.json'
 import DesignList from '@/components/planets/DesignList.vue'
-import Header from '@/components/planets/Header.vue'
+import VariableHeader from '@/components/planets/VariableHeader.vue'
 
 export default {
   components: {
-    Header,
+    VariableHeader,
     DesignList,
   },
   layout: 'design',
