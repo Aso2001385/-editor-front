@@ -1,7 +1,8 @@
 <template>
   <v-main class="pa-10">
+    <VariableHeader :route-name="'ProjectList'" />
     <div class="pa-10">
-      <ProjectList :userId="getUser.id" :receive="default_previews" />
+      <ProjectList />
     </div>
   </v-main>
 </template>
@@ -9,9 +10,11 @@
 import { mapGetters } from 'vuex'
 import previews from '@/assets/previews.json'
 import ProjectList from '@/components/planets/ProjectList.vue'
+import VariableHeader from '@/components/planets/VariableHeader.vue'
 
 export default {
   components: {
+    VariableHeader,
     ProjectList,
   },
   layout: 'top',
@@ -26,7 +29,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      projects: 'api/projects/projects',
+      projects: 'api/projects/collection',
     }),
   },
   created() {
