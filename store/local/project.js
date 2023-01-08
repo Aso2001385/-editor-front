@@ -1,48 +1,47 @@
 const KEY = 'localSaveProject'
-const SETTER = 'isSetLocalSetter'
-const HTMLDATA = 'HtmlFromMarkdown'
+const PREVIEW_KEY = 'localPreviews'
+// const HTMLDATA = 'HtmlFromMarkdown'
 export const state = () => ({
-  isSetLocal: false,
+  isSet: false,
 })
 
-export const mutations = {
-  isSetLocalSetter: (state, bool) => {
-    // trueで成功ということがわかる
-    console.log('bool is ' + bool)
-    state.isSetLocal = bool
-    console.log('setter is ' + state.isSetLocal)
+export const getters = {
+  isSet: state => {
+    return state.isSet
+  },
+  get() {
+    return JSON.parse(localStorage.getItem(KEY))
+  },
+  previews() {
+    return JSON.parse(localStorage.getItem(PREVIEW_KEY))
   },
 }
 
-export const getters = {
-  getLocalSaveProject() {
-    return localStorage.getItem(HTMLDATA)
-    // return JSON.parse(localStorage.getItem(KEY))
-  },
-  getIsSetLocal: state => {
-    console.log('getter is set ' + state.isSetLocal)
-    return state.isSetLocal
+export const mutations = {
+  setIsSet: (state, bool) => {
+    state.isSet = bool
   },
 }
 
 export const actions = {
-  setLocalSaveProject({ commit }, argument) {
-    console.log('新しいプロジェクトの取得')
-    console.log(argument)
-    localStorage.setItem('isSetLocal', true)
+  save({ commit }, argument) {
     localStorage.setItem(KEY, JSON.stringify(argument.data))
-    commit(SETTER, true)
+    commit('setIsSet', true)
   },
-  deleteLocalSaveProject({ commit }) {
-    localStorage.clear()
-    commit(SETTER, false)
+  putPreview({ commit }, argument) {
+    const previews = JSON.parse(localStorage.getItem(PREVIEW_KEY))
+    previews[argument.uuid] = argument.preview
+    localStorage.setItem(PREVIEW_KEY, JSON.stringify(previews))
   },
-  checkLocalSaveProject({ commit }) {
-    const item = JSON.parse(localStorage.getItem(KEY))
-    if (item) {
-      commit(SETTER, true)
+  remove({ commit }) {
+    localStorage.removeItem(KEY)
+    commit('setIsSet', false)
+  },
+  check({ commit }) {
+    if (JSON.parse(localStorage.getItem(KEY))) {
+      commit('setIsSet', true)
     } else {
-      commit(SETTER, false)
+      commit('setIsSet', false)
     }
   },
 }

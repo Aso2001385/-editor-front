@@ -27,6 +27,7 @@
 import { mapGetters } from 'vuex'
 import { getDiff } from '@/lib/common'
 import { styleSetter } from '@/lib/style-set'
+import designValuesTemplate from '@/lib/template.json'
 
 export default {
   filters: {
@@ -74,11 +75,6 @@ export default {
         return this.receive.text
       },
     },
-    design: {
-      get() {
-        return this.receive.design
-      },
-    },
     preview: {
       get() {
         return this.receive.preview
@@ -92,8 +88,9 @@ export default {
   },
   created() {
     if (!this.preview) {
-      styleSetter(JSON.parse(this.design))
+      styleSetter(designValuesTemplate)
     }
+    console.log(this.receive)
   },
   methods: {
     ...mapGetters({
