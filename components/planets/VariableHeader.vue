@@ -96,9 +96,19 @@ export default {
     ...mapGetters({
       design: 'api/designs/resource',
     }),
+    projectListFlg: {
+      get() {
+        return this.routeName === 'ProjectList'
+      },
+    },
     projectFlg: {
       get() {
         return this.routeName === 'ProjectEdit'
+      },
+    },
+    designListFlg: {
+      get() {
+        return this.routeName === 'DesignList'
       },
     },
     designFlg: {

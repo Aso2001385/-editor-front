@@ -1,6 +1,7 @@
 <!-- エディター作成・更新 -->
 <template>
   <div class="markdown-editor mt-15">
+    <VariableHeader :routeName="'ProjectEdit'" />
     <client-only>
       <mavon-editor
         v-model="markData"
@@ -18,9 +19,13 @@
 
 <script>
 import { marked } from 'marked'
+import VariableHeader from '@/components/planets/VariableHeader.vue'
 // import previews from '~/assets/previews.json'
 
 export default {
+  components: {
+    VariableHeader,
+  },
   layout: 'design',
   data() {
     return {
@@ -54,6 +59,13 @@ export default {
     // デフォルトのデータ
     // const data = previews
     // this.default_previews = data
+    // const user = {
+    //   email: this.email,
+    //   password: this.password,
+    // }
+    // const userInfo = await this.$store.dispatch('api/users/postLogin', { data: user })
+    // console.log('userInfo')
+    // console.log(userInfo)
 
     this.projectGenre = localStorage.getItem('projectId')
     // this.UserProjectData = localStorage.getItem('HtmlFromMarkdown')

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <VariableHeader />
+    <VariableHeader :route-name="'DesignList'" />
     <v-main class="pa-10">
       <div class="pa-10">
         <DesignList />
