@@ -127,6 +127,7 @@ export default {
     async saveDesign() {
       const oldContents = JSON.stringify(tagOrder(JSON.parse(this.design.contents)))
       const newContents = JSON.stringify(this.receive.contents)
+      await this.getPreview(document.getElementById('contents'))
       if (newContents === oldContents) return
 
       const imageBase = await getPreview(document.getElementById('contents'))

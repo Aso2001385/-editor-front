@@ -2,7 +2,15 @@
 <template>
   <v-card class="mx-auto" max-width="400" hover :disabled="disabled" @click.prevent="click">
     <div class="" style="height: 12rem">
+      <v-img
+        v-if="preview"
+        class="rounded-t"
+        style="box-sizing: border-box; max-height: 12rem"
+        position="top left"
+        :src="preview"
+      />
       <div
+        v-else
         id="contents"
         class="warp rounded-t"
         style="font-size: 9px; box-sizing: border-box; max-height: 12rem"
@@ -68,7 +76,12 @@ export default {
     },
     design: {
       get() {
-        return JSON.parse(this.receive.design)
+        return this.receive.design
+      },
+    },
+    preview: {
+      get() {
+        return this.receive.preview
       },
     },
     updatedAt: {
@@ -78,7 +91,9 @@ export default {
     },
   },
   created() {
-    styleSetter(this.design)
+    if (!this.preview) {
+      styleSetter(JSON.parse(this.design))
+    }
   },
   methods: {
     ...mapGetters({
