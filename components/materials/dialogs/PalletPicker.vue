@@ -19,7 +19,7 @@ export default {
   props: {
     receive: {
       type: Object,
-      default: () => {},
+      default: () => ({}),
     },
   },
   data() {

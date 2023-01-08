@@ -76,7 +76,7 @@ export default {
   },
   data() {
     return {
-      saveDesignStatus: '',
+      saveDesignStatus: {},
     }
   },
   computed: {
@@ -111,12 +111,13 @@ export default {
     async saveDesign() {
       const oldContents = JSON.stringify(tagOrder(JSON.parse(this.design.contents)))
       const newContents = JSON.stringify(this.receive.contents)
+      await this.getPreview(document.getElementById('contents'))
       if (newContents === oldContents) return
       const putDesign = {
         contents: newContents,
+        preview: this.saveDesignStatus.base,
       }
       await this.$store.dispatch('api/designs/put', { id: this.receive.uuid, data: putDesign })
-      this.getPreview(document.getElementById('contents'))
       this.$refs.dig.dialog = true
     },
     async getPreview(document) {

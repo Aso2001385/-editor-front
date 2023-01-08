@@ -55,11 +55,11 @@ export default {
   },
   data() {
     return {
-      fontColorAll: { value: 'rgba(200,200,200,1)' },
+      fontColorAll: { value: '#FFFFFF' },
       fontShadowXAll: { value: '0' },
       fontShadowYAll: { value: '0' },
       fontShadowBlurAll: { value: '0' },
-      fontShadowColorAll: { value: 'rgba(200,200,200,1)' },
+      fontShadowColorAll: { value: '#555555' },
     }
   },
   computed: {

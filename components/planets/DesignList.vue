@@ -74,9 +74,11 @@ export default {
         name: primitiveDesign.name,
         text: htmlPreset.text,
         design: primitiveDesign.contents,
+        preview: primitiveDesign.preview,
         updatedAt: primitiveDesign.updated_at,
       }
     },
   },
 }
 </script>
+yle>
