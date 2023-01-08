@@ -83,6 +83,7 @@ export default {
           this.alls.h4.attributes.color.value =
           this.alls.h5.attributes.color.value =
           this.alls.h6.attributes.color.value =
+          this.alls.p.attributes.color.value =
             this.fontColorAll.value
       },
       deep: true,
@@ -95,6 +96,7 @@ export default {
           this.alls.h4.attributes['text-shadow-x'].value =
           this.alls.h5.attributes['text-shadow-x'].value =
           this.alls.h6.attributes['text-shadow-x'].value =
+          this.alls.p.attributes['text-shadow-x'].value =
             this.fontShadowXAll.value
       },
       deep: true,
@@ -107,6 +109,7 @@ export default {
           this.alls.h4.attributes['text-shadow-y'].value =
           this.alls.h5.attributes['text-shadow-y'].value =
           this.alls.h6.attributes['text-shadow-y'].value =
+          this.alls.p.attributes['text-shadow-y'].value =
             this.fontShadowYAll.value
       },
       deep: true,
@@ -119,6 +122,7 @@ export default {
           this.alls.h4.attributes['text-shadow-blur'].value =
           this.alls.h5.attributes['text-shadow-blur'].value =
           this.alls.h6.attributes['text-shadow-blur'].value =
+          this.alls.p.attributes['text-shadow-blur'].value =
             this.fontShadowBlurAll.value
       },
       deep: true,
@@ -131,6 +135,7 @@ export default {
           this.alls.h4.attributes['text-shadow-color'].value =
           this.alls.h5.attributes['text-shadow-color'].value =
           this.alls.h6.attributes['text-shadow-color'].value =
+          this.alls.p.attributes['text-shadow-color'].value =
             this.fontShadowColorAll.value
       },
       deep: true,
