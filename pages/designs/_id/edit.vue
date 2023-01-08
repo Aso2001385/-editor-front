@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-main>
-    <VariableHeader :route-name="'designEditor'" :receive="{ uuid: design.uuid, contents: temps }" />
+    <VariableHeader :route-name="'DesignEdit'" :receive="{ uuid: design.uuid, contents: temps }" />
     <v-row style="height: 100%" no-gutters>
       <v-col cols="6">
         <v-row style="height: 100%" no-gutters>
