@@ -4,8 +4,8 @@
       <v-col cols="4" class="mt-2">
         <AddDesignCard :click-callback="() => jumpToNewDesign()" />
       </v-col>
-      <v-col v-for="(design, index) in designs" :key="index" class="mt-2" cols="4">
-        <PreviewCard :receive="designRelease(design)" :click-callback="() => jumpToDesign(design.uuid)" />
+      <v-col v-for="(design, index) in releaseDesigns" :key="index" class="mt-2" cols="4">
+        <PreviewCard :receive="design" :click-callback="() => jumpToDesign(design.uuid)" />
       </v-col>
     </v-row>
   </div>
@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       disabled: false,
+      releaseDesigns: [],
     }
   },
   computed: {
@@ -48,6 +49,9 @@ export default {
   },
   async created() {
     await this.$store.dispatch('api/designs/gets')
+    this.releaseDesigns = this.designs.map(design => {
+      return this.designsSet(design)
+    })
   },
   methods: {
     async jumpToNewDesign() {
@@ -61,10 +65,10 @@ export default {
         this.$router.push({ path: `/designs/${this.newDesign.uuid}/edit` })
       }
     },
-    jumpToDesign(id) {
-      this.$router.push({ path: `/designs/${id}/edit` })
+    jumpToDesign(uuid) {
+      this.$router.push({ path: `/designs/${uuid}/edit` })
     },
-    designRelease(primitiveDesign) {
+    designsSet(primitiveDesign) {
       return {
         uuid: primitiveDesign.uuid,
         name: primitiveDesign.name,
@@ -76,34 +80,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-#project-names {
-  background: #eee;
-  overflow: hidden;
-  width: 30%;
-
-  #project-name {
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-.container {
-  background: #eee;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-
-  p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-.warp {
-  color: #000;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-</style>

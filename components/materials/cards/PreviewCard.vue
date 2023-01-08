@@ -1,15 +1,13 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-card class="mx-auto" max-width="400" hover :disabled="disabled" @click.prevent="click">
-    <div class="">
-      <div class="" style="height: 12rem">
-        <div
-          id="contents"
-          class="warp rounded-t"
-          style="font-size: 9px; box-sizing: border-box; max-height: 12rem"
-          v-html="text"
-        ></div>
-      </div>
+    <div class="" style="height: 12rem">
+      <div
+        id="contents"
+        class="warp rounded-t"
+        style="font-size: 9px; box-sizing: border-box; max-height: 12rem"
+        v-html="text"
+      ></div>
     </div>
     <v-divider />
     <v-card-subtitle class="py-0 mt-2"> {{ updatedAt | elapsedDateTime }} ago </v-card-subtitle>
@@ -21,7 +19,6 @@
 import { mapGetters } from 'vuex'
 import { getDiff } from '@/lib/common'
 import { styleSetter } from '@/lib/style-set'
-import '@/lib/pro.scss'
 
 export default {
   filters: {
@@ -71,7 +68,7 @@ export default {
     },
     design: {
       get() {
-        return this.receive.design
+        return JSON.parse(this.receive.design)
       },
     },
     updatedAt: {
@@ -81,7 +78,7 @@ export default {
     },
   },
   created() {
-    styleSetter(JSON.parse(this.design))
+    styleSetter(this.design)
   },
   methods: {
     ...mapGetters({
@@ -99,34 +96,6 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-#project-names {
-  background: #eee;
-  overflow: hidden;
-  width: 30%;
-
-  #project-name {
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-.container {
-  background: #eee;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-
-  p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-.warp {
-  color: #000;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+<style lang="scss" scoped>
+@import '../../../assets/pro.scss';
 </style>

@@ -1,17 +1,22 @@
 <template>
-  <v-main class="pa-10">
-    <div class="pa-10">
-      <DesignList />
-    </div>
-  </v-main>
+  <div>
+    <Header />
+    <v-main class="pa-10">
+      <div class="pa-10">
+        <DesignList />
+      </div>
+    </v-main>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import previews from '@/assets/previews.json'
 import DesignList from '@/components/planets/DesignList.vue'
+import Header from '@/components/planets/Header.vue'
 
 export default {
   components: {
+    Header,
     DesignList,
   },
   layout: 'design',
