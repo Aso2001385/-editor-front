@@ -44,11 +44,6 @@
 
       <!-- design -->
 
-      <MenuButton v-if="designFlg" :click-callback="preview">
-        <template #icon>mdi-eye-arrow-right</template>
-        <template #text>プレビューを表示します</template>
-      </MenuButton>
-
       <MenuButton v-if="designFlg" :click-callback="settings">
         <template #icon>mdi-file-cog</template>
         <template #text>設定を表示します</template>
@@ -62,7 +57,12 @@
       <!-- </v-col>
       <v-col cols="3"></v-col> -->
     </v-row>
-
+    <v-dialog v-if="projectFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
+      <ProjectSettings :receive="receive" />
+    </v-dialog>
+    <v-dialog v-if="designFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
+      <DesignSettings :receive="receive" />
+    </v-dialog>
     <PreviewDialog ref="dig" :receive="savePreviewStatus"></PreviewDialog>
     <div v-if="hiddenFlg" style="position: absolute; opacity: 0; height: 100vh; width: 65vw">
       <div id="contents" style="min-height: 100%; width: 100%" v-html="markdownText"></div>
@@ -75,6 +75,8 @@ import { mapGetters } from 'vuex'
 
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
+import ProjectSettings from '@/components/planets/ProjectSettings.vue'
+import DesignSettings from '@/components/planets/DesignSettings.vue'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
@@ -84,6 +86,8 @@ export default {
   components: {
     MenuButton,
     PreviewDialog,
+    ProjectSettings,
+    DesignSettings,
   },
   props: {
     routeName: {
@@ -98,6 +102,7 @@ export default {
   data() {
     return {
       savePreviewStatus: {},
+      settingsFlg: false,
       hiddenFlg: false,
       markdownText: '',
     }
@@ -141,7 +146,9 @@ export default {
     },
     async pages() {},
     async preview() {},
-    async settings() {},
+    settings() {
+      this.settingsFlg = true
+    },
     async saveProject() {
       try {
         await this.$store.dispatch('common/loadingStart')
@@ -164,17 +171,17 @@ export default {
             base: imageBase,
           }
           this.$store.dispatch('local/project/putPreview', {
-            uuid: putPage.uuid,
+            uuid: this.project.design_uuid,
             preview: imageBase,
           })
           this.hiddenFlg = false
         })
 
         const putPage = {
-          uuid: this.project.uuid,
+          project_uuid: this.project.uuid,
+          design_uuid: this.receive.design_uuid,
           number: this.receive.number,
           contents: this.receive.contents,
-          title: this.receive.title,
         }
 
         if (await this.$store.dispatch('api/projects/putPage', { data: putPage })) {
@@ -196,7 +203,10 @@ export default {
         await this.$store.dispatch('common/loadingStart')
         const oldContents = JSON.stringify(tagOrder(JSON.parse(this.design.contents)))
         const newContents = JSON.stringify(this.receive.contents)
-        if (newContents === oldContents) return
+        if (newContents === oldContents) {
+          await this.$store.dispatch('common/loadingEnd')
+          return
+        }
 
         const imageBase = await getPreview(document.getElementById('contents'))
         this.savePreviewStatus = {

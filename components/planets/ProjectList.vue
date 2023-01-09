@@ -72,7 +72,7 @@ export default {
     jumpToProject(uuid, number) {
       if (this.isSet) {
         if (!this.jumpConfirm()) {
-          this.jumpToEditingProject()
+          return
         }
       }
       this.$store.dispatch('local/project/remove')

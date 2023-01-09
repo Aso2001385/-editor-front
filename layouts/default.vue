@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Nuxt class="grey lighten-4" />
+    <Nuxt />
     <LoadingDialog />
   </v-app>
 </template>
