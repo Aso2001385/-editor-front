@@ -1,21 +1,54 @@
 <template>
-  <v-main class="pa-10">
-    <div class="pa-10 algin-center">
-      <h1 class="mb-10">ようこそ！</h1>
-      <p><a href="/account/login">プロジェクトへ進む</a></p>
-      <p><a href="/explanation">プロジェクトの説明</a></p>
-      <div class="py-10">
-        <p>このWebサイトは現在制作中のものです。実際の登録処理等は行われません。</p>
-        <p>
-          近日中にユーザーの登録を含む機能が実装され、デモ版として再度公開される予定です。<br />
-          その際、このデモ版で公開されている画面の機能も登録処理が行われるように変更される予定です。
-        </p>
-        <p>
-          登録されたデータは、アップデートに伴い削除される可能性があります。<br />
-          現在は登録処理が行われないため、データは保存されません。
-        </p>
-      </div>
-    </div>
+  <v-main>
+    <v-container fill-height class="grey darken-2">
+      <v-card class="pa-5 mx-auto mt-5" color="grey darken-3" width="80%" height="80%">
+        <v-row class="mt-1 pl-5" style="height: 50%">
+          <v-col cols="6" class="pt-10 pl-5">
+            <v-row
+              ><v-icon color="white darken-2" class="mr-1" large> mdi-file-document-edit </v-icon
+              ><NuxtLink to="/projects" class="white--text text-h4">ProjectEditor</NuxtLink></v-row
+            >
+            <v-row class="mt-10">
+              <v-col cols="11" class="white--text ml-6"
+                >ウェブページ上に表示される文章を入力していきます。 マークダウン方式を用いて、見出しや太字などの設定も
+                こちらで行うことができます。</v-col
+              >
+            </v-row>
+          </v-col>
+          <v-divider vertical dark></v-divider>
+          <v-col cols="6" class="pt-10 pl-5">
+            <v-row
+              ><v-icon color="white darken-2" class="mr-1 ml-6" large> mdi-pencil-ruler </v-icon
+              ><NuxtLink to="/projects" class="white--text text-h4">DesignEditor</NuxtLink></v-row
+            >
+            <v-row class="mt-10"
+              ><v-col cols="11" class="white--text ml-13"
+                >文字の色や背景色をこちらで指定します。 CSSのようにして、こちらで定義したものをProjectEditer側で
+                適用することが可能です。</v-col
+              ></v-row
+            >
+          </v-col>
+        </v-row>
+        <v-divider dark></v-divider>
+        <v-row class="pt-5 pl-5" style="height: 50%">
+          <v-col cols="6" class="pt-10 pl-5">
+            <v-row
+              ><v-icon color="white darken-2" class="mr-1" large> mdi-book-open-variant </v-icon
+              ><NuxtLink to="/explanation" class="white--text text-h4">プロジェクト説明</NuxtLink></v-row
+            >
+            <v-row class="mt-10"><v-col cols="11" class="white--text ml-6"></v-col></v-row>
+          </v-col>
+          <v-divider vertical dark></v-divider>
+          <v-col cols="6" class="pt-10 pl-5">
+            <v-row
+              ><v-icon color="white darken-2" class="mr-1 ml-6" large> mdi-github </v-icon
+              ><NuxtLink to="/projects" class="white--text text-h4">その他・使用技術</NuxtLink></v-row
+            >
+            <v-row class="mt-10"><v-col cols="11" class="white--text ml-13"></v-col></v-row>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-container>
   </v-main>
 </template>
 <script>

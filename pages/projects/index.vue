@@ -17,7 +17,7 @@ export default {
     VariableHeader,
     ProjectList,
   },
-  layout: 'top',
+  layout: 'design',
   data() {
     return {
       projectData: {},
