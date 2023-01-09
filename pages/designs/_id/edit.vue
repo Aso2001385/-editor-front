@@ -70,6 +70,12 @@ export default {
     Headline,
   },
 
+  validate(data) {
+    const number = /^\d+$/.test(data.params.number)
+    const id = /([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/.test(data.params.id)
+    return number && id
+  },
+
   data() {
     return {
       window: 0,
