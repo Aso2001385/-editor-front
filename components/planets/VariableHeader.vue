@@ -32,7 +32,7 @@
         <template #text>プレビューを表示します</template>
       </MenuButton>
 
-      <MenuButton v-if="projectFlg" :click-callback="settingsProject">
+      <MenuButton v-if="projectFlg" :click-callback="settings">
         <template #icon>mdi-file-cog</template>
         <template #text>設定を表示します</template>
       </MenuButton>
@@ -43,11 +43,6 @@
       </MenuButton>
 
       <!-- design -->
-
-      <MenuButton v-if="designFlg" :click-callback="preview">
-        <template #icon>mdi-eye-arrow-right</template>
-        <template #text>プレビューを表示します</template>
-      </MenuButton>
 
       <MenuButton v-if="designFlg" :click-callback="settings">
         <template #icon>mdi-file-cog</template>
@@ -62,8 +57,11 @@
       <!-- </v-col>
       <v-col cols="3"></v-col> -->
     </v-row>
-    <v-dialog v-model="showSetting" class="d-flex" absolute width="auto">
-      <Settings :receive="receive" />
+    <v-dialog v-if="projectFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
+      <ProjectSettings :receive="receive" />
+    </v-dialog>
+    <v-dialog v-if="designFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
+      <DesignSettings :receive="receive" />
     </v-dialog>
     <PreviewDialog ref="dig" :receive="savePreviewStatus"></PreviewDialog>
     <div v-if="hiddenFlg" style="position: absolute; opacity: 0; height: 100vh; width: 65vw">
@@ -77,7 +75,8 @@ import { mapGetters } from 'vuex'
 
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
-import Settings from '@/components/planets/Settings.vue'
+import ProjectSettings from '@/components/planets/ProjectSettings.vue'
+import DesignSettings from '@/components/planets/DesignSettings.vue'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
@@ -87,7 +86,8 @@ export default {
   components: {
     MenuButton,
     PreviewDialog,
-    Settings,
+    ProjectSettings,
+    DesignSettings,
   },
   props: {
     routeName: {
@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       savePreviewStatus: {},
-      showSetting: false,
+      settingsFlg: false,
       hiddenFlg: false,
       markdownText: '',
     }
@@ -146,8 +146,8 @@ export default {
     },
     async pages() {},
     async preview() {},
-    settingsProject() {
-      this.showSetting = true
+    settings() {
+      this.settingsFlg = true
     },
     async saveProject() {
       try {
@@ -203,7 +203,10 @@ export default {
         await this.$store.dispatch('common/loadingStart')
         const oldContents = JSON.stringify(tagOrder(JSON.parse(this.design.contents)))
         const newContents = JSON.stringify(this.receive.contents)
-        if (newContents === oldContents) return
+        if (newContents === oldContents) {
+          await this.$store.dispatch('common/loadingEnd')
+          return
+        }
 
         const imageBase = await getPreview(document.getElementById('contents'))
         this.savePreviewStatus = {
