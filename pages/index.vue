@@ -1,5 +1,6 @@
 <template>
-  <v-main class="pa-10">
+  <v-main>
+    <VariableHeader :route-name="'Home'" />
     <div class="pa-10 algin-center">
       <h1 class="mb-10">ようこそ！</h1>
       <p><a href="/account/login">プロジェクトへ進む</a></p>
@@ -19,8 +20,11 @@
   </v-main>
 </template>
 <script>
+import VariableHeader from '@/components/planets/VariableHeader.vue'
 export default {
-  layout: 'top',
+  components: {
+    VariableHeader,
+  },
   data() {},
 }
 </script>

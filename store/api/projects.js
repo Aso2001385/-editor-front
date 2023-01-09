@@ -8,11 +8,19 @@ const API_URL = `${process.env.API_BASE_URL}/api`
 export const state = () =>
   crudState({
     markdown: '',
+    pages: [],
+    page: {},
   })
 
 export const getters = crudGetters({
   markdown: state => {
     return state.markdown
+  },
+  pages: state => {
+    return state.pages
+  },
+  page: state => {
+    return state.page
   },
 })
 
@@ -26,5 +34,16 @@ export const actions = crudActions(axios, `${API_URL}/projects`, {
   getMarkdown: async ({ commit }, argument) => {
     const response = await getMD(argument.data)
     commit('setMarkdown', response)
+  },
+  putPage: async ({ commit }, argument) => {
+    return await axios
+      .get(`${API_URL}/projects/pages`, argument.data)
+      .then(response => {
+        commit('setPages', response.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   },
 })

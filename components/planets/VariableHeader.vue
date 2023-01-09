@@ -1,64 +1,65 @@
 <template>
   <v-app-bar color="grey darken-3" app clipped-left>
-    <v-row>
-      <v-col cols="3" class="d-flex align-center">
-        <div class="white--text text-p" style="cursor: pointer" @click="home">
-          <span class="text-h5 mr-5">FRIDAY EDITOR</span><br />{{ routeName }}
-        </div>
-      </v-col>
+    <v-row class="pr-15">
+      <!-- <v-col cols="3" class="d-flex align-center"> -->
+      <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
+        <span class="text-h6">FRIDAY EDITOR</span><br />{{ routeName }}
+      </div>
+      <!-- </v-col> -->
       <!-- 共通 -->
-      <v-col cols="6" class="d-flex align-center">
-        <v-spacer />
-        <MenuButton :click-callback="back">
-          <template #icon>mdi-arrow-u-down-left-bold</template>
-          <template #text>前のページへ戻ります</template>
-        </MenuButton>
+      <!-- <v-col cols="6" class="d-flex align-center"> -->
 
-        <MenuButton :click-callback="account">
-          <template #icon>mdi-account</template>
-          <template #text>アカウントページへ移動します</template>
-        </MenuButton>
+      <!-- <MenuButton :click-callback="account">
+        <template #icon>mdi-account</template>
+        <template #text>アカウントページへ移動します</template>
+      </MenuButton> -->
 
-        <!-- Project -->
-        <MenuButton v-if="projectFlg" :click-callback="pages">
-          <template #icon>mdi-text-box-multiple</template>
-          <template #text>ページ一覧を表示します</template>
-        </MenuButton>
+      <MenuButton :click-callback="back">
+        <template #icon>mdi-arrow-u-down-left-bold</template>
+        <template #text>前のページへ戻ります</template>
+      </MenuButton>
 
-        <MenuButton v-if="projectFlg" :click-callback="preview">
-          <template #icon>mdi-eye-arrow-right</template>
-          <template #text>プレビューを表示します</template>
-        </MenuButton>
+      <v-spacer />
+      <!-- Project -->
+      <MenuButton v-if="projectFlg" :click-callback="pages">
+        <template #icon>mdi-text-box-multiple</template>
+        <template #text>ページ一覧を表示します</template>
+      </MenuButton>
 
-        <MenuButton v-if="projectFlg" :click-callback="settings">
-          <template #icon>mdi-file-cog</template>
-          <template #text>設定を表示します</template>
-        </MenuButton>
+      <MenuButton v-if="projectFlg" :click-callback="preview">
+        <template #icon>mdi-eye-arrow-right</template>
+        <template #text>プレビューを表示します</template>
+      </MenuButton>
 
-        <MenuButton v-if="projectFlg" :click-callback="save">
-          <template #icon>mdi-content-save-alert</template>
-          <template #text>プロジェクトを保存します</template>
-        </MenuButton>
+      <MenuButton v-if="projectFlg" :click-callback="settings">
+        <template #icon>mdi-file-cog</template>
+        <template #text>設定を表示します</template>
+      </MenuButton>
 
-        <!-- design -->
+      <MenuButton v-if="projectFlg" :click-callback="saveProject">
+        <template #icon>mdi-content-save-alert</template>
+        <template #text>プロジェクトを保存します</template>
+      </MenuButton>
 
-        <MenuButton v-if="designFlg" :click-callback="preview">
-          <template #icon>mdi-eye-arrow-right</template>
-          <template #text>プレビューを表示します</template>
-        </MenuButton>
+      <!-- design -->
 
-        <MenuButton v-if="designFlg" :click-callback="settings">
-          <template #icon>mdi-file-cog</template>
-          <template #text>設定を表示します</template>
-        </MenuButton>
+      <MenuButton v-if="designFlg" :click-callback="preview">
+        <template #icon>mdi-eye-arrow-right</template>
+        <template #text>プレビューを表示します</template>
+      </MenuButton>
 
-        <MenuButton v-if="designFlg" :click-callback="saveDesign">
-          <template #icon>mdi-content-save-alert</template>
-          <template #text>デザインを保存します</template>
-        </MenuButton>
-        <v-spacer />
-      </v-col>
-      <v-col cols="3"></v-col>
+      <MenuButton v-if="designFlg" :click-callback="settings">
+        <template #icon>mdi-file-cog</template>
+        <template #text>設定を表示します</template>
+      </MenuButton>
+
+      <MenuButton v-if="designFlg" :click-callback="saveDesign">
+        <template #icon>mdi-content-save-alert</template>
+        <template #text>デザインを保存します</template>
+      </MenuButton>
+      <!-- <v-spacer /> -->
+      <!-- </v-col>
+      <v-col cols="3"></v-col> -->
     </v-row>
 
     <PreviewDialog ref="dig" :receive="saveDesignStatus"></PreviewDialog>
