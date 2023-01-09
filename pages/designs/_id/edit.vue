@@ -96,7 +96,6 @@ export default {
       await this.$store.dispatch('api/designs/get', { id: this.$route.params.id })
     }
     this.temps = tagOrder(JSON.parse(this.design.contents))
-    console.log(this.temps)
   },
   methods: {
     async seveDesign() {
