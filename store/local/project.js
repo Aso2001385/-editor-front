@@ -9,7 +9,7 @@ export const getters = {
   isSet: state => {
     return state.isSet
   },
-  page() {
+  get() {
     return JSON.parse(localStorage.getItem(KEY))
   },
   previews() {
@@ -29,9 +29,12 @@ export const actions = {
     commit('setIsSet', true)
   },
   putPreview({ commit }, argument) {
-    const previews = JSON.parse(localStorage.getItem(PREVIEW_KEY))
+    const previews = JSON.parse(localStorage.getItem(PREVIEW_KEY)) ?? {}
     previews[argument.uuid] = argument.preview
+    console.log('previews')
+    console.log(previews)
     localStorage.setItem(PREVIEW_KEY, JSON.stringify(previews))
+    console.log(JSON.parse(localStorage.getItem(PREVIEW_KEY)))
   },
   remove({ commit }) {
     localStorage.removeItem(KEY)

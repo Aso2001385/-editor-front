@@ -43,7 +43,7 @@ export default {
   computed: {
     ...mapGetters({
       project: 'api/projects/resource',
-      localPage: 'local/project/page',
+      localProject: 'local/project/get',
       isSet: 'local/project/isSet',
     }),
   },
@@ -54,7 +54,17 @@ export default {
           this.firstAccess = false
           return
         }
-        const saveParam = nestClone(this.page)
+        const saveParam = {
+          project: {
+            uuid: this.project.uuid,
+            number: this.project.last.number,
+            name: this.project.name,
+            text: this.page.contents,
+            preview: this.localPreviews?.[this.project.uuid] ?? null,
+            updatedAt: this.project.last.updated_at,
+          },
+          page: nestClone(this.page),
+        }
         this.$store.dispatch('local/project/save', { data: saveParam })
       },
       deep: true,
@@ -70,7 +80,7 @@ export default {
   methods: {
     setPage(isSet) {
       const page = isSet
-        ? this.localPage
+        ? this.localProject.page
         : this.project.pages.find(page => page.number === this.$route.params.number) ??
           this.project.pages.find(page => page.number === this.project.last.number) ??
           this.project.pages.find(page => page.number === 1)

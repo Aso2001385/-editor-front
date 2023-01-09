@@ -5,7 +5,7 @@
         <AddProjectCard :click-callback="() => jumpToNewProject()" />
       </v-col>
       <v-col v-if="isSet" class="mt-2" cols="4">
-        <EditingProjectCard :receive="localProject" :click-callback="() => jumpToEditingProject()" />
+        <EditingProjectCard :receive="releaseEditingProject" :click-callback="() => jumpToEditingProject()" />
       </v-col>
       <v-col v-for="(project, index) in releaseProjects" :key="index" class="mt-2" cols="4">
         <PreviewCard :receive="project" :click-callback="() => jumpToProject(project.uuid, project.number)" />
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       disabled: false,
+      releaseEditingProject: {},
       releaseProjects: [],
     }
   },
@@ -37,26 +38,36 @@ export default {
       localProject: 'local/project/get',
       localPreviews: 'local/project/previews',
       isSet: 'local/project/isSet',
+      back: 'common/back',
     }),
   },
   async created() {
+    this.$store.dispatch('common/backed')
+    await this.$store.dispatch('local/project/check')
+    if (this.isSet) {
+      this.releaseEditingProject = this.localProject.project
+    }
     await this.$store.dispatch('api/projects/gets')
-    this.releaseProjects = this.projects.map(project => {
-      return this.projectSet(project)
-    })
+    this.releaseProjects = this.projects.reduce((accumulators, currentValue) => {
+      if (this.localProject?.project.uuid !== currentValue.uuid) accumulators.push(this.projectSet(currentValue))
+      return accumulators
+    }, [])
   },
   methods: {
     async jumpToNewProject() {
+      this.$store.dispatch('common/loadingStart')
       if (this.isSet) {
         if (!this.jumpConfirm()) return
-        await this.$store.dispatch('local/project/remove') // ローカル削除
+        await this.$store.dispatch('local/project/remove')
       }
-      if (this.createNewProject()) {
-        this.$router.push({ path: `/projects/${this.project.uuid}/${this.project.number}` })
+      if (await this.createNewProject()) {
+        this.$router.push({ path: `/projects/${this.newProject.uuid}/1` })
       }
+      this.$store.dispatch('common/loadingEnd')
     },
     jumpToEditingProject() {
-      this.$router.push({ path: `/projects/${this.localProject.uuid}/${this.localProject.number}` })
+      const project = this.localProject.project
+      this.$router.push({ path: `/projects/${project.uuid}/${project.number}` })
     },
     jumpToProject(uuid, number) {
       if (this.isSet) {

@@ -87,10 +87,7 @@ export default {
     },
   },
   created() {
-    if (!this.preview) {
-      styleSetter(designValuesTemplate)
-    }
-    console.log(this.receive)
+    if (!this.preview) styleSetter(designValuesTemplate)
   },
   methods: {
     ...mapGetters({

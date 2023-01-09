@@ -28,6 +28,25 @@ export const mutations = crudMutations({
   setMarkdown(state, response) {
     state.markdown = response
   },
+  setPage(state, response) {
+    const project = state.resource
+    project.pages = project.pages.reduce((accumulators, currentValue) => {
+      if (response.number === currentValue.number) {
+        accumulators.push(response)
+      } else {
+        accumulators.push(currentValue)
+      }
+      return accumulators
+    }, [])
+    project.last = {
+      number: response.number,
+      contents: response.contents,
+      updated_at: response.updated_at,
+    }
+    console.log('dffffff')
+    console.log(project)
+    state.resource = project
+  },
 })
 
 export const actions = crudActions(axios, `${API_URL}/projects`, {
@@ -37,9 +56,9 @@ export const actions = crudActions(axios, `${API_URL}/projects`, {
   },
   putPage: async ({ commit }, argument) => {
     return await axios
-      .get(`${API_URL}/projects/pages`, argument.data)
+      .put(`${API_URL}/projects/pages`, argument.data)
       .then(response => {
-        commit('setPages', response.data)
+        commit('setPage', response.data)
         return true
       })
       .catch(() => {
