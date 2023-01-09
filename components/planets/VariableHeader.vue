@@ -32,7 +32,7 @@
         <template #text>プレビューを表示します</template>
       </MenuButton>
 
-      <MenuButton v-if="projectFlg" :click-callback="settings">
+      <MenuButton v-if="projectFlg" :click-callback="settingsProject">
         <template #icon>mdi-file-cog</template>
         <template #text>設定を表示します</template>
       </MenuButton>
@@ -62,7 +62,9 @@
       <!-- </v-col>
       <v-col cols="3"></v-col> -->
     </v-row>
-
+    <v-dialog v-model="showSetting" class="d-flex" absolute width="auto">
+      <Settings :receive="receive" />
+    </v-dialog>
     <PreviewDialog ref="dig" :receive="savePreviewStatus"></PreviewDialog>
     <div v-if="hiddenFlg" style="position: absolute; opacity: 0; height: 100vh; width: 65vw">
       <div id="contents" style="min-height: 100%; width: 100%" v-html="markdownText"></div>
@@ -75,6 +77,7 @@ import { mapGetters } from 'vuex'
 
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
+import Settings from '@/components/planets/Settings.vue'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
@@ -84,6 +87,7 @@ export default {
   components: {
     MenuButton,
     PreviewDialog,
+    Settings,
   },
   props: {
     routeName: {
@@ -98,6 +102,7 @@ export default {
   data() {
     return {
       savePreviewStatus: {},
+      showSetting: false,
       hiddenFlg: false,
       markdownText: '',
     }
@@ -141,7 +146,9 @@ export default {
     },
     async pages() {},
     async preview() {},
-    async settings() {},
+    settingsProject() {
+      this.showSetting = true
+    },
     async saveProject() {
       try {
         await this.$store.dispatch('common/loadingStart')
@@ -164,17 +171,17 @@ export default {
             base: imageBase,
           }
           this.$store.dispatch('local/project/putPreview', {
-            uuid: putPage.uuid,
+            uuid: this.project.design_uuid,
             preview: imageBase,
           })
           this.hiddenFlg = false
         })
 
         const putPage = {
-          uuid: this.project.uuid,
+          project_uuid: this.project.uuid,
+          design_uuid: this.receive.design_uuid,
           number: this.receive.number,
           contents: this.receive.contents,
-          title: this.receive.title,
         }
 
         if (await this.$store.dispatch('api/projects/putPage', { data: putPage })) {

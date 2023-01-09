@@ -84,7 +84,6 @@ export default {
         : this.project.pages.find(page => page.number === this.$route.params.number) ??
           this.project.pages.find(page => page.number === this.project.last.number) ??
           this.project.pages.find(page => page.number === 1)
-
       if (page) {
         this.page = nestClone(page)
         return true

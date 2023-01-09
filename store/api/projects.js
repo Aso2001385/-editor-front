@@ -43,8 +43,6 @@ export const mutations = crudMutations({
       contents: response.contents,
       updated_at: response.updated_at,
     }
-    console.log('dffffff')
-    console.log(project)
     state.resource = project
   },
 })
