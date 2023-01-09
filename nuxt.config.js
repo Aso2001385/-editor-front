@@ -140,13 +140,13 @@ export default {
     LOGIN_TEST_PASS,
   },
 
-  router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'custom',
-        path: '*',
-        component: resolve(__dirname, 'pages/errors/404.vue'),
-      })
-    },
-  },
+  // router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push({
+  //       name: 'custom',
+  //       path: '*',
+  //       component: resolve(__dirname, 'pages/errors/404.vue'),
+  //     })
+  //   },
+  // },
 }
