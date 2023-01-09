@@ -9,7 +9,7 @@ export const getters = {
   isSet: state => {
     return state.isSet
   },
-  page() {
+  get() {
     return JSON.parse(localStorage.getItem(KEY))
   },
   previews() {

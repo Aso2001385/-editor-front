@@ -5,7 +5,7 @@
         <AddProjectCard :click-callback="() => jumpToNewProject()" />
       </v-col>
       <v-col v-if="isSet" class="mt-2" cols="4">
-        <EditingProjectCard :receive="localProject" :click-callback="() => jumpToEditingProject()" />
+        <EditingProjectCard :receive="releaseEditingProject" :click-callback="() => jumpToEditingProject()" />
       </v-col>
       <v-col v-for="(project, index) in releaseProjects" :key="index" class="mt-2" cols="4">
         <PreviewCard :receive="project" :click-callback="() => jumpToProject(project.uuid, project.number)" />
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       disabled: false,
+      releaseEditingProject: {},
       releaseProjects: [],
     }
   },
@@ -40,6 +41,10 @@ export default {
     }),
   },
   async created() {
+    await this.$store.dispatch('local/project/check')
+    if (this.isSet) {
+      this.releaseEditingProject = this.localProject.project
+    }
     await this.$store.dispatch('api/projects/gets')
     this.releaseProjects = this.projects.map(project => {
       return this.projectSet(project)
@@ -56,7 +61,8 @@ export default {
       }
     },
     jumpToEditingProject() {
-      this.$router.push({ path: `/projects/${this.localProject.uuid}/${this.localProject.number}` })
+      const project = this.localProject.project
+      this.$router.push({ path: `/projects/${project.uuid}/${project.number}` })
     },
     jumpToProject(uuid, number) {
       if (this.isSet) {
