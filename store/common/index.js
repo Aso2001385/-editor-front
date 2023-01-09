@@ -1,6 +1,7 @@
 export const state = () => ({
   isLoading: false,
   routeName: '/',
+  back: false,
 })
 
 export const getters = {
@@ -10,6 +11,9 @@ export const getters = {
   routeName: state => {
     return state.routeName
   },
+  back: state => {
+    return state.back
+  },
 }
 
 export const mutations = {
@@ -18,6 +22,9 @@ export const mutations = {
   },
   setRouteName(state, response) {
     state.routeName = response
+  },
+  setBack(state, response) {
+    state.back = response
   },
 }
 
@@ -30,5 +37,11 @@ export const actions = {
   },
   setRouteName: ({ commit }, routeName) => {
     commit('setRouteName', routeName)
+  },
+  back: ({ commit }) => {
+    commit('setBack', true)
+  },
+  backed: ({ commit }) => {
+    commit('setBack', false)
   },
 }

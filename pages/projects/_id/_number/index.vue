@@ -59,7 +59,7 @@ export default {
             uuid: this.project.uuid,
             number: this.project.last.number,
             name: this.project.name,
-            text: this.project.last.contents,
+            text: this.page.contents,
             preview: this.localPreviews?.[this.project.uuid] ?? null,
             updatedAt: this.project.last.updated_at,
           },

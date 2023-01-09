@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-app-bar color="grey darken-3" app clipped-left>
     <v-row class="pr-15">
@@ -36,7 +37,7 @@
         <template #text>設定を表示します</template>
       </MenuButton>
 
-      <MenuButton v-if="projectFlg" :click-callback="saveProject">
+      <MenuButton v-if="projectFlg" :click-callback="() => saveProject()">
         <template #icon>mdi-content-save-alert</template>
         <template #text>プロジェクトを保存します</template>
       </MenuButton>
@@ -53,7 +54,7 @@
         <template #text>設定を表示します</template>
       </MenuButton>
 
-      <MenuButton v-if="designFlg" :click-callback="saveDesign">
+      <MenuButton v-if="designFlg" :click-callback="() => saveDesign()">
         <template #icon>mdi-content-save-alert</template>
         <template #text>デザインを保存します</template>
       </MenuButton>
@@ -62,7 +63,10 @@
       <v-col cols="3"></v-col> -->
     </v-row>
 
-    <PreviewDialog ref="dig" :receive="saveDesignStatus"></PreviewDialog>
+    <PreviewDialog ref="dig" :receive="savePreviewStatus"></PreviewDialog>
+    <div v-if="hiddenFlg" style="position: absolute; opacity: 0; height: 100vh; width: 65vw">
+      <div id="contents" style="min-height: 100%; width: 100%" v-html="markdownText"></div>
+    </div>
   </v-app-bar>
 </template>
 
@@ -72,6 +76,9 @@ import { mapGetters } from 'vuex'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
 import { getPreview, tagOrder } from '~/lib/common'
+import gitMarkdownApi from '~/lib/git-markdown-api'
+import { styleSetter } from '~/lib/style-set'
+import '@/lib/pro.scss'
 
 export default {
   components: {
@@ -90,11 +97,15 @@ export default {
   },
   data() {
     return {
-      saveDesignStatus: {},
+      savePreviewStatus: {},
+      hiddenFlg: false,
+      markdownText: '',
     }
   },
   computed: {
     ...mapGetters({
+      isSet: 'local/project/isSet',
+      project: 'api/projects/resource',
       design: 'api/designs/resource',
     }),
     projectListFlg: {
@@ -132,25 +143,78 @@ export default {
     async preview() {},
     async settings() {},
     async saveProject() {
-      const putProject = this.receive
-      await this.$store.dispatch('api/projects/put', { id: this.receive.uuid, data: putProject })
+      try {
+        await this.$store.dispatch('common/loadingStart')
+        const oldContents = JSON.stringify(this.project.pages.find(page => page.number === this.receive.number))
+        const newContents = JSON.stringify(this.receive)
+        if (newContents === oldContents) {
+          await this.$store.dispatch('common/loadingEnd')
+          return
+        }
+        if (!(await this.$store.dispatch('api/designs/get', { id: this.receive.design_uuid }))) return
+
+        const text = await gitMarkdownApi(this.receive.contents)
+        this.markdownText = text
+        this.hiddenFlg = true
+        this.$nextTick(async () => {
+          styleSetter(JSON.parse(this.design.contents))
+          const imageBase = await getPreview(document.getElementById('contents'))
+          this.savePreviewStatus = {
+            name: this.project.name,
+            base: imageBase,
+          }
+          this.$store.dispatch('local/project/putPreview', {
+            uuid: putPage.uuid,
+            preview: imageBase,
+          })
+          this.hiddenFlg = false
+        })
+
+        const putPage = {
+          uuid: this.project.uuid,
+          number: this.receive.number,
+          contents: this.receive.contents,
+          title: this.receive.title,
+        }
+
+        if (await this.$store.dispatch('api/projects/putPage', { data: putPage })) {
+          this.$store.dispatch('local/project/remove')
+        } else {
+          console.log('error')
+        }
+
+        await this.$store.dispatch('common/loadingEnd')
+        this.$refs.dig.dialog = true
+        this.hiddenFlg = false
+      } catch (error) {
+        console.log(error)
+        await this.$store.dispatch('common/loadingEnd')
+      }
     },
     async saveDesign() {
-      const oldContents = JSON.stringify(tagOrder(JSON.parse(this.design.contents)))
-      const newContents = JSON.stringify(this.receive.contents)
-      if (newContents === oldContents) return
+      try {
+        await this.$store.dispatch('common/loadingStart')
+        const oldContents = JSON.stringify(tagOrder(JSON.parse(this.design.contents)))
+        const newContents = JSON.stringify(this.receive.contents)
+        if (newContents === oldContents) return
 
-      const imageBase = await getPreview(document.getElementById('contents'))
-      this.saveDesignStatus = {
-        name: this.receive.name,
-        base: imageBase,
+        const imageBase = await getPreview(document.getElementById('contents'))
+        this.savePreviewStatus = {
+          name: this.receive.name,
+          base: imageBase,
+        }
+        const putDesign = {
+          contents: newContents,
+          preview: imageBase,
+        }
+
+        await this.$store.dispatch('api/designs/put', { id: this.receive.uuid, data: putDesign })
+
+        await this.$store.dispatch('common/loadingEnd')
+        this.$refs.dig.dialog = true
+      } catch (error) {
+        await this.$store.dispatch('common/loadingEnd')
       }
-      const putDesign = {
-        contents: newContents,
-        preview: imageBase,
-      }
-      await this.$store.dispatch('api/designs/put', { id: this.receive.uuid, data: putDesign })
-      this.$refs.dig.dialog = true
     },
   },
 }
