@@ -1,10 +1,12 @@
 <template>
-  <v-main class="pa-10">
+  <div>
     <VariableHeader :route-name="'ProjectList'" />
-    <div class="pa-10">
-      <ProjectList />
-    </div>
-  </v-main>
+    <v-main class="pa-10">
+      <div class="pa-10">
+        <ProjectList />
+      </div>
+    </v-main>
+  </div>
 </template>
 <script>
 import ProjectList from '@/components/planets/ProjectList.vue'

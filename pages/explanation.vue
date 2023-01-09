@@ -1,8 +1,9 @@
 <!-- プロジェクトリスト-->
 <template>
   <v-main class="pa-10">
+    <VariableHeader :route-name="'Home'" />
     <div class="pa-10 algin-center">
-      <h1 class="mb-10">プロジェクトの説明</h1>
+      <h1 class="mb-10">FRIDAYの機能説明</h1>
       <p><a href="/account/login">プロジェクトへ進む</a></p>
       <p><a href="/">ようこそ！</a></p>
       <div class="py-10">
@@ -25,8 +26,12 @@
   </v-main>
 </template>
 <script>
+import VariableHeader from '@/components/planets/VariableHeader.vue'
+
 export default {
+  components: {
+    VariableHeader,
+  },
   layout: 'top',
-  data() {},
 }
 </script>
