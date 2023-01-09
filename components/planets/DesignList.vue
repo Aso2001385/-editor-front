@@ -55,9 +55,8 @@ export default {
   },
   methods: {
     async jumpToNewDesign() {
-      if (!this.designs) this.designs = []
       const newDesign = {
-        name: 'Design' + (this.designs.length + 1),
+        name: 'Design' + ((this.designs.length ?? 0) + 1),
         point: 0,
         contents: JSON.stringify(temp),
       }
