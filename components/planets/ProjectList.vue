@@ -33,6 +33,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      auth: 'api/users/auth',
       projects: 'api/projects/collection',
       newProject: 'api/projects/resource',
       localProject: 'local/project/get',
@@ -47,7 +48,10 @@ export default {
     if (this.isSet) {
       this.releaseEditingProject = this.localProject.project
     }
-    await this.$store.dispatch('api/projects/gets')
+    const a = await this.$store.dispatch('api/projects/gets')
+    if (a === 401 || a === 419) {
+      this.$router.push({ path: '/account/login' })
+    }
     this.releaseProjects = this.projects.reduce((accumulators, currentValue) => {
       if (this.localProject?.project.uuid !== currentValue.uuid) accumulators.push(this.projectSet(currentValue))
       return accumulators
@@ -62,6 +66,8 @@ export default {
       }
       if (await this.createNewProject()) {
         this.$router.push({ path: `/projects/${this.newProject.uuid}/1` })
+      } else {
+        this.$router.push({ path: '/account/login' })
       }
       this.$store.dispatch('common/loadingEnd')
     },
@@ -98,7 +104,12 @@ export default {
         name: `Project ${(this.projects.length ?? 0) + 1}`,
         ui: JSON.stringify({ id: 0, name: 'ZERO' }),
       }
-      return await this.$store.dispatch('api/projects/post', { data: createProject })
+      const a = await this.$store.dispatch('api/projects/post', { data: createProject })
+      if (a === true) {
+        return true
+      } else if (a === 401 || a === 419) {
+        return false
+      }
     },
   },
 }
