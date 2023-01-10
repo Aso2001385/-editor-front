@@ -10,7 +10,7 @@
         v-on="on"
         @click.prevent="click"
       >
-        <v-icon color="white">
+        <v-icon :color="btnColor">
           <slot name="icon"></slot>
         </v-icon>
         <template slot="loader">
@@ -31,6 +31,10 @@ export default {
     clickCallback: {
       type: Function,
       default: () => {},
+    },
+    btnColor: {
+      type: String,
+      default: 'white',
     },
   },
   data() {

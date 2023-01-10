@@ -2,18 +2,10 @@
 <template>
   <v-app-bar color="grey darken-3" app clipped-left>
     <v-row class="pr-15">
-      <!-- <v-col cols="3" class="d-flex align-center"> -->
       <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
         <span class="text-h6">FRIDAY EDITOR</span><br />{{ routeName }}
       </div>
-      <!-- </v-col> -->
       <!-- 共通 -->
-      <!-- <v-col cols="6" class="d-flex align-center"> -->
-
-      <!-- <MenuButton :click-callback="account">
-        <template #icon>mdi-account</template>
-        <template #text>アカウントページへ移動します</template>
-      </MenuButton> -->
 
       <MenuButton :click-callback="back">
         <template #icon>mdi-arrow-u-down-left-bold</template>
@@ -53,17 +45,26 @@
         <template #icon>mdi-content-save-alert</template>
         <template #text>デザインを保存します</template>
       </MenuButton>
-      <!-- <v-spacer /> -->
-      <!-- </v-col>
-      <v-col cols="3"></v-col> -->
     </v-row>
+
+    <!-- ページ一覧 -->
+    <v-dialog v-if="projectFlg" v-model="pagesFlg" class="d-flex" absolute width="auto">
+      <PageList :receive="receive" />
+    </v-dialog>
+
+    <!-- Project設定 -->
     <v-dialog v-if="projectFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
       <ProjectSettings :receive="receive" />
     </v-dialog>
+
+    <!-- デザイン設定 -->
     <v-dialog v-if="designFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
       <DesignSettings :receive="receive" />
     </v-dialog>
-    <PreviewDialog ref="dig" :receive="savePreviewStatus"></PreviewDialog>
+
+    <!-- デザインプレビューカード -->
+    <PreviewDialog ref="dig" :receive="savePreviewStatus" />
+
     <div v-if="hiddenFlg" style="position: absolute; opacity: 0; height: 100vh; width: 65vw">
       <div id="contents" style="min-height: 100%; width: 100%" v-html="markdownText"></div>
     </div>
@@ -77,6 +78,7 @@ import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
 import ProjectSettings from '@/components/planets/ProjectSettings.vue'
 import DesignSettings from '@/components/planets/DesignSettings.vue'
+import PageList from '@/components/planets/PageList.vue'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
@@ -88,6 +90,7 @@ export default {
     PreviewDialog,
     ProjectSettings,
     DesignSettings,
+    PageList,
   },
   props: {
     routeName: {
@@ -103,6 +106,7 @@ export default {
     return {
       savePreviewStatus: {},
       settingsFlg: false,
+      pagesFlg: true,
       hiddenFlg: false,
       markdownText: '',
     }
@@ -144,7 +148,9 @@ export default {
     async account() {
       await this.$router.push({ path: '/account' })
     },
-    async pages() {},
+    pages() {
+      this.pagesFlg = true
+    },
     async preview() {},
     settings() {
       this.settingsFlg = true
