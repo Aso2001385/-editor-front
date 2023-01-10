@@ -47,8 +47,9 @@
               ><a class="white--text text-h4">その他・使用技術</a>
             </v-row>
             <v-row class="mt-10">
-              <v-col cols="11" class="white--text ml-6"
-                >フロントエンド：Nuxt.js バックエンド：Laravel インフラ：AWS</v-col
+              <v-col cols="11" class="white--text ml-13"
+                >フロントエンド：Nuxt.js <br />バックエンド：Laravel
+                <br />インフラ：AWS<br />利用サービス[EC2・S3・CloudFront・Route53・mariaDB]</v-col
               ></v-row
             >
             <v-row class="mt-10"><v-col cols="11" class="white--text ml-13"></v-col></v-row>

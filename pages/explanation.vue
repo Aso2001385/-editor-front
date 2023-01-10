@@ -1,37 +1,43 @@
 <!-- プロジェクトリスト-->
 <template>
   <v-main class="pa-10">
-    <VariableHeader :route-name="'Home'" />
-    <div class="pa-10 algin-center">
-      <h1 class="mb-10">FRIDAYの機能説明</h1>
-      <p><a href="/account/login">プロジェクトへ進む</a></p>
-      <p><a href="/">ようこそ！</a></p>
-      <div class="py-10">
-        <p>
-          プログラミング未経験者でもマークダウン方式で書いていくことにより、誰でも簡単に簡易的なWebサイトを作成することができます！！
-        </p>
-        <p>使い方：</p>
-        <p>
-          1, 会員情報を登録する。<br />
-          2, プロジェクトリストからプロジェクト作成/更新を行う。<br />
-          3, 編集していくページを指定し、内容の入力やデザインの指定を行う。<br />
-          ※作成していないページは編集することはできない <br />
-          4, 編集中のページは「SAVE」ボタンで保存することができる<br />
-          ※オートセーブ機能がついており、入力された情報は自動で保存される。<br />オートセーブ機能を利用しているときは、プロジェクトリストには編集中プロジェクトとして表示される<br />
-          5, プロジェクトリストは、降順で表示される<br />
-          6, デザインは今後自分で作成できそれを適用できるようにしていく予定<br />
-        </p>
-      </div>
-    </div>
+    <!-- <VariableHeader :route-name="'Home'" /> -->
+    <v-row>
+      <v-col>
+        <div class="pa-10 algin-center">
+          <h1 class="mb-5">FRIDAYの機能説明</h1>
+          <p v-if="authFlg === true"><a href="/projects">プロジェクトへ進む</a></p>
+          <p v-else><a href="/account/login">プロジェクトへ進む</a></p>
+          <div>
+            <b class="text-h5">ProjectEditorについて</b>
+            <div class="py-10">
+              <p>
+                ウェブページ上に表示される文章を入力していきます。マークダウン方式を用いて、見出しや太字などの設定もこちらで行うことができます。<br />
+              </p>
+            </div>
+          </div>
+          <p v-if="authFlg === true"><a href="/projects">プロジェクトへ進む</a></p>
+          <p v-else><a href="/account/login">プロジェクトへ進む</a></p>
+        </div>
+      </v-col>
+    </v-row>
   </v-main>
 </template>
 <script>
-import VariableHeader from '@/components/planets/VariableHeader.vue'
+// import VariableHeader from '@/components/planets/VariableHeader.vue'
 
 export default {
-  components: {
-    VariableHeader,
-  },
+  // components: {
+  //   VariableHeader,
+  // },
   layout: 'top',
+  data() {
+    return {
+      authFlg: false,
+    }
+  },
+  created() {
+    sessionStorage.getItem('user') !== null ? (this.authFlg = true) : (this.authFlg = false)
+  },
 }
 </script>
