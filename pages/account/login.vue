@@ -69,14 +69,7 @@ export default {
       console.log(this.auth)
       console.log('users')
       console.log(this.users)
-
-      // if (userInfo === true) {
-      //   this.$router.push({ path: '/projects' })
-      // }
-      // 下記の書き方だとユーザー情報取得しても遷移していなかったから変更しました
-      // if (this.user.id) {
-      //   this.$router.push({ path: '/projects' })
-      // }
+      this.$router.push({ path: '/accout/login' })
     },
     async test() {
       console.log('テストー')
