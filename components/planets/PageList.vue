@@ -11,7 +11,7 @@
       <v-col cols="12" style="height: 100%" max-height="auto" class="pa-5 overflow-y-auto">
         <v-simple-table>
           <draggable v-model="pages" tag="tbody">
-            <tr v-for="item in pages" :key="item.title">
+            <tr v-for="item in pages" :key="item.number" @dblclick="jumpToAnotherPage(item.number)">
               <td>
                 <v-row justify="center" class="pr-1">
                   <v-col cols="1" class="d-flex align-center">
@@ -87,12 +87,18 @@ export default {
       project: 'api/projects/resource',
     }),
   },
-  created() {
-    this.pages = nestClone(this.project.pages)
+  mounted() {
+    console.log(this.project)
+    if (this.project) {
+      this.pages = nestClone(this.project.pages)
+    }
   },
   methods: {
     saveSettings() {
       return ''
+    },
+    jumpToAnotherPage(number) {
+      this.$router.push({ path: `/projects/${this.project.uuid}/${number}` })
     },
   },
 }

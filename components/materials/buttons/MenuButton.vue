@@ -18,9 +18,9 @@
         </template>
       </v-btn>
     </template>
-    <span>
+    <div>
       <slot name="text"></slot>
-    </span>
+    </div>
   </v-tooltip>
 </template>
 <script>
