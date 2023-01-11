@@ -8,24 +8,47 @@
       </MenuButton>
     </v-card-actions>
     <v-row style="height: 90%" no-gutters>
-      <v-col cols="5" style="height: 100%" max-height="auto" class="overflow-y-auto">
-        <v-row justify="center" class="pa-11 align-center" no-gutters>
-          <v-col cols="12" class="text-p mb-2">プロジェクト名</v-col>
-          <v-col cols="12" class="my-0">
-            <v-text-field v-model="projectSet.name" solo />
-          </v-col>
-          <v-col cols="12" class="text-p mb-2">ページ名 ({{ page.number }}ページ目)</v-col>
-          <v-col cols="12" class="my-0">
-            <v-text-field v-model="page.title" solo />
-          </v-col>
-          <v-col cols="12" class="text-p mb-2">選択中のデザイン</v-col>
-          <v-col cols="12" class="my-0">
-            <PreviewCard :receive="releaseDesign" :click-callback="openList" />
-          </v-col>
-        </v-row>
+      <v-col cols="2" class="grey lighten-2">
+        <v-item-group v-model="window" class="pa-3">
+          <v-item v-slot="{ active, toggle }">
+            <div>
+              <v-btn :input-value="active" large text block @click="toggle"> 基本設定 </v-btn>
+            </div>
+          </v-item>
+          <v-item v-slot="{ active, toggle }">
+            <div>
+              <v-btn :input-value="active" large text block @click="toggle"> 一覧設定 </v-btn>
+            </div>
+          </v-item>
+        </v-item-group>
       </v-col>
+      <v-col cols="5" style="height: 100%" max-height="auto" class="overflow-y-auto">
+        <v-window v-model="window" style="height: 100%" class="elevation-1" vertical>
+          <v-window-item class="overflow-y-auto" style="max-height: 90vh">
+            <v-row justify="center" class="pa-11 align-center" no-gutters>
+              <v-col cols="12" class="text-p mb-2">プロジェクト名</v-col>
+              <v-col cols="12" class="my-0">
+                <v-text-field v-model="projectSet.name" solo />
+              </v-col>
+              <v-col cols="12" class="text-p mb-2">ページ名 ({{ page.number }}ページ目)</v-col>
+              <v-col cols="12" class="my-0">
+                <v-text-field v-model="page.title" solo />
+              </v-col>
+              <v-col cols="12" class="text-p mb-2">選択中のデザイン</v-col>
+              <v-col cols="12" class="my-0">
+                <PreviewCard :receive="releaseDesign" :click-callback="openList" />
+              </v-col>
+            </v-row>
+          </v-window-item>
+
+          <v-window-item class="px-1" style="max-height: 90vh; height: 100%">
+            <PageListSetting ref="pageSettings" :receive="pages" :edit="page" />
+          </v-window-item>
+        </v-window>
+      </v-col>
+
       <v-divider vertical />
-      <v-col cols="7" style="height: 100%" max-height="auto" class="overflow-y-auto">
+      <v-col cols="5" style="height: 100%" max-height="auto" class="overflow-y-auto">
         <div v-if="previewFlg" id="contents" v-html="htmlPreset.text"></div>
         <div v-else class="py-5">
           <v-col v-for="(item, index) in releaseDesigns" :key="index" class="mt-2" cols="12">
@@ -40,20 +63,22 @@
 <script>
 import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
-import { nestClone } from '@/lib/common'
+import { nestClone, onlyCopy } from '@/lib/common'
 import htmlPreset from '@/lib/pre-html.json'
 import PreviewCard from '@/components/materials/cards/PreviewCard.vue'
+import PageListSetting from '@/components/planets/PageListSetting.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import '@/lib/pro.scss'
 
 export default {
   components: {
     PreviewCard,
+    PageListSetting,
     MenuButton,
   },
   props: {
     receive: {
-      type: Object,
+      type: Object || Array,
       default: () => ({}),
     },
   },
@@ -68,6 +93,7 @@ export default {
       releaseDesigns: [],
       releaseDesign: {},
       page: {
+        id: '',
         title: '',
         number: 0,
         design_uuid: '',
@@ -75,6 +101,7 @@ export default {
       },
       htmlPreset,
       previewFlg: true,
+      selectIndex: false,
     }
   },
   computed: {
@@ -83,10 +110,17 @@ export default {
       designs: 'api/designs/collection',
       design: 'api/designs/resource',
     }),
+    pages: {
+      get() {
+        return this.receive?.pages
+      },
+    },
   },
+
   async created() {
     this.projectSet = nestClone(this.project)
     this.page = nestClone(this.receive)
+
     if (await this.$store.dispatch('api/designs/get', { id: this.page.design_uuid })) {
       this.releaseDesign = this.designSet(this.design)
       if (await this.$store.dispatch('api/designs/gets')) {
@@ -97,6 +131,7 @@ export default {
       styleSetter(JSON.parse(this.design.contents))
     }
   },
+
   methods: {
     designSet(primitiveDesign) {
       return {
@@ -110,8 +145,14 @@ export default {
     },
     openList() {
       this.previewFlg = !this.previewFlg
+      if (this.previewFlg) {
+        const design = nestClone(this.selectIndex ? this.designs[this.selectIndex] : this.design)
+        styleSetter(JSON.parse(design.contents))
+        this.releaseDesign = this.designSet(design)
+      }
     },
     selectDesign(index) {
+      this.selectIndex = index
       const design = nestClone(this.designs[index])
       this.releaseDesign = this.designSet(design)
       this.page.design_uuid = design.uuid
@@ -120,19 +161,65 @@ export default {
     },
     async saveSettings() {
       this.$store.dispatch('common/loadingStart')
+      const pages = nestClone(this.$refs.pageSettings?.pages ?? [this.page])
+
+      if (this.$refs.pageSettings?.pages) {
+        pages.forEach(page => {
+          if (page.id === this.page.id) {
+            page = {
+              project_uuid: this.page.project_uuid,
+              design_uuid: this.page.design_uuid,
+            }
+          }
+        })
+      }
+      pages.forEach((page, index) => {
+        page.number = index + 1
+      })
+
+      pages.forEach((page, index) => {
+        pages[index] = onlyCopy(page, ['id', 'number', 'title', 'user_id', 'project_uuid', 'design_uuid'])
+      })
+
       const project = {
         name: this.projectSet.name,
       }
-      const page = {
-        project_uuid: this.page.project_uuid,
-        title: this.page.title,
-        number: this.page.number,
-        design_uuid: this.page.design_uuid,
+
+      const putPages = {
+        id: this.project.uuid,
+        data: {
+          last: this.page.id,
+          pages,
+        },
+      }
+
+      if (!(await this.$store.dispatch('api/projects/putPages', putPages))) {
+        this.$store.dispatch('common/loadingEnd')
+        return
       }
       await this.$store.dispatch('api/projects/put', { id: this.project.uuid, data: project })
-      await this.$store.dispatch('api/projects/putPage', { data: page })
-      location.reload()
+      const putPage = this.project.pages.find(page => page.id === this.page.id)
+
+      const saveParam = {
+        project: {
+          uuid: this.project.uuid,
+          number: putPage.number,
+          name: this.project.name,
+          text: this.page.contents,
+          preview: this.localPreviews?.[this.project.uuid] ?? null,
+          updatedAt: this.page.updated_at,
+        },
+        page: nestClone(putPage),
+      }
+
+      await this.$store.dispatch('local/project/nowEditChange', saveParam)
+
       this.$store.dispatch('common/loadingEnd')
+      if ('' + putPage.number === this.$route.params.number) {
+        location.reload()
+      } else {
+        this.$router.push({ path: `/projects/${this.project.uuid}/${putPage.number}` })
+      }
     },
   },
 }

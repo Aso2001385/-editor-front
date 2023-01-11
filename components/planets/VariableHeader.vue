@@ -19,10 +19,10 @@
         <template #text>ページ一覧を表示します</template>
       </MenuButton>
 
-      <MenuButton v-if="projectFlg" :click-callback="preview">
+      <!-- <MenuButton v-if="projectFlg" :click-callback="preview">
         <template #icon>mdi-eye-arrow-right</template>
         <template #text>プレビューを表示します</template>
-      </MenuButton>
+      </MenuButton> -->
 
       <MenuButton v-if="projectFlg" :click-callback="settings">
         <template #icon>mdi-file-cog</template>
@@ -106,7 +106,7 @@ export default {
     return {
       savePreviewStatus: {},
       settingsFlg: false,
-      pagesFlg: true,
+      pagesFlg: false,
       hiddenFlg: false,
       markdownText: '',
     }
@@ -115,6 +115,7 @@ export default {
     ...mapGetters({
       isSet: 'local/project/isSet',
       project: 'api/projects/resource',
+      page: 'api/projects/page',
       design: 'api/designs/resource',
     }),
     projectListFlg: {
@@ -151,14 +152,17 @@ export default {
     pages() {
       this.pagesFlg = true
     },
-    async preview() {},
+    preview() {
+      const url = `/projects/${this.$route.params.id}/${this.$route.params.number}/preview`
+      window.open(url, '_blank')
+    },
     settings() {
       this.settingsFlg = true
     },
     async saveProject() {
       try {
         await this.$store.dispatch('common/loadingStart')
-        const oldContents = JSON.stringify(this.project.pages.find(page => page.number === this.receive.number))
+        const oldContents = JSON.stringify(this.page)
         const newContents = JSON.stringify(this.receive)
         if (newContents === oldContents) {
           await this.$store.dispatch('common/loadingEnd')
@@ -190,7 +194,7 @@ export default {
           contents: this.receive.contents,
         }
 
-        if (await this.$store.dispatch('api/projects/putPage', { data: putPage })) {
+        if (await this.$store.dispatch('api/projects/putPage', { id: this.page.id, data: putPage })) {
           this.$store.dispatch('local/project/remove')
         } else {
           console.log('error')

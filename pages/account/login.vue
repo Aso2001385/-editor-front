@@ -69,7 +69,7 @@ export default {
       console.log(this.auth)
       console.log('users')
       console.log(this.users)
-      this.$router.push({ path: '/accout/login' })
+      this.$router.push({ path: '/' })
     },
     async test() {
       console.log('テストー')

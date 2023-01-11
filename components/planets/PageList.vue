@@ -1,74 +1,72 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-card class="mx-auto" width="600" height="500">
-    <v-card-actions class="grey darken-3" style="height: 10%">
-      <MenuButton :click-callback="() => saveSettings()">
-        <template #icon>mdi-content-save-alert</template>
-        <template #text>設定を保存します<br />(編集中のコンテンツはセーブされません)</template>
-      </MenuButton>
-    </v-card-actions>
-    <v-row style="height: 70%" no-gutters>
+    <v-card-actions class="grey darken-3" style="height: 10%"> </v-card-actions>
+    <v-row style="height: 80%" no-gutters>
       <v-col cols="12" style="height: 100%" max-height="auto" class="pa-5 overflow-y-auto">
         <v-simple-table>
-          <draggable v-model="pages" tag="tbody">
-            <tr v-for="item in pages" :key="item.number" @dblclick="jumpToAnotherPage(item.number)">
-              <td>
-                <v-row justify="center" class="pr-1">
+          <tbody>
+            <tr v-for="item in pages" :key="item.number">
+              <td @dblclick="jumpToAnotherPage(item.number)">
+                <v-row justify="center" class="pr-1" style="cursor: pointer">
                   <v-col cols="1" class="d-flex align-center">
-                    <v-tooltip bottom>
-                      <template #activator="{ on, attrs }">
-                        <v-icon style="cursor: pointer" v-bind="attrs" v-on="on"> mdi-drag</v-icon>
-                      </template>
-                      <span>
-                        <slot name="text">順番を並べ変えます<br />(ドラッグ＆ドロップ)</slot>
-                      </span>
-                    </v-tooltip>
+                    {{ item.number }}
                   </v-col>
-                  <v-col cols="9" class="d-flex align-center">
+                  <v-col cols="8" class="d-flex align-center">
                     {{ item.title }}
                   </v-col>
-                  <v-col cols="1" class="d-flex align-center">
-                    <MenuButton :click-callback="() => saveSettings()" :btn-color="'grey darken-3'">
-                      <template #icon>mdi-content-copy</template>
-                      <template #text>このページを複製します</template>
-                    </MenuButton>
-                  </v-col>
-                  <v-col cols="1" class="d-flex align-center">
-                    <MenuButton :click-callback="() => saveSettings()" :btn-color="'grey darken-3'">
-                      <template #icon>mdi-delete-circle</template>
-                      <template #text>このページを削除します</template>
-                    </MenuButton>
-                  </v-col>
+
+                  <v-tooltip v-if="now == item.number" bottom>
+                    <template #activator="{ on, attrs }">
+                      <v-col cols="3" class="d-flex align-center text-caption" v-bind="attrs" v-on="on">
+                        <v-spacer />
+                        <v-icon style="cursor: pointer" v-bind="attrs" v-on="on"> mdi-circle-edit-outline </v-icon>
+                      </v-col>
+                    </template>
+                    <span>
+                      <slot name="text">編集中のページです</slot>
+                    </span>
+                  </v-tooltip>
+
+                  <v-tooltip v-else bottom>
+                    <template #activator="{ on, attrs }">
+                      <v-col cols="3" class="d-flex align-center text-caption" v-bind="attrs" v-on="on">
+                        <v-spacer /> {{ item.updated_at | elapsedDateTime }} ago
+                      </v-col>
+                    </template>
+                    <span>
+                      <slot name="text"> {{ item.updated_at | formatter }}</slot>
+                    </span>
+                  </v-tooltip>
                 </v-row>
               </td>
             </tr>
-          </draggable>
+          </tbody>
         </v-simple-table>
       </v-col>
     </v-row>
-    <v-card-actions style="height: 20%">
-      <v-spacer />
-      <MenuButton :click-callback="() => saveSettings()" :btn-color="'grey darken-3'">
-        <template #icon>mdi-plus-circle</template>
-        <template #text>ページを追加します</template>
-      </MenuButton>
-      <v-spacer />
-    </v-card-actions>
+    <v-card-actions style="height: 10%"> </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Draggable from 'vuedraggable'
-import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import '@/lib/pro.scss'
-import { nestClone } from '~/lib/common'
+import { orderBy, dateTimeFormatter, getDiff, nestClone } from '~/lib/common'
 
 export default {
-  components: {
-    MenuButton,
-    Draggable,
+  filters: {
+    formatter(dateTime) {
+      return dateTimeFormatter(new Date(dateTime), 'YYYY/MM/DD hh:mm:ss')
+    },
+    elapsedDateTime(dateTime) {
+      const now = new Date()
+      const past = new Date(dateTime)
+      const diffMs = now.getTime() - past.getTime()
+      return getDiff(diffMs)
+    },
   },
+  components: {},
   props: {
     receive: {
       type: Object,
@@ -80,25 +78,36 @@ export default {
       window: 0,
       dialog: true,
       pages: [],
+      now: 0,
     }
   },
   computed: {
     ...mapGetters({
       project: 'api/projects/resource',
+      isSet: 'local/project/isSet',
     }),
   },
   mounted() {
-    console.log(this.project)
+    this.now = this.$route.params.number
     if (this.project) {
-      this.pages = nestClone(this.project.pages)
+      this.pages = orderBy(nestClone(this.project.pages), 'number', 'num', true)
     }
   },
   methods: {
-    saveSettings() {
-      return ''
-    },
-    jumpToAnotherPage(number) {
+    async jumpToAnotherPage(number) {
+      await this.$store.dispatch('local/project/check')
+
+      if (this.now + '' === number + '') return ''
+      if (this.isSet) {
+        if (!this.jumpConfirm()) return
+        await this.$store.dispatch('local/project/remove')
+      }
       this.$router.push({ path: `/projects/${this.project.uuid}/${number}` })
+    },
+    jumpConfirm() {
+      return window.confirm(
+        '\n編集中のプロジェクトがあります。\n\nこのまま別のプロジェクトへ進むと、保存されていない変更は失われます。\n本当に続行してもよろしいですか？\n'
+      )
     },
   },
 }

@@ -43,11 +43,17 @@ export default {
   computed: {
     ...mapGetters({
       project: 'api/projects/resource',
+      remotePage: 'api/projects/page',
       localProject: 'local/project/get',
       isSet: 'local/project/isSet',
     }),
   },
   watch: {
+    watch: {
+      $route() {
+        location.reload()
+      },
+    },
     page: {
       handler() {
         if (this.firstAccess) {
@@ -75,15 +81,16 @@ export default {
     if (!(this.project.uuid === this.$route.params.id)) {
       await this.$store.dispatch('api/projects/get', { id: this.$route.params.id })
     }
+    await this.$store.dispatch('api/projects/getPage', {
+      id: this.$route.params.id,
+      number: this.$route.params.number,
+    })
     this.setPage(this.isSet)
   },
   methods: {
     setPage(isSet) {
-      const page = isSet
-        ? this.localProject.page
-        : this.project.pages.find(page => page.number === this.$route.params.number) ??
-          this.project.pages.find(page => page.number === this.project.last.number) ??
-          this.project.pages.find(page => page.number === 1)
+      const page = isSet ? this.localProject.page : this.remotePage
+
       if (page) {
         this.page = nestClone(page)
         return true
