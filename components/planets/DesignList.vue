@@ -48,7 +48,10 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch('api/designs/gets')
+    const a = await this.$store.dispatch('api/designs/gets')
+    if (a === 401 || a === 419) {
+      this.$router.push({ path: '/account/login' })
+    }
     this.releaseDesigns = this.designs.map(design => {
       return this.designsSet(design)
     })
@@ -60,8 +63,11 @@ export default {
         point: 0,
         contents: JSON.stringify(temp),
       }
-      if (await this.$store.dispatch('api/designs/post', { data: newDesign })) {
+      const a = await this.$store.dispatch('api/designs/post', { data: newDesign })
+      if (a === true) {
         this.$router.push({ path: `/designs/${this.newDesign.uuid}/edit` })
+      } else if (a === 419 || a === 401) {
+        this.$router.push({ path: '/account/login' })
       }
     },
     jumpToDesign(uuid) {

@@ -17,14 +17,17 @@
               <NuxtLink to="/account/signup">サインインページへ</NuxtLink>
             </v-row>
             <v-row class="mt-10" justify="center">
+              <NuxtLink to="/account/no_auth_signup">認証なし＿サインインページへ</NuxtLink>
+            </v-row>
+            <v-row class="mt-10" justify="center">
+              <NuxtLink to="/projects">プロジェクトへ</NuxtLink>
+            </v-row>
+            <v-row class="mt-10" justify="center">
               <NuxtLink to="/designs">デザインへ</NuxtLink>
             </v-row>
             <v-row class="mt-10" justify="center">
               <EventButton color="grey darken-3" :click-callback="test">テスト</EventButton>
             </v-row>
-            <!-- <v-row class="mt-10" justify="center">
-              <NuxtLink to="/account/sign-up">パスワードを忘れましたか？</NuxtLink>
-            </v-row> -->
           </div>
         </v-card>
       </v-col>
@@ -66,14 +69,7 @@ export default {
       console.log(this.auth)
       console.log('users')
       console.log(this.users)
-
-      // if (userInfo === true) {
-      //   this.$router.push({ path: '/projects' })
-      // }
-      // 下記の書き方だとユーザー情報取得しても遷移していなかったから変更しました
-      // if (this.user.id) {
-      //   this.$router.push({ path: '/projects' })
-      // }
+      this.$router.push({ path: '/accout/login' })
     },
     async test() {
       console.log('テストー')
@@ -81,7 +77,7 @@ export default {
       console.log('gets is')
       console.log(this.users)
       await this.$store.dispatch('api/users/get', { id: this.auth.id })
-      console.log('get is ')
+      console.log('get is')
       console.log(this.user)
       await this.$store.dispatch('api/users/put', {
         id: this.auth.id,
