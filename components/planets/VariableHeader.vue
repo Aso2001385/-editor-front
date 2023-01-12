@@ -19,10 +19,10 @@
         <template #text>ページ一覧を表示します</template>
       </MenuButton>
 
-      <!-- <MenuButton v-if="projectFlg" :click-callback="preview">
+      <MenuButton v-if="projectFlg" :click-callback="preview">
         <template #icon>mdi-eye-arrow-right</template>
         <template #text>プレビューを表示します</template>
-      </MenuButton> -->
+      </MenuButton>
 
       <MenuButton v-if="projectFlg" :click-callback="settings">
         <template #icon>mdi-file-cog</template>
@@ -57,6 +57,10 @@
       <ProjectSettings :receive="receive" />
     </v-dialog>
 
+    <v-dialog v-if="projectFlg" v-model="previewFlg" class="d-flex" absolute width="auto">
+      <Preview :receive="page" />
+    </v-dialog>
+
     <!-- デザイン設定 -->
     <v-dialog v-if="designFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
       <DesignSettings :receive="receive" />
@@ -78,6 +82,7 @@ import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
 import ProjectSettings from '@/components/planets/ProjectSettings.vue'
 import DesignSettings from '@/components/planets/DesignSettings.vue'
+import Preview from '@/components/planets/Preview.vue'
 import PageList from '@/components/planets/PageList.vue'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
@@ -91,6 +96,7 @@ export default {
     ProjectSettings,
     DesignSettings,
     PageList,
+    Preview,
   },
   props: {
     routeName: {
@@ -108,6 +114,7 @@ export default {
       settingsFlg: false,
       pagesFlg: false,
       hiddenFlg: false,
+      previewFlg: false,
       markdownText: '',
     }
   },
@@ -153,8 +160,7 @@ export default {
       this.pagesFlg = true
     },
     preview() {
-      const url = `/projects/${this.$route.params.id}/${this.$route.params.number}/preview`
-      window.open(url, '_blank')
+      this.previewFlg = true
     },
     settings() {
       this.settingsFlg = true
