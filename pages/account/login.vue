@@ -16,7 +16,7 @@
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/account/signup">サインインページへ</NuxtLink>
             </v-row>
-            <v-row class="mt-10" justify="center">
+            <!-- <v-row class="mt-10" justify="center">
               <NuxtLink to="/account/no_auth_signup">認証なし＿サインインページへ</NuxtLink>
             </v-row>
             <v-row class="mt-10" justify="center">
@@ -27,7 +27,7 @@
             </v-row>
             <v-row class="mt-10" justify="center">
               <EventButton color="grey darken-3" :click-callback="test">テスト</EventButton>
-            </v-row>
+            </v-row> -->
           </div>
         </v-card>
       </v-col>
@@ -63,29 +63,30 @@ export default {
         password: this.password,
       }
       const userInfo = await this.$store.dispatch('api/users/postLogin', { data: user })
-      console.log('userInfo')
+      // console.log('userInfo')
       console.log(userInfo)
-      console.log('auth')
-      console.log(this.auth)
-      console.log('users')
-      console.log(this.users)
-      this.$router.push({ path: '/accout/login' })
+      // console.log('auth')
+      // console.log(this.auth)
+      // console.log('users')
+      // console.log(this.users)
+      console.log(userInfo === undefined)
+      this.$router.push({ path: '/' })
     },
-    async test() {
-      console.log('テストー')
-      await this.$store.dispatch('api/users/gets')
-      console.log('gets is')
-      console.log(this.users)
-      await this.$store.dispatch('api/users/get', { id: this.auth.id })
-      console.log('get is')
-      console.log(this.user)
-      await this.$store.dispatch('api/users/put', {
-        id: this.auth.id,
-        data: { name: Math.random().toString(32).substring(2) },
-      })
-      console.log('put is')
-      console.log(this.user)
-    },
+    // async test() {
+    //   console.log('テストー')
+    //   await this.$store.dispatch('api/users/gets')
+    //   console.log('gets is')
+    //   console.log(this.users)
+    //   await this.$store.dispatch('api/users/get', { id: this.auth.id })
+    //   console.log('get is')
+    //   console.log(this.user)
+    //   await this.$store.dispatch('api/users/put', {
+    //     id: this.auth.id,
+    //     data: { name: Math.random().toString(32).substring(2) },
+    //   })
+    //   console.log('put is')
+    //   console.log(this.user)
+    // },
   },
 }
 </script>

@@ -2,9 +2,7 @@
   <v-app>
     <v-app-bar color="grey darken-3" app clipped-left>
       <v-toolbar-title class="white--text"
-        ><strong
-          ><NuxtLink to="/" style="color: white; text-decoration: none">FRIDAY</NuxtLink></strong
-        ></v-toolbar-title
+        ><strong><NuxtLink to="/" style="color: white; text-decoration: none">Jason</NuxtLink></strong></v-toolbar-title
       >
     </v-app-bar>
     <v-main app light class="grey lighten-3">

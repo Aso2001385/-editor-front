@@ -66,7 +66,15 @@ export default {
   components: {
     VariableHeader,
   },
+  created() {
+    this.confirmUser()
+  },
   methods: {
+    async confirmUser() {
+      if (sessionStorage.getItem('user') === null) {
+        await this.$router.push({ path: '/account/login' })
+      }
+    },
     submit(route) {
       this.$router.push({ path: `/${route}` })
     },

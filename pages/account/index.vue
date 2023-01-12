@@ -8,7 +8,7 @@
           </v-card-title>
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
-            <v-text-field v-model="name" label="name" readonly></v-text-field>
+            <v-text-field v-model="User.name" label="name" readonly></v-text-field>
           </div>
         </v-card>
       </v-col>
@@ -16,6 +16,7 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import previews from '@/assets/previews.json'
 import { nestClone } from '@/lib/common'
 
@@ -29,7 +30,8 @@ export default {
   },
   data() {
     return {
-      name: '翔',
+      User: '',
+      // name: '',
       default_previews: null,
       PROJECT_LINK: 2,
     }
@@ -42,7 +44,6 @@ export default {
     },
     projects: {
       get() {
-        console.log('aa')
         console.log(nestClone(this.receive))
         console.log(this.editingProject)
         let projects = nestClone(this.receive)
@@ -50,10 +51,18 @@ export default {
         return projects
       },
     },
+    ...mapGetters({
+      auth: 'api/users/auth',
+      users: 'api/users/collection',
+      user: 'api/users/resource',
+      design: 'api/designs/resource',
+    }),
   },
   created() {
     const data = previews
     this.default_previews = data
+    this.User = JSON.parse(sessionStorage.getItem('user'))
+    console.log(this.User)
   },
   mounted() {
     this.getAccount()
@@ -64,7 +73,6 @@ export default {
         await this.$router.push({ path: '/' })
       }
     },
-    jumpToNewProject() {},
   },
 }
 </script>

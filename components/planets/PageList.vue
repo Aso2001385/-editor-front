@@ -63,7 +63,6 @@ import Draggable from 'vuedraggable'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import '@/lib/pro.scss'
 import { nestClone } from '~/lib/common'
-
 export default {
   components: {
     MenuButton,
@@ -95,7 +94,23 @@ export default {
   },
   methods: {
     saveSettings() {
-      return ''
+      // this.User = JSON.parse(sessionStorage('user'))
+      console.log(sessionStorage('user'))
+      // const page = {
+      //   contents: '# new',
+      //   design_uuid: '',
+      //   id: this.project.pages[0].id,
+      //   number: this.project.pages[0].number + 1,
+      //   project_uuid: this.project.pages[0].project_uuid,
+      //   title: '新規ページ',
+      //   user_id: '',
+      // }
+      // if (this.project) {
+      //   this.pages = page
+      //   return true
+      // } else {
+      //   return false
+      // }
     },
     jumpToAnotherPage(number) {
       this.$router.push({ path: `/projects/${this.project.uuid}/${number}` })

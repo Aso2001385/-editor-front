@@ -2,14 +2,28 @@
 <template>
   <v-app-bar color="grey darken-3" app clipped-left>
     <v-row class="pr-15">
+      <!-- <v-col cols="3" class="d-flex align-center"> -->
       <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
-        <span class="text-h6">FRIDAY EDITOR</span><br />{{ routeName }}
+        <span class="text-h6">Jason</span><br />{{ routeName }}
       </div>
+      <!-- </v-col> -->
       <!-- 共通 -->
+      <!-- <v-col cols="6" class="d-flex align-center"> -->
+
+      <!-- <MenuButton :click-callback="account">
+        <template #icon>mdi-account</template>
+        <template #text>アカウントページへ移動します</template>
+      </MenuButton> -->
 
       <MenuButton :click-callback="back">
         <template #icon>mdi-arrow-u-down-left-bold</template>
         <template #text>前のページへ戻ります</template>
+      </MenuButton>
+
+      <!-- Top -->
+      <MenuButton v-if="homeFlg" :click-callback="userInfo">
+        <template #icon>mdi-account</template>
+        <template #text>会員情報を表示します</template>
       </MenuButton>
 
       <v-spacer />
@@ -36,6 +50,11 @@
 
       <!-- design -->
 
+      <MenuButton v-if="designFlg" :click-callback="preview">
+        <template #icon>mdi-eye-arrow-right</template>
+        <template #text>プレビューを表示します</template>
+      </MenuButton>
+
       <MenuButton v-if="designFlg" :click-callback="settings">
         <template #icon>mdi-file-cog</template>
         <template #text>設定を表示します</template>
@@ -45,6 +64,9 @@
         <template #icon>mdi-content-save-alert</template>
         <template #text>デザインを保存します</template>
       </MenuButton>
+      <!-- <v-spacer /> -->
+      <!-- </v-col>
+      <v-col cols="3"></v-col> -->
     </v-row>
 
     <!-- ページ一覧 -->
@@ -62,9 +84,7 @@
       <DesignSettings :receive="receive" />
     </v-dialog>
 
-    <!-- デザインプレビューカード -->
-    <PreviewDialog ref="dig" :receive="savePreviewStatus" />
-
+    <PreviewDialog ref="dig" :receive="savePreviewStatus"></PreviewDialog>
     <div v-if="hiddenFlg" style="position: absolute; opacity: 0; height: 100vh; width: 65vw">
       <div id="contents" style="min-height: 100%; width: 100%" v-html="markdownText"></div>
     </div>
@@ -73,7 +93,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
 import ProjectSettings from '@/components/planets/ProjectSettings.vue'
@@ -83,7 +102,6 @@ import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
 import '@/lib/pro.scss'
-
 export default {
   components: {
     MenuButton,
@@ -117,6 +135,11 @@ export default {
       project: 'api/projects/resource',
       design: 'api/designs/resource',
     }),
+    homeFlg: {
+      get() {
+        return this.routeName === 'Home'
+      },
+    },
     projectListFlg: {
       get() {
         return this.routeName === 'ProjectList'
@@ -142,6 +165,9 @@ export default {
     async home() {
       await this.$router.push({ path: '/' })
     },
+    async userInfo() {
+      await this.$router.push({ path: '/account' })
+    },
     async back() {
       await this.$router.go(-1)
     },
@@ -165,7 +191,6 @@ export default {
           return
         }
         if (!(await this.$store.dispatch('api/designs/get', { id: this.receive.design_uuid }))) return
-
         const text = await gitMarkdownApi(this.receive.contents)
         this.markdownText = text
         this.hiddenFlg = true
@@ -177,25 +202,22 @@ export default {
             base: imageBase,
           }
           this.$store.dispatch('local/project/putPreview', {
-            uuid: this.project.design_uuid,
+            uuid: putPage.uuid,
             preview: imageBase,
           })
           this.hiddenFlg = false
         })
-
         const putPage = {
-          project_uuid: this.project.uuid,
-          design_uuid: this.receive.design_uuid,
+          uuid: this.project.uuid,
           number: this.receive.number,
           contents: this.receive.contents,
+          title: this.receive.title,
         }
-
         if (await this.$store.dispatch('api/projects/putPage', { data: putPage })) {
           this.$store.dispatch('local/project/remove')
         } else {
           console.log('error')
         }
-
         await this.$store.dispatch('common/loadingEnd')
         this.$refs.dig.dialog = true
         this.hiddenFlg = false
@@ -209,11 +231,7 @@ export default {
         await this.$store.dispatch('common/loadingStart')
         const oldContents = JSON.stringify(tagOrder(JSON.parse(this.design.contents)))
         const newContents = JSON.stringify(this.receive.contents)
-        if (newContents === oldContents) {
-          await this.$store.dispatch('common/loadingEnd')
-          return
-        }
-
+        if (newContents === oldContents) return
         const imageBase = await getPreview(document.getElementById('contents'))
         this.savePreviewStatus = {
           name: this.receive.name,
@@ -223,9 +241,7 @@ export default {
           contents: newContents,
           preview: imageBase,
         }
-
         await this.$store.dispatch('api/designs/put', { id: this.receive.uuid, data: putDesign })
-
         await this.$store.dispatch('common/loadingEnd')
         this.$refs.dig.dialog = true
       } catch (error) {

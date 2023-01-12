@@ -27,8 +27,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - Friday',
-    title: 'Friday',
+    titleTemplate: '%s - Jason',
+    title: 'Jason',
     htmlAttrs: {
       lang: 'ja',
     },

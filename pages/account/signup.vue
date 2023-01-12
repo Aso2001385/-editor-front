@@ -28,6 +28,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+// import axios from 'axios'
+// import temp from '@/lib/template.json'
 export default {
   layout: 'auth',
   data() {
@@ -57,11 +59,19 @@ export default {
     }
   },
   methods: {
+    //   動画撮るようにコメントアウトしてるだけ
+
     async submit() {
       if (this.password === this.confirmPassword) {
         const data = { name: this.name, email: this.email, password: this.password }
         await this.$store.dispatch('api/users/register', { data })
         if (this.user) {
+          const user = {
+            name: this.name,
+            email: this.email,
+            password: this.password,
+          }
+          sessionStorage.setItem('userInfo', JSON.stringify(user))
           this.$router.push({
             path: '/account/confirmSignup',
           })
@@ -72,6 +82,46 @@ export default {
         alert('パスワードが確認用と違います')
       }
     },
+    // async submit() {
+    //   const BASE_URL = process.env.API_BASE_URL
+    //   if (this.password === this.confirmPassword) {
+    //     const data = { name: this.name, email: this.email, password: this.password }
+    //     const a = await axios
+    //       .get(`${BASE_URL}/sanctum/csrf-cookie`)
+    //       .then(async () => {
+    //         return await axios
+    //           .post(`http://localhost:8080/api/users/register`, data)
+    //           .then(response => {
+    //             // const newDesign = {
+    //             //   name: 'Design1',
+    //             //   point: 0,
+    //             //   contents: JSON.stringify(temp),
+    //             // }
+    //             console.log(temp)
+    //             // if (this.$store.dispatch('api/designs/post', { data: newDesign })) {
+    //             sessionStorage.setItem('email', this.email)
+    //             this.$router.push({
+    //               path: '/account/confirmSignup',
+    //               // email: this.email,
+    //               // name: this.name,
+    //               // password: this.password,
+    //             })
+    //             // } else {
+    //             //   return false
+    //             // }
+    //             return true
+    //           })
+    //           .catch(() => {
+    //             this.$router.push({ path: '/account/no_auth_signup' })
+    //             return false
+    //           })
+    //       })
+    //       .catch(() => {
+    //         return false
+    //       })
+    //     console.log(a)
+    //   }
+    // },
   },
 }
 </script>

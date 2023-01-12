@@ -9,7 +9,7 @@
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
             <p>入力したメールアドレス宛に確認コードが送信されています。</p>
-            <v-text-field v-model="email" label="email" type="text" disabled></v-text-field>
+            <v-text-field v-model="User.email" label="email" type="text" disabled></v-text-field>
             <v-otp-input v-model="code" :length="6" />
             <v-row justify="center" class="mt-5 mb-5">
               <v-col cols="4">
@@ -30,12 +30,29 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import axios from 'axios'
+import temp from '@/lib/template.json'
 
 export default {
+  props: {
+    name: {
+      type: String,
+      default: '',
+    },
+    email: {
+      type: String,
+      default: '',
+    },
+    password: {
+      type: String,
+      default: '',
+    },
+  },
   layout: 'auth',
   data() {
     return {
-      email: '',
+      User: '',
+      Email: this.email,
       code: '',
     }
   },
@@ -45,30 +62,64 @@ export default {
     }),
   },
   created() {
-    console.log(this.user)
-    if (!this.user.email) {
-      this.$router.push({ path: '/account/signup' })
-    }
-    this.email = this.user.email
+    // console.log(this.user)
+    // if (!this.user.email) {
+    //   this.$router.push({ path: '/account/signup' })
+    // }
+    // this.email = this.user.email
+    this.User = JSON.parse(sessionStorage.getItem('userInfo'))
+    console.log(this.User)
   },
+  mounted() {},
   methods: {
-    async submit() {
-      if (this.code !== '') {
-        const user = {
-          email: this.email,
-          code: this.code,
-        }
+    // 一旦送ったというていで進めるため
 
-        await this.$store.dispatch('api/account/confirmRegister', { data: user })
-        if (this.user.id) {
-          console.log(this.user)
-          // await this.$router.push({ path: '/projects' })
-        } else {
-          alert('失敗しました。再度入力してください。')
-        }
-      } else {
-        alert('確認コードを入力しましょう。')
-      }
+    //   async submit() {
+    //     if (this.code !== '') {
+    //       const user = {
+    //         email: this.Email,
+    //         code: this.code,
+    //       }
+
+    //       await this.$store.dispatch('api/account/confirmRegister', { data: user })
+    //       if (this.user.id) {
+    //         console.log(this.user)
+    //         // await this.$router.push({ path: '/projects' })
+    //       } else {
+    //         alert('失敗しました。再度入力してください。')
+    //       }
+    //     } else {
+    //       alert('確認コードを入力しましょう。')
+    //     }
+    //   },
+    async submit() {
+      // async submit() {
+      const BASE_URL = process.env.API_BASE_URL
+      // if (this.password === this.confirmPassword) {
+      // const data = { name: this.name, email: this.email, password: this.password }
+      const a = await axios
+        .get(`${BASE_URL}/sanctum/csrf-cookie`)
+        .then(async () => {
+          return await axios
+            .post(`http://localhost:8080/api/users/register`, this.User)
+            .then(response => {
+              // sessionStorage.clear()
+              console.log(temp)
+              this.$router.push({
+                path: '/account/login',
+              })
+              return true
+            })
+            .catch(() => {
+              this.$router.push({ path: '/account/login' })
+              return false
+            })
+        })
+        .catch(() => {
+          return false
+        })
+      console.log(a)
+      // }
     },
     async reSend() {
       await this.$store.dispatch('api/account/reSendEmail', { email: this.user.email })

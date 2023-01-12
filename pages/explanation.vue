@@ -5,7 +5,7 @@
     <v-row>
       <v-col>
         <div class="pa-10 algin-center">
-          <h1 class="mb-5">FRIDAYの機能説明</h1>
+          <h1 class="mb-5">Jasonの機能説明</h1>
           <p v-if="authFlg === true"><a href="/projects">プロジェクトへ進む</a></p>
           <p v-else><a href="/account/login">プロジェクトへ進む</a></p>
           <div>
