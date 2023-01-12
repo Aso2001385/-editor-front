@@ -24,8 +24,8 @@
       </v-col>
       <v-col cols="5" style="height: 100%" max-height="auto" class="overflow-y-auto">
         <v-window v-model="window" style="height: 100%" class="elevation-1" vertical>
-          <v-window-item class="overflow-y-auto" style="max-height: 90vh">
-            <v-row justify="center" class="pa-11 align-center" no-gutters>
+          <v-window-item class="overflow-y-auto pb-15" style="max-height: 90vh">
+            <v-row justify="center" class="pa-11 align-center mb-15" no-gutters>
               <v-col cols="12" class="text-p mb-2">プロジェクト名</v-col>
               <v-col cols="12" class="my-0">
                 <v-text-field v-model="projectSet.name" solo />
@@ -35,8 +35,17 @@
                 <v-text-field v-model="page.title" solo />
               </v-col>
               <v-col cols="12" class="text-p mb-2">選択中のデザイン</v-col>
-              <v-col cols="12" class="my-0">
+              <v-col cols="12" class="mb-5">
                 <PreviewCard :receive="releaseDesign" :click-callback="openList" />
+              </v-col>
+              <v-col cols="12" class="text-p mb-2">
+                <v-divider class="my-10" />
+                プロジェクトのダウンロード
+              </v-col>
+              <v-col cols="12" class="my-0">
+                <v-btn class="grey darken-3 white--text" @click.prevent="download"
+                  ><v-icon color="white">mdi-download</v-icon>Download
+                </v-btn>
               </v-col>
             </v-row>
           </v-window-item>
@@ -219,6 +228,15 @@ export default {
         location.reload()
       } else {
         this.$router.push({ path: `/projects/${this.project.uuid}/${putPage.number}` })
+      }
+    },
+    async download() {
+      this.$store.dispatch('common/loadingStart')
+      const status = { id: this.project.uuid, name: this.project.name }
+      if (await this.$store.dispatch('api/projects/download', status)) {
+        this.$store.dispatch('common/loadingEnd')
+      } else {
+        this.$store.dispatch('common/loadingEnd')
       }
     },
   },

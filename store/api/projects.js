@@ -1,4 +1,5 @@
 import axios from 'axios'
+// import { saveAs } from 'file-saver'
 import getMD from '@/lib/git-markdown-api'
 import { crudState, crudGetters, crudMutations, crudActions } from '@/lib/resources'
 
@@ -41,6 +42,26 @@ export const actions = crudActions(axios, `${API_URL}/projects`, {
     const response = await getMD(argument.data)
     commit('setMarkdown', response)
   },
+  download: async ({ commit }, argument) => {
+    console.log('saveAs(blob, fileName)')
+    return await axios
+      .get(`${API_URL}/export/${argument.id}`, {
+        responseType: 'arraybuffer',
+        headers: { Accept: 'application/zip' },
+      })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'application/zip' })
+        const uri = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.download = argument.name + '.zip'
+        link.href = uri
+        link.click()
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  },
   getPage: async ({ commit }, argument) => {
     return await axios
       .get(`${API_URL}/projects/${argument.id}/pages/${argument.number}`)
@@ -76,3 +97,10 @@ export const actions = crudActions(axios, `${API_URL}/projects`, {
       })
   },
 })
+// function getFileName(contentDisposition) {
+//   let fileName = contentDisposition.substring(contentDisposition.indexOf("''") + 2, contentDisposition.length)
+
+//   fileName = decodeURI(fileName).replace(/\+/g, ' ')
+
+//   return fileName
+// }
