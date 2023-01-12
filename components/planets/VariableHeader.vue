@@ -186,6 +186,7 @@ export default {
             name: this.project.name,
             base: imageBase,
           }
+          console.log(this.project.design_uuid)
           this.$store.dispatch('local/project/putPreview', {
             uuid: this.project.design_uuid,
             preview: imageBase,

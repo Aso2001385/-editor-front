@@ -25,10 +25,14 @@ export const mutations = {
 
 export const actions = {
   save({ commit }, argument) {
+    console.log(argument.data)
+    console.log(argument.data.project.uuid)
     localStorage.setItem(KEY, JSON.stringify(argument.data))
+    localStorage.setItem(PREVIEW_KEY, JSON.stringify(argument.data.project.uuid))
     commit('setIsSet', true)
   },
   putPreview({ commit }, argument) {
+    // おそらくここがアンディファインドになっている
     const previews = JSON.parse(localStorage.getItem(PREVIEW_KEY)) ?? {}
     previews[argument.uuid] = argument.preview
     localStorage.setItem(PREVIEW_KEY, JSON.stringify(previews))

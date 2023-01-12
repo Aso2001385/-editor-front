@@ -68,7 +68,7 @@ export default {
           .get(`${BASE_URL}/sanctum/csrf-cookie`)
           .then(async () => {
             return await axios
-              .post(`http://localhost:8080/api/users/register`, data)
+              .post(`https://fridayeditor/api/users/register`, data)
               .then(response => {
                 const newDesign = {
                   name: 'Design1',

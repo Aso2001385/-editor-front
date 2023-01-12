@@ -71,6 +71,8 @@ export default {
           },
           page: nestClone(this.page),
         }
+        console.log('saveParamの中身')
+        console.log(saveParam)
         this.$store.dispatch('local/project/save', { data: saveParam })
       },
       deep: true,
