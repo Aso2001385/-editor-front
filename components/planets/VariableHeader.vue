@@ -5,13 +5,12 @@
       <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
         <span class="text-h6">FRIDAY EDITOR</span><br />{{ routeName }}
       </div>
-      <!-- 共通 -->
-
-      <MenuButton :click-callback="back">
-        <template #icon>mdi-arrow-u-down-left-bold</template>
-        <template #text>前のページへ戻ります</template>
-      </MenuButton>
-
+      <!-- projectEditor -->
+      <NeoHelper v-if="projectListFlg" :receive="projectListRoot" />
+      <NeoHelper v-if="designListFlg" :receive="designListRoot" />
+      <!-- designEditor -->
+      <NeoHelper v-if="projectFlg" :receive="projectEditorRoot" />
+      <NeoHelper v-if="designFlg" :receive="designEditorRoot" />
       <v-spacer />
       <!-- Project -->
       <MenuButton v-if="projectFlg" :click-callback="pages">
@@ -45,6 +44,12 @@
         <template #icon>mdi-content-save-alert</template>
         <template #text>デザインを保存します</template>
       </MenuButton>
+
+      <!-- 共通 -->
+      <MenuButton :click-callback="back">
+        <template #icon>mdi-arrow-u-down-left-bold</template>
+        <template #text>前のページへ戻ります</template>
+      </MenuButton>
     </v-row>
 
     <!-- ページ一覧 -->
@@ -77,14 +82,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
 import ProjectSettings from '@/components/planets/ProjectSettings.vue'
 import DesignSettings from '@/components/planets/DesignSettings.vue'
 import Preview from '@/components/planets/Preview.vue'
 import PageList from '@/components/planets/PageList.vue'
-import { getPreview, tagOrder } from '@/lib/common'
+import { projectEditorRoot } from '~/lib/commons/helpers/projects/projectEditor'
+import { designEditorRoot } from '~/lib/commons/helpers/designs/designEditor'
+import { projectListRoot } from '~/lib/commons/helpers/projects/projectList'
+import { designListRoot } from '~/lib/commons/helpers/designs/designList'
+import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
 import '@/lib/pro.scss'
@@ -97,6 +106,7 @@ export default {
     DesignSettings,
     PageList,
     Preview,
+    NeoHelper,
   },
   props: {
     routeName: {
@@ -116,6 +126,10 @@ export default {
       hiddenFlg: false,
       previewFlg: false,
       markdownText: '',
+      projectEditorRoot,
+      designEditorRoot,
+      projectListRoot,
+      designListRoot,
     }
   },
   computed: {
@@ -186,6 +200,7 @@ export default {
             name: this.project.name,
             base: imageBase,
           }
+          console.log(this.project.design_uuid)
           this.$store.dispatch('local/project/putPreview', {
             uuid: this.project.design_uuid,
             preview: imageBase,

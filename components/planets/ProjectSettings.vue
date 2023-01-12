@@ -2,6 +2,8 @@
 <template>
   <v-card class="mx-auto" width="1200" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%">
+      <NeoHelper :receive="pageSettingList" />
+      <v-spacer />
       <MenuButton :click-callback="() => saveSettings()">
         <template #icon>mdi-content-save-alert</template>
         <template #text>設定を保存します<br />(編集中のコンテンツはセーブされません)</template>
@@ -73,7 +75,9 @@
 import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import { nestClone, onlyCopy } from '@/lib/common'
+import { pageSettingList, pageSetting } from '~/lib/commons/helpers/projects/projectEditor'
 import htmlPreset from '@/lib/pre-html.json'
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import PreviewCard from '@/components/materials/cards/PreviewCard.vue'
 import PageListSetting from '@/components/planets/PageListSetting.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
@@ -81,6 +85,7 @@ import '@/lib/pro.scss'
 
 export default {
   components: {
+    NeoHelper,
     PreviewCard,
     PageListSetting,
     MenuButton,
@@ -111,6 +116,8 @@ export default {
       htmlPreset,
       previewFlg: true,
       selectIndex: false,
+      pageSettingList,
+      pageSetting,
     }
   },
   computed: {

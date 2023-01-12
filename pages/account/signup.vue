@@ -45,21 +45,22 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'api/users/auth',
+      user: 'api/users/',
       authFlg: 'api/users/authFlg',
     }),
   },
   created() {
-    if (this.authFlg) {
-      this.$router.push({
-        path: '/',
-      })
-    }
+    // if (this.authFlg) {
+    //   this.$router.push({
+    //     path: '/',
+    //   })
+    // }
   },
   methods: {
     async submit() {
       if (this.password === this.confirmPassword) {
         const data = { name: this.name, email: this.email, password: this.password }
+        sessionStorage.setItem('userData', JSON.stringify(data))
         await this.$store.dispatch('api/users/register', { data })
         if (this.user) {
           this.$router.push({
