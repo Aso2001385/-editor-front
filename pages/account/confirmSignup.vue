@@ -40,9 +40,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      user: 'api/account/user',
-    }),
+    // ...mapGetters({
+    //   user: 'api/users/resource',
+    // }),
   },
   created() {
     console.log(this.user)
@@ -50,6 +50,9 @@ export default {
       this.$router.push({ path: '/account/signup' })
     }
     this.email = this.user.email
+  },
+  mounted() {
+    this.email = JSON.parse(sessionStorage.getItem('userData')).email
   },
   methods: {
     async submit() {
@@ -59,7 +62,7 @@ export default {
           code: this.code,
         }
 
-        await this.$store.dispatch('api/account/confirmRegister', { data: user })
+        await this.$store.dispatch('api/users/confirmRegister', { data: user })
         if (this.user.id) {
           console.log(this.user)
           // await this.$router.push({ path: '/projects' })
@@ -71,7 +74,7 @@ export default {
       }
     },
     async reSend() {
-      await this.$store.dispatch('api/account/reSendEmail', { email: this.user.email })
+      await this.$store.dispatch('api/users/reSendEmail', { email: this.user.email })
     },
   },
 }

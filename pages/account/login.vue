@@ -14,7 +14,7 @@
               <EventButton color="grey darken-3" :click-callback="submit">Next</EventButton>
             </v-row>
             <v-row class="mt-10" justify="center">
-              <NuxtLink to="/account/signup">サインインページへ</NuxtLink>
+              <NuxtLink to="/account/signup">サインアップページへ</NuxtLink>
             </v-row>
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/account/no_auth_signup">認証なし＿サインインページへ</NuxtLink>
@@ -24,6 +24,9 @@
             </v-row>
             <v-row class="mt-10" justify="center">
               <NuxtLink to="/designs">デザインへ</NuxtLink>
+            </v-row>
+            <v-row class="mt-10" justify="center">
+              <v-btn @click="openPriset()">プリセット表示</v-btn>
             </v-row>
             <v-row class="mt-10" justify="center">
               <EventButton color="grey darken-3" :click-callback="test">テスト</EventButton>
@@ -37,6 +40,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import EventButton from '@/components/materials/buttons/EventButton.vue'
+import temp from '@/lib/template'
 export default {
   components: {
     EventButton,
@@ -85,6 +89,9 @@ export default {
       })
       console.log('put is')
       console.log(this.user)
+    },
+    openPriset() {
+      console.log(JSON.stringify(temp))
     },
   },
 }

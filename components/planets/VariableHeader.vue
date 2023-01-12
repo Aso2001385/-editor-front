@@ -5,9 +5,12 @@
       <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
         <span class="text-h6">FRIDAY EDITOR</span><br />{{ routeName }}
       </div>
-
-      <NeoHelper v-if="projectFlg" :receive="root" />
-
+      <!-- projectEditor -->
+      <NeoHelper v-if="projectListFlg" :receive="projectListRoot" />
+      <NeoHelper v-if="designListFlg" :receive="designListRoot" />
+      <!-- designEditor -->
+      <NeoHelper v-if="projectFlg" :receive="projectEditorRoot" />
+      <NeoHelper v-if="designFlg" :receive="designEditorRoot" />
       <v-spacer />
       <!-- Project -->
       <MenuButton v-if="projectFlg" :click-callback="pages">
@@ -86,7 +89,10 @@ import ProjectSettings from '@/components/planets/ProjectSettings.vue'
 import DesignSettings from '@/components/planets/DesignSettings.vue'
 import Preview from '@/components/planets/Preview.vue'
 import PageList from '@/components/planets/PageList.vue'
-import { root } from '~/lib/commons/helpers/projects/projectEditor'
+import { projectEditorRoot } from '~/lib/commons/helpers/projects/projectEditor'
+import { designEditorRoot } from '~/lib/commons/helpers/designs/designEditor'
+import { projectListRoot } from '~/lib/commons/helpers/projects/projectList'
+import { designListRoot } from '~/lib/commons/helpers/designs/designList'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
@@ -120,7 +126,10 @@ export default {
       hiddenFlg: false,
       previewFlg: false,
       markdownText: '',
-      root,
+      projectEditorRoot,
+      designEditorRoot,
+      projectListRoot,
+      designListRoot,
     }
   },
   computed: {

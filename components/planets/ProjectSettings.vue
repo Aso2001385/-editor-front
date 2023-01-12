@@ -2,8 +2,7 @@
 <template>
   <v-card class="mx-auto" width="1200" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%">
-      <NeoHelper v-if="helperFlg" :receive="pageSettingList" />
-      <NeoHelper v-else :receive="pageSetting" />
+      <NeoHelper :receive="pageSettingList" />
       <v-spacer />
       <MenuButton :click-callback="() => saveSettings()">
         <template #icon>mdi-content-save-alert</template>
@@ -15,12 +14,12 @@
         <v-item-group v-model="window" class="pa-3">
           <v-item v-slot="{ active, toggle }">
             <div>
-              <v-btn :input-value="active" large text block @click="toggle" @change="HelperFlg()"> 基本設定 </v-btn>
+              <v-btn :input-value="active" large text block @click="toggle"> 基本設定 </v-btn>
             </div>
           </v-item>
           <v-item v-slot="{ active, toggle }">
             <div>
-              <v-btn :input-value="active" large text block @click="toggle" @change="HelperFlg()"> 一覧設定 </v-btn>
+              <v-btn :input-value="active" large text block @click="toggle"> 一覧設定 </v-btn>
             </div>
           </v-item>
         </v-item-group>
@@ -110,7 +109,6 @@ export default {
       selectIndex: false,
       pageSettingList,
       pageSetting,
-      helperFlg: true,
     }
   },
   computed: {
@@ -229,9 +227,6 @@ export default {
       } else {
         this.$router.push({ path: `/projects/${this.project.uuid}/${putPage.number}` })
       }
-    },
-    HelperFlg() {
-      return !this.helperFlg
     },
   },
 }

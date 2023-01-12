@@ -2,6 +2,8 @@
 <template>
   <v-card class="mx-auto" width="600" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%">
+      <NeoHelper :receive="designSettings" />
+      <v-spacer />
       <MenuButton :click-callback="() => saveSettings()">
         <template #icon>mdi-content-save-alert</template>
         <template #text>設定を保存します<br />(編集中のコンテンツはセーブされません)</template>
@@ -23,12 +25,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import { nestClone } from '@/lib/common'
+import { designSettings } from '~/lib/commons/helpers/designs/designEditor'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import '@/lib/pro.scss'
 
 export default {
   components: {
     MenuButton,
+    NeoHelper,
   },
   props: {
     receive: {
@@ -43,6 +48,7 @@ export default {
       releaseDesign: {
         name: '',
       },
+      designSettings,
     }
   },
   computed: {
