@@ -2,6 +2,9 @@
 <template>
   <v-card class="mx-auto" width="1200" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%">
+      <NeoHelper v-if="helperFlg" :receive="pageSettingList" />
+      <NeoHelper v-else :receive="pageSetting" />
+      <v-spacer />
       <MenuButton :click-callback="() => saveSettings()">
         <template #icon>mdi-content-save-alert</template>
         <template #text>設定を保存します<br />(編集中のコンテンツはセーブされません)</template>
@@ -12,12 +15,12 @@
         <v-item-group v-model="window" class="pa-3">
           <v-item v-slot="{ active, toggle }">
             <div>
-              <v-btn :input-value="active" large text block @click="toggle"> 基本設定 </v-btn>
+              <v-btn :input-value="active" large text block @click="toggle" @change="HelperFlg()"> 基本設定 </v-btn>
             </div>
           </v-item>
           <v-item v-slot="{ active, toggle }">
             <div>
-              <v-btn :input-value="active" large text block @click="toggle"> 一覧設定 </v-btn>
+              <v-btn :input-value="active" large text block @click="toggle" @change="HelperFlg()"> 一覧設定 </v-btn>
             </div>
           </v-item>
         </v-item-group>
@@ -64,7 +67,9 @@
 import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import { nestClone, onlyCopy } from '@/lib/common'
+import { pageSettingList, pageSetting } from '~/lib/commons/helpers/projects/projectEditor'
 import htmlPreset from '@/lib/pre-html.json'
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import PreviewCard from '@/components/materials/cards/PreviewCard.vue'
 import PageListSetting from '@/components/planets/PageListSetting.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
@@ -72,6 +77,7 @@ import '@/lib/pro.scss'
 
 export default {
   components: {
+    NeoHelper,
     PreviewCard,
     PageListSetting,
     MenuButton,
@@ -102,6 +108,9 @@ export default {
       htmlPreset,
       previewFlg: true,
       selectIndex: false,
+      pageSettingList,
+      pageSetting,
+      helperFlg: true,
     }
   },
   computed: {
@@ -220,6 +229,9 @@ export default {
       } else {
         this.$router.push({ path: `/projects/${this.project.uuid}/${putPage.number}` })
       }
+    },
+    HelperFlg() {
+      return !this.helperFlg
     },
   },
 }

@@ -5,12 +5,8 @@
       <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
         <span class="text-h6">FRIDAY EDITOR</span><br />{{ routeName }}
       </div>
-      <!-- 共通 -->
 
-      <MenuButton :click-callback="back">
-        <template #icon>mdi-arrow-u-down-left-bold</template>
-        <template #text>前のページへ戻ります</template>
-      </MenuButton>
+      <NeoHelper v-if="projectFlg" :receive="root" />
 
       <v-spacer />
       <!-- Project -->
@@ -45,6 +41,12 @@
         <template #icon>mdi-content-save-alert</template>
         <template #text>デザインを保存します</template>
       </MenuButton>
+
+      <!-- 共通 -->
+      <MenuButton :click-callback="back">
+        <template #icon>mdi-arrow-u-down-left-bold</template>
+        <template #text>前のページへ戻ります</template>
+      </MenuButton>
     </v-row>
 
     <!-- ページ一覧 -->
@@ -77,13 +79,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
 import ProjectSettings from '@/components/planets/ProjectSettings.vue'
 import DesignSettings from '@/components/planets/DesignSettings.vue'
 import Preview from '@/components/planets/Preview.vue'
 import PageList from '@/components/planets/PageList.vue'
+import { root } from '~/lib/commons/helpers/projects/projectEditor'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
@@ -97,6 +100,7 @@ export default {
     DesignSettings,
     PageList,
     Preview,
+    NeoHelper,
   },
   props: {
     routeName: {
@@ -116,6 +120,7 @@ export default {
       hiddenFlg: false,
       previewFlg: false,
       markdownText: '',
+      root,
     }
   },
   computed: {
