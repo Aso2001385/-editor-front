@@ -2,10 +2,9 @@
   <v-app>
     <v-app-bar color="grey darken-3" app clipped-left>
       <v-toolbar-title class="white--text"
-        ><strong
-          ><NuxtLink to="/" style="color: white; text-decoration: none">FRIDAY</NuxtLink></strong
-        ></v-toolbar-title
-      >
+        ><strong><NuxtLink to="/" style="color: white; text-decoration: none">FRIDAY EDITOR</NuxtLink></strong
+        ><NeoHelper :receive="login" />
+      </v-toolbar-title>
     </v-app-bar>
     <v-main app light class="grey lighten-3">
       <Nuxt />
@@ -14,7 +13,13 @@
 </template>
 
 <script>
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
+import { accountRoot, login } from '~/lib/commons/helpers/accounts/account'
+
 export default {
+  components: {
+    NeoHelper,
+  },
   data() {
     return {
       nav_lists: [
@@ -24,6 +29,8 @@ export default {
         },
       ],
       drawer: false,
+      accountRoot,
+      login,
     }
   },
 }

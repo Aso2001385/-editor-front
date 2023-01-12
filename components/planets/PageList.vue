@@ -1,7 +1,6 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-card class="mx-auto" width="600" height="500">
-    <v-card-actions class="grey darken-3" style="height: 10%"> </v-card-actions>
+    <v-card-actions class="grey darken-3" style="height: 10%"><NeoHelper :receive="pageList" /></v-card-actions>
     <v-row style="height: 80%" no-gutters>
       <v-col cols="12" style="height: 100%" max-height="auto" class="pa-5 overflow-y-auto">
         <v-simple-table>
@@ -52,8 +51,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import '@/lib/pro.scss'
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import { orderBy, dateTimeFormatter, getDiff, nestClone } from '~/lib/common'
-
+import { pageList } from '~/lib/commons/helpers/projects/projectEditor'
 export default {
   filters: {
     formatter(dateTime) {
@@ -66,7 +66,9 @@ export default {
       return getDiff(diffMs)
     },
   },
-  components: {},
+  components: {
+    NeoHelper,
+  },
   props: {
     receive: {
       type: Object,
@@ -79,6 +81,7 @@ export default {
       dialog: true,
       pages: [],
       now: 0,
+      pageList,
     }
   },
   computed: {
@@ -96,7 +99,6 @@ export default {
   methods: {
     async jumpToAnotherPage(number) {
       await this.$store.dispatch('local/project/check')
-
       if (this.now + '' === number + '') return ''
       if (this.isSet) {
         if (!this.jumpConfirm()) return

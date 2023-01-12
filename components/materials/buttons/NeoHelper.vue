@@ -1,21 +1,18 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-tooltip bottom>
     <template #activator="{ on, attrs }">
-      <v-btn icon :disabled="disabled" v-bind="attrs" v-on="on" @click.prevent="dialog = true">
+      <v-btn icon v-bind="attrs" v-on="on" @click.prevent="dialog = true">
         <v-icon :color="btnColor">
-          <slot>help-circle</slot>
+          <slot>mdi-help-circle</slot>
         </v-icon>
       </v-btn>
     </template>
     <div v-for="item in items" :key="item.icon" class="px-2">
-      <v-col cols="1">
-        <v-icon :color="item.color">
-          {{ item.mdi }}
-        </v-icon>
+      <v-col v-if="item.color" cols="12">
+        <v-icon :color="item.color"> mdi-{{ item.icon }} </v-icon> <span class="pl-3">{{ item.text }}</span>
       </v-col>
-      <v-col cols="11">
-        {{ item.text }}
+      <v-col v-else cols="12">
+        <v-icon color="white"> mdi-{{ item.icon }} </v-icon> <span class="pl-3">{{ item.text }}</span>
       </v-col>
       <v-divider />
     </div>
@@ -38,14 +35,15 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    detail: {
-      type: Boolean,
-      default: false,
+    btnColor: {
+      type: String,
+      default: 'white',
     },
   },
   data() {
     return {
       dialog: false,
+      disabled: true,
     }
   },
   computed: {
@@ -57,6 +55,17 @@ export default {
     text: {
       get() {
         return this.text
+      },
+    },
+    items: {
+      get() {
+        console.log(this.receive.icons)
+        return this.receive.icons
+      },
+    },
+    detail: {
+      get() {
+        return this.receive.detail ?? false
       },
     },
   },
