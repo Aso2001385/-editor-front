@@ -2,6 +2,7 @@
   <v-tooltip bottom>
     <template #activator="{ on, attrs }">
       <v-btn
+        v-if="!db"
         icon
         :loading="disabled"
         :loading-color="'red'"
@@ -9,6 +10,23 @@
         v-bind="attrs"
         v-on="on"
         @click.prevent="click"
+      >
+        <v-icon :color="btnColor">
+          <slot name="icon"></slot>
+        </v-icon>
+        <template slot="loader">
+          <CircleLoading :color="'red'" :size="20" :width="2" />
+        </template>
+      </v-btn>
+      <v-btn
+        v-else
+        icon
+        :loading="disabled"
+        :loading-color="'red'"
+        :disabled="disabled"
+        v-bind="attrs"
+        v-on="on"
+        @dblclick.prevent="click"
       >
         <v-icon :color="btnColor">
           <slot name="icon"></slot>
@@ -35,6 +53,10 @@ export default {
     btnColor: {
       type: String,
       default: 'white',
+    },
+    db: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

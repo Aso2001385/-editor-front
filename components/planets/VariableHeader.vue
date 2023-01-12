@@ -57,6 +57,10 @@
       <ProjectSettings :receive="receive" />
     </v-dialog>
 
+    <v-dialog v-if="projectFlg" v-model="previewFlg" class="d-flex" absolute width="auto">
+      <Preview :receive="page" />
+    </v-dialog>
+
     <!-- デザイン設定 -->
     <v-dialog v-if="designFlg" v-model="settingsFlg" class="d-flex" absolute width="auto">
       <DesignSettings :receive="receive" />
@@ -78,6 +82,7 @@ import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import PreviewDialog from '@/components/materials/dialogs/PreviewDialog.vue'
 import ProjectSettings from '@/components/planets/ProjectSettings.vue'
 import DesignSettings from '@/components/planets/DesignSettings.vue'
+import Preview from '@/components/planets/Preview.vue'
 import PageList from '@/components/planets/PageList.vue'
 import { getPreview, tagOrder } from '~/lib/common'
 import gitMarkdownApi from '~/lib/git-markdown-api'
@@ -91,6 +96,7 @@ export default {
     ProjectSettings,
     DesignSettings,
     PageList,
+    Preview,
   },
   props: {
     routeName: {
@@ -106,8 +112,9 @@ export default {
     return {
       savePreviewStatus: {},
       settingsFlg: false,
-      pagesFlg: true,
+      pagesFlg: false,
       hiddenFlg: false,
+      previewFlg: false,
       markdownText: '',
     }
   },
@@ -115,6 +122,7 @@ export default {
     ...mapGetters({
       isSet: 'local/project/isSet',
       project: 'api/projects/resource',
+      page: 'api/projects/page',
       design: 'api/designs/resource',
     }),
     projectListFlg: {
@@ -151,14 +159,16 @@ export default {
     pages() {
       this.pagesFlg = true
     },
-    async preview() {},
+    preview() {
+      this.previewFlg = true
+    },
     settings() {
       this.settingsFlg = true
     },
     async saveProject() {
       try {
         await this.$store.dispatch('common/loadingStart')
-        const oldContents = JSON.stringify(this.project.pages.find(page => page.number === this.receive.number))
+        const oldContents = JSON.stringify(this.page)
         const newContents = JSON.stringify(this.receive)
         if (newContents === oldContents) {
           await this.$store.dispatch('common/loadingEnd')
@@ -190,7 +200,7 @@ export default {
           contents: this.receive.contents,
         }
 
-        if (await this.$store.dispatch('api/projects/putPage', { data: putPage })) {
+        if (await this.$store.dispatch('api/projects/putPage', { id: this.page.id, data: putPage })) {
           this.$store.dispatch('local/project/remove')
         } else {
           console.log('error')

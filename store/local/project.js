@@ -33,6 +33,22 @@ export const actions = {
     previews[argument.uuid] = argument.preview
     localStorage.setItem(PREVIEW_KEY, JSON.stringify(previews))
   },
+  nowEditChange({ commit }, argument) {
+    let nowEdit = JSON.parse(localStorage.getItem(KEY))
+
+    console.log(argument)
+    if (!nowEdit) {
+      nowEdit = argument
+    } else {
+      nowEdit.project.name = argument.project.name
+      nowEdit.project.number = argument.project.number
+      nowEdit.page.number = argument.page.number
+      nowEdit.page.title = argument.page.title
+      nowEdit.page.design_uuid = argument.page.design_uuid
+    }
+
+    localStorage.setItem(KEY, JSON.stringify(nowEdit))
+  },
   remove({ commit }) {
     localStorage.removeItem(KEY)
     commit('setIsSet', false)
