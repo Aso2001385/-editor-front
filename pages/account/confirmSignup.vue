@@ -39,17 +39,15 @@ export default {
       code: '',
     }
   },
-  computed: {
-    // ...mapGetters({
-    //   auth: 'api/users/auth',
-    // }),
-  },
   created() {
     // console.log(this.auth)
     // if (!this.user.email) {
     //   this.$router.push({ path: '/account/signup' })
     // }
     // this.email = this.user.email
+  },
+  mounted() {
+    this.email = JSON.parse(sessionStorage.getItem('userData')).email
   },
   mounted() {
     this.email = JSON.parse(sessionStorage.getItem('userData')).email
