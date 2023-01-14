@@ -38,15 +38,18 @@ export default {
       markdown: 'api/projects/markdown',
       markdownText: 'api/projects/markdownText',
       design: 'api/designs/resource',
-      local: 'local/project/get',
       isSet: 'local/project/isSet',
     }),
   },
 
   async created() {
     const page = nestClone(this.receive)
-    const primitive = this.local.project.text ?? page.contents
-    if (this.markdown === '' || this.local.project.text !== this.markdownText) {
+    let primitive = page.contents
+    const local = await this.$store.dispatch('local/project/refresh')
+    if (local?.project.uuid === page.project_uuid) {
+      primitive = local.project.text ?? page.contents
+    }
+    if (this.markdown === '' || local.project.text !== this.markdownText) {
       await this.$store.dispatch('api/projects/getMarkdown', { data: primitive })
     }
     this.text = this.markdown

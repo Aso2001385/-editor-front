@@ -3,14 +3,15 @@ const PREVIEW_KEY = 'localPreviews'
 // const HTMLDATA = 'HtmlFromMarkdown'
 export const state = () => ({
   isSet: false,
+  get: null,
 })
 
 export const getters = {
   isSet: state => {
     return state.isSet
   },
-  get() {
-    return JSON.parse(localStorage.getItem(KEY))
+  get: state => {
+    return state.get ?? JSON.parse(localStorage.getItem(KEY))
   },
   previews() {
     return JSON.parse(localStorage.getItem(PREVIEW_KEY))
@@ -21,15 +22,20 @@ export const mutations = {
   setIsSet: (state, bool) => {
     state.isSet = bool
   },
+  setGet: (state, response) => {
+    state.get = response
+  },
 }
 
 export const actions = {
   save({ commit }, argument) {
-    console.log(argument.data)
-    console.log(argument.data.project.uuid)
     localStorage.setItem(KEY, JSON.stringify(argument.data))
     localStorage.setItem(PREVIEW_KEY, JSON.stringify(argument.data.project.uuid))
     commit('setIsSet', true)
+  },
+  refresh({ commit }, argument) {
+    commit('setGet', JSON.parse(localStorage.getItem(KEY)))
+    return JSON.parse(localStorage.getItem(KEY))
   },
   putPreview({ commit }, argument) {
     // おそらくここがアンディファインドになっている
