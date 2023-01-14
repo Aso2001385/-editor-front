@@ -29,7 +29,7 @@
       </MenuButton>
 
       <MenuButton v-if="projectFlg" :click-callback="() => saveProject()">
-        <template #icon>mdi-content-save-alert</template>
+        <template #icon>mdi-content-save</template>
         <template #text>プロジェクトを保存します</template>
       </MenuButton>
 
@@ -41,7 +41,7 @@
       </MenuButton>
 
       <MenuButton v-if="designFlg" :click-callback="() => saveDesign()">
-        <template #icon>mdi-content-save-alert</template>
+        <template #icon>mdi-content-save</template>
         <template #text>デザインを保存します</template>
       </MenuButton>
 

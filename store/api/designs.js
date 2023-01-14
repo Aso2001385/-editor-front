@@ -29,4 +29,15 @@ export const actions = crudActions(axios, `${API_URL}/designs`, {
     console.log(response)
     commit('setMarkdown', response)
   },
+  getProjectDesigns: async ({ commit }, argument) => {
+    return await axios
+      .get(`${API_URL}/designs/projects/${argument.id}`)
+      .then(response => {
+        commit('setCollection', response.data)
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  },
 })

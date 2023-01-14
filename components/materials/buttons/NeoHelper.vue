@@ -17,7 +17,7 @@
       <v-divider />
     </div>
     <v-dialog v-if="detail" v-model="dialog" class="d-flex" width="auto">
-      <v-card class="mx-auto" max-width="400" hover @click="close">
+      <v-card class="mx-auto" max-width="400" hover @click="dialog = false">
         <div style="height: 12rem">
           <slot name="desc"></slot>
         </div>

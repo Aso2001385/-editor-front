@@ -30,7 +30,7 @@
         </v-col>
         <v-col cols="3">
           <div class="text-center">
-            <v-icon>mdi-content-save-alert</v-icon>
+            <v-icon>mdi-content-save</v-icon>
             <v-icon>mdi-content-save-check</v-icon>
             <a href="#" class="white--text text-center" style="text-decoration: none" @click="setEditorData"> SAVE</a>
           </div>
@@ -53,7 +53,7 @@
     </v-btn>
     <v-spacer />
     <v-btn text class="pa-5">
-      <v-icon color="white">mdi-content-save-alert</v-icon>
+      <v-icon color="white">mdi-content-save</v-icon>
       <div class="ml-3 text-h6 white--text text-center">SAVE</div>
     </v-btn> -->
     <Nuxt class="white" />

@@ -5,7 +5,7 @@
       <NeoHelper :receive="pageSettingList" />
       <v-spacer />
       <MenuButton :click-callback="() => saveSettings()">
-        <template #icon>mdi-content-save-alert</template>
+        <template #icon>mdi-content-save</template>
         <template #text>設定を保存します<br />(編集中のコンテンツはセーブされません)</template>
       </MenuButton>
     </v-card-actions>
@@ -124,6 +124,8 @@ export default {
     ...mapGetters({
       project: 'api/projects/resource',
       designs: 'api/designs/collection',
+      localProject: 'local/project/get',
+      isSet: 'local/project/isSet',
       design: 'api/designs/resource',
     }),
     pages: {
@@ -139,7 +141,7 @@ export default {
 
     if (await this.$store.dispatch('api/designs/get', { id: this.page.design_uuid })) {
       this.releaseDesign = this.designSet(this.design)
-      if (await this.$store.dispatch('api/designs/gets')) {
+      if (await this.$store.dispatch('api/designs/getProjectDesigns', { id: this.projectSet.uuid })) {
         this.releaseDesigns = this.designs.map(design => {
           return this.designSet(design)
         })
@@ -204,7 +206,10 @@ export default {
       const putPages = {
         id: this.project.uuid,
         data: {
-          last: this.page.id,
+          last: {
+            id: this.page.id,
+            design_uuid: this.page.design_uuid,
+          },
           pages,
         },
       }
@@ -216,19 +221,22 @@ export default {
       await this.$store.dispatch('api/projects/put', { id: this.project.uuid, data: project })
       const putPage = this.project.pages.find(page => page.id === this.page.id)
 
-      const saveParam = {
-        project: {
-          uuid: this.project.uuid,
-          number: putPage.number,
-          name: this.project.name,
-          text: this.page.contents,
-          preview: this.localPreviews?.[this.project.uuid] ?? null,
-          updatedAt: this.page.updated_at,
-        },
-        page: nestClone(putPage),
-      }
+      if (this.isSet) {
+        const saveParam = {
+          project: {
+            uuid: this.project.uuid,
+            number: putPage.number,
+            name: this.project.name,
+            text: this.localProject?.text ?? putPage.contents,
+            design_uuid: putPage.design_uuid,
+            preview: this.localPreviews?.[this.project.uuid] ?? null,
+            updatedAt: this.page.updated_at,
+          },
+          page: nestClone(putPage),
+        }
 
-      await this.$store.dispatch('local/project/nowEditChange', saveParam)
+        await this.$store.dispatch('local/project/nowEditChange', saveParam)
+      }
 
       this.$store.dispatch('common/loadingEnd')
       if ('' + putPage.number === this.$route.params.number) {
