@@ -42,7 +42,9 @@
         </v-row>
       </v-col>
       <v-col cols="6" class="overflow-y-auto" style="max-height: 90vh">
-        <div id="contents" v-html="preHtml.text"></div>
+        <div id="back" style="height: fit-content">
+          <div id="contents" v-html="preHtml.text"></div>
+        </div>
       </v-col>
     </v-row>
   </v-main>
