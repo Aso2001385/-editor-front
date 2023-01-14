@@ -45,17 +45,19 @@ export default {
   async created() {
     this.$store.dispatch('common/backed')
     await this.$store.dispatch('local/project/check')
-    if (this.isSet) {
-      this.releaseEditingProject = this.localProject.project
-    }
-    const a = await this.$store.dispatch('api/projects/gets')
-    if (a === 401 || a === 419) {
-      this.$router.push({ path: '/account/login' })
-    }
+    const error = await this.$store.dispatch('api/projects/gets')
+    if (error === 401 || error === 419) this.$router.push({ path: '/account/login' })
+
     this.releaseProjects = this.projects.reduce((accumulators, currentValue) => {
       if (this.localProject?.project.uuid !== currentValue.uuid) accumulators.push(this.projectSet(currentValue))
       return accumulators
     }, [])
+
+    if (this.releaseProjects.length === this.projects.length) {
+      if (this.isSet) await this.$store.dispatch('local/project/delete')
+    } else {
+      this.releaseEditingProject = this.localProject.project
+    }
   },
   methods: {
     async jumpToNewProject() {
