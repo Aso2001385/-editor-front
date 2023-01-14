@@ -60,8 +60,8 @@
 
       <v-divider vertical />
       <v-col cols="5" style="height: 100%" max-height="auto" class="overflow-y-auto">
-        <div v-if="previewFlg" id="back" style="height: 100%; width: 100%">
-          <div id="contents" v-html="htmlPreset.text"></div>
+        <div v-if="previewFlg" id="back" style="height: fit-content; width: 100%">
+          <div id="contents" style="width: 100%" v-html="htmlPreset.text"></div>
         </div>
 
         <div v-else class="py-5">
