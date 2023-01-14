@@ -75,7 +75,9 @@
     <PreviewDialog ref="dig" :receive="savePreviewStatus" />
 
     <div v-if="hiddenFlg" style="position: absolute; opacity: 0; height: 100vh; width: 65vw">
-      <div id="contents" style="min-height: 100%; width: 100%" v-html="markdownText"></div>
+      <div id="back" style="height: 100%">
+        <div id="contents" style="min-height: 100%; width: 100%" v-html="markdownText"></div>
+      </div>
     </div>
   </v-app-bar>
 </template>
@@ -195,7 +197,7 @@ export default {
         this.hiddenFlg = true
         this.$nextTick(async () => {
           styleSetter(JSON.parse(this.design.contents))
-          const imageBase = await getPreview(document.getElementById('contents'))
+          const imageBase = await getPreview(document.getElementById('back'))
           this.savePreviewStatus = {
             name: this.project.name,
             base: imageBase,
@@ -239,7 +241,7 @@ export default {
           return
         }
 
-        const imageBase = await getPreview(document.getElementById('contents'))
+        const imageBase = await getPreview(document.getElementById('back'))
         this.savePreviewStatus = {
           name: this.receive.name,
           base: imageBase,

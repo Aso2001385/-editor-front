@@ -49,7 +49,7 @@ export default {
     if (local?.project.uuid === page.project_uuid) {
       primitive = local.project.text ?? page.contents
     }
-    if (this.markdown === '' || local.project.text !== this.markdownText) {
+    if (this.markdown === '' || local?.project.text !== this.markdownText) {
       await this.$store.dispatch('api/projects/getMarkdown', { data: primitive })
     }
     this.text = this.markdown

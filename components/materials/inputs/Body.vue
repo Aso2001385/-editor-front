@@ -55,11 +55,11 @@ export default {
   },
   data() {
     return {
-      fontColorAll: { value: '#FFFFFF' },
+      fontColorAll: { value: '#222222FF' },
       fontShadowXAll: { value: '0' },
       fontShadowYAll: { value: '0' },
       fontShadowBlurAll: { value: '0' },
-      fontShadowColorAll: { value: '#555555' },
+      fontShadowColorAll: { value: '#222222FF' },
     }
   },
   computed: {
