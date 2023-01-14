@@ -19,7 +19,6 @@ export default {
     VariableHeader,
     DesignList,
   },
-  layout: 'design',
   data() {
     return {
       projectData: {},

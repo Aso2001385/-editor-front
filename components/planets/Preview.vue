@@ -3,7 +3,7 @@
   <v-card class="mx-auto" width="800" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%"> </v-card-actions>
     <v-row class="overflow-y-auto" style="height: 80%" no-gutters>
-      <div>
+      <div id="back" style="height: 100%; width: 100%">
         <div id="contents" style="max-height: 100%" v-html="text"></div>
       </div>
     </v-row>
@@ -47,9 +47,9 @@ export default {
     let text = ''
     const page = nestClone(this.receive)
     if (this.isSet) {
-      text = await gitMarkdownApi(page.contents)
-    } else {
       text = await gitMarkdownApi(this.local.contents)
+    } else {
+      text = await gitMarkdownApi(page.contents)
     }
     this.text = text
     if (await this.$store.dispatch('api/designs/get', { id: page.design_uuid })) {
