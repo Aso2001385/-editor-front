@@ -395,11 +395,15 @@
 
   --list-li-marker-color: rgb(203, 68, 68);
 }
-#contents {
+
+#back {
   background-color: var(--body-back-ground) !important;
   padding: var(--body-padding);
-  font-size: 16px;
+}
 
+#contents {
+  font-size: 16px;
+  background-color: var(--body-back-ground) !important;
   h1 {
     min-width: fit-content;
     min-width: fit-content;

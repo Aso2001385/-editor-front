@@ -60,7 +60,10 @@
 
       <v-divider vertical />
       <v-col cols="5" style="height: 100%" max-height="auto" class="overflow-y-auto">
-        <div v-if="previewFlg" id="contents" v-html="htmlPreset.text"></div>
+        <div v-if="previewFlg" id="back" style="height: fit-content; width: 100%">
+          <div id="contents" style="width: 100%" v-html="htmlPreset.text"></div>
+        </div>
+
         <div v-else class="py-5">
           <v-col v-for="(item, index) in releaseDesigns" :key="index" class="mt-2" cols="12">
             <PreviewCard :receive="item" :click-callback="() => selectDesign(index)" />

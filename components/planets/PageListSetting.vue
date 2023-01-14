@@ -38,8 +38,12 @@
                     </MenuButton>
                   </v-col>
                   <v-col cols="1" class="d-flex align-center">
+                    <MenuButton v-if="edit.id === item.id" :click-callback="() => {}" :btn-color="'grey darken-3'">
+                      <template #icon>mdi-circle-edit-outline</template>
+                      <template #text>編集中のページです</template>
+                    </MenuButton>
                     <MenuButton
-                      v-if="item.id > 0 || item.id === null || isNaN(item.id)"
+                      v-else-if="item.id > 0 || item.id === null || isNaN(item.id)"
                       :click-callback="() => deletePage(item.id, index)"
                       :btn-color="'grey darken-3'"
                       :db="true"

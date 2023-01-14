@@ -63,7 +63,7 @@
     </v-dialog>
 
     <v-dialog v-if="projectFlg" v-model="previewFlg" class="d-flex" absolute width="auto">
-      <Preview :receive="page" />
+      <Preview v-if="previewFlg" :receive="page" />
     </v-dialog>
 
     <!-- デザイン設定 -->
@@ -200,9 +200,9 @@ export default {
             name: this.project.name,
             base: imageBase,
           }
-          console.log(this.project.design_uuid)
+          console.log(this.project.uuid)
           this.$store.dispatch('local/project/putPreview', {
-            uuid: this.project.design_uuid,
+            uuid: this.project.uuid,
             preview: imageBase,
           })
           this.hiddenFlg = false

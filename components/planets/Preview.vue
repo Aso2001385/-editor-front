@@ -3,7 +3,7 @@
   <v-card class="mx-auto" width="800" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%"> </v-card-actions>
     <v-row class="overflow-y-auto" style="height: 80%" no-gutters>
-      <div>
+      <div id="back" style="height: 100%; width: 100%">
         <div id="contents" style="max-height: 100%" v-html="text"></div>
       </div>
     </v-row>
@@ -15,7 +15,6 @@
 import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import { nestClone } from '@/lib/common'
-import gitMarkdownApi from '@/lib/git-markdown-api'
 
 import '@/lib/pro.scss'
 
@@ -36,27 +35,28 @@ export default {
   computed: {
     ...mapGetters({
       project: 'api/projects/resource',
+      markdown: 'api/projects/markdown',
+      markdownText: 'api/projects/markdownText',
       design: 'api/designs/resource',
-      local: 'local/project/get',
       isSet: 'local/project/isSet',
     }),
   },
 
   async created() {
-    console.log('created')
-    let text = ''
     const page = nestClone(this.receive)
-    if (this.isSet) {
-      text = await gitMarkdownApi(page.contents)
-    } else {
-      text = await gitMarkdownApi(this.local.contents)
+    let primitive = page.contents
+    const local = await this.$store.dispatch('local/project/refresh')
+    if (local?.project.uuid === page.project_uuid) {
+      primitive = local.project.text ?? page.contents
     }
-    this.text = text
+    if (this.markdown === '' || local.project.text !== this.markdownText) {
+      await this.$store.dispatch('api/projects/getMarkdown', { data: primitive })
+    }
+    this.text = this.markdown
     if (await this.$store.dispatch('api/designs/get', { id: page.design_uuid })) {
       styleSetter(JSON.parse(this.design.contents))
     }
   },
-
   methods: {},
 }
 </script>
