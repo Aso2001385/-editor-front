@@ -9,6 +9,7 @@ const API_URL = `${process.env.API_BASE_URL}/api`
 export const state = () =>
   crudState({
     markdown: '',
+    markdownText: '',
     pages: [],
     page: {},
   })
@@ -16,6 +17,9 @@ export const state = () =>
 export const getters = crudGetters({
   markdown: state => {
     return state.markdown
+  },
+  markdownText: state => {
+    return state.markdownText
   },
   pages: state => {
     return state.pages
@@ -29,6 +33,9 @@ export const mutations = crudMutations({
   setMarkdown(state, response) {
     state.markdown = response
   },
+  setMarkdownText(state, response) {
+    state.markdownText = response
+  },
   setPages(state, response) {
     state.resource.pages = response
   },
@@ -41,6 +48,7 @@ export const actions = crudActions(axios, `${API_URL}/projects`, {
   getMarkdown: async ({ commit }, argument) => {
     const response = await getMD(argument.data)
     commit('setMarkdown', response)
+    commit('setMarkdownText', argument.data)
   },
   download: async ({ commit }, argument) => {
     console.log('saveAs(blob, fileName)')

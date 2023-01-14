@@ -15,7 +15,6 @@
 import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import { nestClone } from '@/lib/common'
-import gitMarkdownApi from '@/lib/git-markdown-api'
 
 import '@/lib/pro.scss'
 
@@ -36,6 +35,8 @@ export default {
   computed: {
     ...mapGetters({
       project: 'api/projects/resource',
+      markdown: 'api/projects/markdown',
+      markdownText: 'api/projects/markdownText',
       design: 'api/designs/resource',
       local: 'local/project/get',
       isSet: 'local/project/isSet',
@@ -43,20 +44,16 @@ export default {
   },
 
   async created() {
-    console.log('created')
-    let text = ''
     const page = nestClone(this.receive)
-    if (this.isSet) {
-      text = await gitMarkdownApi(this.local.contents)
-    } else {
-      text = await gitMarkdownApi(page.contents)
+    const primitive = this.local.project.text ?? page.contents
+    if (this.markdown === '' || this.local.project.text !== this.markdownText) {
+      await this.$store.dispatch('api/projects/getMarkdown', { data: primitive })
     }
-    this.text = text
+    this.text = this.markdown
     if (await this.$store.dispatch('api/designs/get', { id: page.design_uuid })) {
       styleSetter(JSON.parse(this.design.contents))
     }
   },
-
   methods: {},
 }
 </script>

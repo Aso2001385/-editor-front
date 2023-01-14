@@ -63,7 +63,7 @@
     </v-dialog>
 
     <v-dialog v-if="projectFlg" v-model="previewFlg" class="d-flex" absolute width="auto">
-      <Preview :receive="page" />
+      <Preview v-if="previewFlg" :receive="page" />
     </v-dialog>
 
     <!-- デザイン設定 -->
