@@ -38,12 +38,7 @@
                     </MenuButton>
                   </v-col>
                   <v-col cols="1" class="d-flex align-center">
-                    <MenuButton
-                      v-if="edit.id === item.id"
-                      :click-callback="() => {}"
-                      :btn-color="'grey darken-3'"
-                      :db="true"
-                    >
+                    <MenuButton v-if="edit.id === item.id" :click-callback="() => {}" :btn-color="'grey darken-3'">
                       <template #icon>mdi-circle-edit-outline</template>
                       <template #text>編集中のページです</template>
                     </MenuButton>
