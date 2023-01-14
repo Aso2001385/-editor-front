@@ -38,8 +38,7 @@ export const actions = {
     return JSON.parse(localStorage.getItem(KEY))
   },
   putPreview({ commit }, argument) {
-    // おそらくここがアンディファインドになっている
-    const previews = JSON.parse(localStorage.getItem(PREVIEW_KEY)) ?? {}
+    const previews = JSON.parse(localStorage.getItem(PREVIEW_KEY))[argument.uuid] ?? {}
     previews[argument.uuid] = argument.preview
     localStorage.setItem(PREVIEW_KEY, JSON.stringify(previews))
   },
