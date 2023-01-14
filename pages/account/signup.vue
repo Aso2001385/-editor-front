@@ -27,27 +27,27 @@
   </v-container>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 export default {
   layout: 'auth',
   data() {
     return {
       url: '',
-      name: process.env.LOGIN_TEST_NAME,
-      email: process.env.LOGIN_TEST_MAIL,
-      password: process.env.LOGIN_TEST_PASS,
-      confirmPassword: process.env.LOGIN_TEST_PASS,
-      // name: '',
-      // email: '',
-      // password: '',
-      // confirmPassword: '',
+      // name: process.env.LOGIN_TEST_NAME,
+      // email: process.env.LOGIN_TEST_MAIL,
+      // password: process.env.LOGIN_TEST_PASS,
+      // confirmPassword: process.env.LOGIN_TEST_PASS,
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     }
   },
   computed: {
-    ...mapGetters({
-      user: 'api/users/',
-      authFlg: 'api/users/authFlg',
-    }),
+    // ...mapGetters({
+    //   user: 'api/users/',
+    //   authFlg: 'api/users/authFlg',
+    // }),
   },
   created() {
     // if (this.authFlg) {

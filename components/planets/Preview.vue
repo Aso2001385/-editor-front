@@ -37,13 +37,20 @@ export default {
     ...mapGetters({
       project: 'api/projects/resource',
       design: 'api/designs/resource',
+      local: 'local/project/get',
+      isSet: 'local/project/isSet',
     }),
   },
 
   async created() {
+    console.log('created')
+    let text = ''
     const page = nestClone(this.receive)
-    console.log(page)
-    const text = await gitMarkdownApi(page.contents)
+    if (this.isSet) {
+      text = await gitMarkdownApi(page.contents)
+    } else {
+      text = await gitMarkdownApi(this.local.contents)
+    }
     this.text = text
     if (await this.$store.dispatch('api/designs/get', { id: page.design_uuid })) {
       styleSetter(JSON.parse(this.design.contents))

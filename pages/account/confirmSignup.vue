@@ -49,9 +49,6 @@ export default {
   mounted() {
     this.email = JSON.parse(sessionStorage.getItem('userData')).email
   },
-  mounted() {
-    this.email = JSON.parse(sessionStorage.getItem('userData')).email
-  },
   methods: {
     async submit() {
       if (this.code !== '') {

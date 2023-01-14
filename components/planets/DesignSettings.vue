@@ -5,7 +5,7 @@
       <NeoHelper :receive="designSettings" />
       <v-spacer />
       <MenuButton :click-callback="() => saveSettings()">
-        <template #icon>mdi-content-save-alert</template>
+        <template #icon>mdi-content-save</template>
         <template #text>設定を保存します<br />(編集中のコンテンツはセーブされません)</template>
       </MenuButton>
     </v-card-actions>
