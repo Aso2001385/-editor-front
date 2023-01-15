@@ -13,6 +13,11 @@
       <NeoHelper v-if="designFlg" :receive="designEditorRoot" />
       <v-spacer />
       <!-- Project -->
+      <MenuButton v-if="projectFlg" :click-callback="consolePick">
+        <template #icon>mdi-alpha-f-circle</template>
+        <template #text>表示</template>
+      </MenuButton>
+
       <MenuButton v-if="projectFlg" :click-callback="pages">
         <template #icon>mdi-text-box-multiple</template>
         <template #text>ページ一覧を表示します</template>
@@ -96,8 +101,10 @@ import { designEditorRoot } from '~/lib/commons/helpers/designs/designEditor'
 import { projectListRoot } from '~/lib/commons/helpers/projects/projectList'
 import { designListRoot } from '~/lib/commons/helpers/designs/designList'
 import { getPreview, tagOrder } from '~/lib/common'
+import { slideGenerator, slideReplace, sliderInjection } from '~/lib/ui/slide'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
+
 import '@/lib/pro.scss'
 
 export default {
@@ -192,8 +199,11 @@ export default {
         }
         if (!(await this.$store.dispatch('api/designs/get', { id: this.receive.design_uuid }))) return
 
-        const text = await gitMarkdownApi(this.receive.contents)
-        this.markdownText = text
+        const before = slideReplace(this.receive.contents)
+        console.log(before)
+        const text = await gitMarkdownApi(before.text)
+        const after = sliderInjection(text, before.slider)
+        this.markdownText = after
         this.hiddenFlg = true
         this.$nextTick(async () => {
           styleSetter(JSON.parse(this.design.contents))
@@ -202,7 +212,6 @@ export default {
             name: this.project.name,
             base: imageBase,
           }
-          console.log(this.project.uuid)
           this.$store.dispatch('local/project/putPreview', {
             uuid: this.project.uuid,
             preview: imageBase,
@@ -258,6 +267,10 @@ export default {
       } catch (error) {
         await this.$store.dispatch('common/loadingEnd')
       }
+    },
+    consolePick() {
+      const text = this.receive.contents
+      console.log(slideGenerator(text))
     },
   },
 }
