@@ -3,8 +3,8 @@
   <v-card class="mx-auto" width="800" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%"> </v-card-actions>
     <v-row class="overflow-y-auto" style="height: 80%" no-gutters>
-      <div id="back" style="height: fit-content; width: 100%">
-        <div id="contents" style="max-height: 100%" v-html="text"></div>
+      <div id="back" style="min-height: fit-content; width: 100%">
+        <div id="contents" v-html="text"></div>
       </div>
     </v-row>
     <v-card-actions class="grey darken-3" style="height: 10%"> </v-card-actions>
