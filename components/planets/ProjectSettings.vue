@@ -2,7 +2,8 @@
 <template>
   <v-card class="mx-auto" width="1200" height="500" hover>
     <v-card-actions class="grey darken-3" style="height: 10%">
-      <NeoHelper :receive="pageSettingList" />
+      <NeoHelper v-if="window === 0" :receive="setting" />
+      <NeoHelper v-else :receive="settingList" />
       <v-spacer />
       <MenuButton :click-callback="() => saveSettings()">
         <template #icon>mdi-content-save</template>
@@ -78,7 +79,7 @@
 import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import { nestClone, onlyCopy } from '@/lib/common'
-import { pageSettingList, pageSetting } from '~/lib/commons/helpers/projects/projectEditor'
+import { settingList, setting } from '~/lib/commons/helpers/projects/project-editor'
 import htmlPreset from '@/lib/pre-html.json'
 import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import PreviewCard from '@/components/materials/cards/PreviewCard.vue'
@@ -119,8 +120,8 @@ export default {
       htmlPreset,
       previewFlg: true,
       selectIndex: false,
-      pageSettingList,
-      pageSetting,
+      settingList,
+      setting,
     }
   },
   computed: {
