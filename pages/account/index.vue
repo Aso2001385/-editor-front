@@ -42,9 +42,6 @@ export default {
     },
     projects: {
       get() {
-        console.log('aa')
-        console.log(nestClone(this.receive))
-        console.log(this.editingProject)
         let projects = nestClone(this.receive)
         if (this.editingProject) projects = projects.map(project => project.id !== this.editingProject.id)
         return projects

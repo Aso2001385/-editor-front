@@ -45,7 +45,6 @@ export const actions = {
   nowEditChange({ commit }, argument) {
     let nowEdit = JSON.parse(localStorage.getItem(KEY))
 
-    console.log(argument)
     if (!nowEdit) {
       nowEdit = argument
     } else {
