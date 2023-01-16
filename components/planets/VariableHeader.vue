@@ -101,7 +101,7 @@ import { designEditorRoot } from '~/lib/commons/helpers/designs/designEditor'
 import { projectListRoot } from '~/lib/commons/helpers/projects/projectList'
 import { designListRoot } from '~/lib/commons/helpers/designs/designList'
 import { getPreview, tagOrder } from '~/lib/common'
-import { slideGenerator, slideReplace, sliderInjection } from '~/lib/ui/slide'
+import { slideReplace, sliderInjection } from '~/lib/ui/slide'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
 
