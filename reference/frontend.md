@@ -1,5 +1,5 @@
 Frontend 環境構築手順
-
+- .env.example ファイルの中身をもとに[.env ファイルを作成](env.md)する
 ```bash
 # editor-eackendをforkしクローンする
 
