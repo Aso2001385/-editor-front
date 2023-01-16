@@ -69,7 +69,6 @@ export default {
     },
     items: {
       get() {
-        console.log(this.receive.icons)
         return this.receive.icons
       },
     },
