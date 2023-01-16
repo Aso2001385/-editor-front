@@ -53,7 +53,7 @@ import { mapGetters } from 'vuex'
 import '@/lib/pro.scss'
 import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import { orderBy, dateTimeFormatter, getDiff, nestClone } from '~/lib/common'
-import { pageList } from '~/lib/commons/helpers/projects/projectEditor'
+import { pageList } from '~/lib/commons/helpers/projects/project-editor'
 export default {
   filters: {
     formatter(dateTime) {
