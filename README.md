@@ -36,9 +36,6 @@ Version:
 ## 環境構築
 [環境構築手順](/reference/frontend.md)
 
-### 使用ツール
-
-- [Volta](https://docs.volta.sh/guide/getting-started)を使用して Node.js と yarn をインストールする。
 
 ```bash
 # voltaインストール
