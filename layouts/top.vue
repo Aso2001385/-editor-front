@@ -1,79 +1,49 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
-  <v-app>
-    <TopHeader />
-    <!-- <v-row dance>
-        <v-col cols="3">
-          <div class="white--text text-center" @click="RoutePages(0)"><v-icon>mdi-home-variant</v-icon> HOME</div>
-        </v-col>
-        <v-col cols="3">
-          <div class="white--text text-center" @click="overlay = !overlay">
-            <v-icon>mdi-text-box-multiple</v-icon> PAGES
-          </div>
-          <v-overlay :absolute="absolute" :opacity="opacity" :value="overlay">
-            <v-btn
-              v-for="(page, key) in pages"
-              :key="key"
-              :value="page"
-              style="color: white"
-              class="white--text ml-5 mt-5"
-              color="blue"
-              @click="RoutePageChange(key)"
-              >{{ page }}</v-btn
-            >
-            <div style="margin-left: 50%">
-              <v-btn color="primary" class="black--text mt-10" @click="RoutePages(3)">CLOSE</v-btn>
-            </div>
-          </v-overlay>
-        </v-col>
-        <v-col cols="3">
-          <div class="white--text text-center" @click="RoutePages(2)"><v-icon>mdi-file-cog</v-icon> SETTING</div>
-        </v-col>
-        <v-col cols="3">
-          <div class="text-center">
-            <v-icon>mdi-content-save</v-icon>
-            <v-icon>mdi-content-save-check</v-icon>
-            <a href="#" class="white--text text-center" style="text-decoration: none" @click="setEditorData"> SAVE</a>
-          </div>
-        </v-col>
-      </v-row> -->
-
-    <!-- <v-btn text class="pa-5">
-      <v-icon color="white">mdi-home-variant</v-icon>
-      <div class="ml-3 text-h6 white--text text-center">HOME</div>
-    </v-btn>
-    <v-spacer />
-    <v-btn text class="pa-5">
-      <v-icon color="white">mdi-text-box-multiple</v-icon>
-      <div class="ml-3 text-h6 white--text text-center">PAGES</div>
-    </v-btn>
-    <v-spacer />
-    <v-btn text class="pa-5">
-      <v-icon color="white">mdi-file-cog</v-icon>
-      <div class="ml-3 text-h6 white--text text-center">SETTINGS</div>
-    </v-btn>
-    <v-spacer />
-    <v-btn text class="pa-5">
-      <v-icon color="white">mdi-content-save</v-icon>
-      <div class="ml-3 text-h6 white--text text-center">SAVE</div>
-    </v-btn> -->
-    <Nuxt class="white" />
-  </v-app>
+  <v-app-bar color="grey darken-3" app clipped-left>
+    <v-row class="pr-15">
+      <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
+        <span class="text-h6">FRIDAY EDITOR</span><br />explanation
+      </div>
+      <NeoHelper :receive="projectListRoot" />
+      <v-spacer />
+      <MenuButton v-if="!authFlg" :click-callback="login">
+        <template #icon>mdi-login-variant</template>
+        <template #text>ログインページへ</template>
+      </MenuButton>
+    </v-row>
+  </v-app-bar>
 </template>
 
 <script>
-import TopHeader from '~/components/planets/TopHeader.vue'
+import { mapGetters } from 'vuex'
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
+import MenuButton from '@/components/materials/buttons/MenuButton.vue'
+
+import '@/lib/pro.scss'
+
 export default {
-  name: 'TopLayout',
   components: {
-    TopHeader,
+    MenuButton,
+    NeoHelper,
   },
+
   data() {
     return {}
   },
+  computed: {
+    ...mapGetters({
+      authFlg: 'api/users/authFlg',
+    }),
+  },
+  methods: {
+    async home() {
+      if (this.authFlg) await this.$router.push({ path: '/' })
+      else await this.$router.push({ path: '/account/login' })
+    },
+    async login() {
+      await this.$router.push({ path: '/account/login' })
+    },
+  },
 }
 </script>
-<style lang="sass">
-html
-  &::-webkit-scrollbar
-    display: none
-</style>

@@ -1,53 +1,49 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <v-app-bar color="grey darken-3" app clipped-left>
-    <MenuButton :to="'/projects'">
-      <template v-slot:icon>mdi-home</template>
-      <template v-slot:text>HOME</template>
-    </MenuButton>
-
-    <MenuButton :to="'/account'">
-      <template v-slot:icon>mdi-account-circle</template>
-      <template v-slot:text>ACCOUNT</template>
-    </MenuButton>
-    <v-spacer />
+    <v-row class="pr-15">
+      <div class="white--text caption mx-4" style="cursor: pointer" @click="home">
+        <span class="text-h6">FRIDAY EDITOR</span><br />explanation
+      </div>
+      <NeoHelper :receive="projectListRoot" />
+      <v-spacer />
+      <MenuButton v-if="!authFlg" :click-callback="login">
+        <template #icon>mdi-login-variant</template>
+        <template #text>ログインページへ</template>
+      </MenuButton>
+    </v-row>
   </v-app-bar>
 </template>
+
 <script>
+import { mapGetters } from 'vuex'
+import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
+
+import '@/lib/pro.scss'
+
 export default {
   components: {
     MenuButton,
+    NeoHelper,
+  },
+
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapGetters({
+      authFlg: 'api/users/authFlg',
+    }),
+  },
+  methods: {
+    async home() {
+      if (this.authFlg) await this.$router.push({ path: '/' })
+      else await this.$router.push({ path: '/account/login' })
+    },
+    async login() {
+      await this.$router.push({ path: '/account/login' })
+    },
   },
 }
 </script>
-
-<style lang="scss">
-#project-names {
-  background: #eee;
-  overflow: hidden;
-  width: 30%;
-
-  #project-name {
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-.container {
-  background: #eee;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-
-  p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-.warp {
-  color: #000;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-</style>
