@@ -27,7 +27,7 @@
   </v-container>
 </template>
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   layout: 'auth',
   data() {
@@ -44,10 +44,10 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters({
-    //   user: 'api/users/',
-    //   authFlg: 'api/users/authFlg',
-    // }),
+    ...mapGetters({
+      auth: 'api/users/auth',
+      authFlg: 'api/users/authFlg',
+    }),
   },
   created() {
     // if (this.authFlg) {
@@ -62,7 +62,7 @@ export default {
         const data = { name: this.name, email: this.email, password: this.password }
         sessionStorage.setItem('userData', JSON.stringify(data))
         await this.$store.dispatch('api/users/register', { data })
-        if (this.user) {
+        if (this.auth) {
           this.$router.push({
             path: '/account/confirmSignup',
           })
