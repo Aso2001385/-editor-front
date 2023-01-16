@@ -33,8 +33,10 @@ export default {
   layout: 'auth',
   data() {
     return {
-      email: process.env.LOGIN_TEST_MAIL,
-      password: process.env.LOGIN_TEST_PASS,
+      // email: process.env.LOGIN_TEST_MAIL,
+      // password: process.env.LOGIN_TEST_PASS,
+      email: '',
+      password: '',
     }
   },
   computed: {
@@ -51,11 +53,11 @@ export default {
         email: this.email,
         password: this.password,
       }
-      if (!(await this.$store.dispatch('api/users/postLogin', { data: user }))) {
-        return
+      if (await this.$store.dispatch('api/users/postLogin', { data: user })) {
+        this.$router.push({ path: '/' })
+      } else {
+        this.$router.push({ path: '/account/login' })
       }
-
-      this.$router.push({ path: '/' })
     },
 
     openPriset() {
