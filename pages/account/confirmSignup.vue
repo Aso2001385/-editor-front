@@ -57,10 +57,12 @@ export default {
           code: this.code,
         }
 
-        await this.$store.dispatch('api/users/confirmRegister', { data: user })
+        if (await this.$store.dispatch('api/users/confirmRegister', { data: user }))
+          await this.$router.push({ path: '/' })
+
         // if (this.auth.id) {
         //   console.log(this.auth)
-        //   // await this.$router.push({ path: '/projects' })
+
         // } else {
         //   alert('失敗しました。再度入力してください。')
         // }
