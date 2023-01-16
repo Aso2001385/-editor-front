@@ -13,10 +13,6 @@
       <NeoHelper v-if="designFlg" :receive="designEditorRoot" />
       <v-spacer />
       <!-- Project -->
-      <MenuButton v-if="projectFlg" :click-callback="consolePick">
-        <template #icon>mdi-alpha-f-circle</template>
-        <template #text>表示</template>
-      </MenuButton>
 
       <MenuButton v-if="projectFlg" :click-callback="pages">
         <template #icon>mdi-text-box-multiple</template>
@@ -101,7 +97,7 @@ import { designEditorRoot } from '~/lib/commons/helpers/designs/design-editor'
 import { projectListRoot } from '~/lib/commons/helpers/projects/project-list'
 import { designListRoot } from '~/lib/commons/helpers/designs/design-list'
 import { getPreview, tagOrder } from '~/lib/common'
-import { slideGenerator, slideReplace, sliderInjection } from '~/lib/ui/slide'
+import { slideReplace, sliderInjection } from '~/lib/ui/slide'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
 
@@ -267,10 +263,6 @@ export default {
       } catch (error) {
         await this.$store.dispatch('common/loadingEnd')
       }
-    },
-    consolePick() {
-      const text = this.receive.contents
-      console.log(slideGenerator(text))
     },
   },
 }
