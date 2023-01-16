@@ -4,7 +4,7 @@
       <v-col cols="12" lg="6" md="9" sm="10" xs="10">
         <v-card class="pb-10 mx-auto fill-width">
           <v-card-title class="d-flex justify-center pa-4 grey darken-3">
-            <h3 class="text-center white--text">LOG IN</h3>
+            <h3 class="text-center white--text">LOGIN</h3>
           </v-card-title>
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
