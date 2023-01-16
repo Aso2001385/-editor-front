@@ -29,7 +29,7 @@
   </v-container>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 
 export default {
   layout: 'auth',
@@ -39,17 +39,15 @@ export default {
       code: '',
     }
   },
-  computed: {
-    ...mapGetters({
-      user: 'api/account/user',
-    }),
-  },
   created() {
-    console.log(this.user)
-    if (!this.user.email) {
-      this.$router.push({ path: '/account/signup' })
-    }
-    this.email = this.user.email
+    // console.log(this.auth)
+    // if (!this.user.email) {
+    //   this.$router.push({ path: '/account/signup' })
+    // }
+    // this.email = this.user.email
+  },
+  mounted() {
+    this.email = JSON.parse(sessionStorage.getItem('userData')).email
   },
   methods: {
     async submit() {
@@ -59,19 +57,21 @@ export default {
           code: this.code,
         }
 
-        await this.$store.dispatch('api/account/confirmRegister', { data: user })
-        if (this.user.id) {
-          console.log(this.user)
-          // await this.$router.push({ path: '/projects' })
-        } else {
-          alert('失敗しました。再度入力してください。')
-        }
+        if (await this.$store.dispatch('api/users/confirmRegister', { data: user }))
+          await this.$router.push({ path: '/' })
+
+        // if (this.auth.id) {
+        //   console.log(this.auth)
+
+        // } else {
+        //   alert('失敗しました。再度入力してください。')
+        // }
       } else {
         alert('確認コードを入力しましょう。')
       }
     },
     async reSend() {
-      await this.$store.dispatch('api/account/reSendEmail', { email: this.user.email })
+      await this.$store.dispatch('api/users/reSendEmail', { email: this.auth.email })
     },
   },
 }

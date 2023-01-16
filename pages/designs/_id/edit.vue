@@ -42,7 +42,9 @@
         </v-row>
       </v-col>
       <v-col cols="6" class="overflow-y-auto" style="max-height: 90vh">
-        <div id="contents" v-html="preHtml.text"></div>
+        <div id="back" style="height: fit-content">
+          <div id="contents" v-html="preHtml.text"></div>
+        </div>
       </v-col>
     </v-row>
   </v-main>
@@ -68,6 +70,11 @@ export default {
     Table,
     List,
     Headline,
+  },
+
+  validate(data) {
+    const id = /([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/.test(data.params.id)
+    return id
   },
 
   data() {
@@ -96,7 +103,6 @@ export default {
       await this.$store.dispatch('api/designs/get', { id: this.$route.params.id })
     }
     this.temps = tagOrder(JSON.parse(this.design.contents))
-    console.log(this.temps)
   },
   methods: {
     async seveDesign() {

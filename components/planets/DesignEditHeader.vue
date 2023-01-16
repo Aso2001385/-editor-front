@@ -9,7 +9,7 @@
       <div class="ml-3 text-h6 white--text text-center">SETTINGS</div>
     </v-btn>
     <v-btn text class="pa-5" :disabled="disabled" :loading="disabled" @click.prevent="click()">
-      <v-icon color="white">mdi-content-save-alert</v-icon>
+      <v-icon color="white">mdi-content-save</v-icon>
       <div class="ml-3 text-h6 white--text text-center">SAVE</div>
       <template slot="loader">
         <CircleLoading :color="'white'" :size="20" :width="2" />

@@ -4,27 +4,18 @@
       <v-col cols="12" lg="6" md="9" sm="10" xs="10">
         <v-card class="pb-10 mx-auto fill-width">
           <v-card-title class="d-flex justify-center pa-4 grey darken-3">
-            <h3 class="text-center white--text">SIGN IN</h3>
+            <h3 class="text-center white--text">LOG IN</h3>
           </v-card-title>
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
             <v-text-field v-model="email" label="email" type="text"></v-text-field>
             <v-text-field v-model="password" label="password" type="password"></v-text-field>
             <v-row justify="center" class="mt-5 mb-5">
-              <EventButton color="grey darken-3" :click-callback="submit">Next</EventButton>
+              <EventButton color="grey darken-3" :click-callback="submit">Login</EventButton>
             </v-row>
             <v-row class="mt-10" justify="center">
-              <NuxtLink to="/account/signup">サインインページへ</NuxtLink>
+              <NuxtLink to="/account/signup">サインアップページへ</NuxtLink>
             </v-row>
-            <v-row class="mt-10" justify="center">
-              <NuxtLink to="/designs">デザインへ</NuxtLink>
-            </v-row>
-            <v-row class="mt-10" justify="center">
-              <EventButton color="grey darken-3" :click-callback="test">テスト</EventButton>
-            </v-row>
-            <!-- <v-row class="mt-10" justify="center">
-              <NuxtLink to="/account/sign-up">パスワードを忘れましたか？</NuxtLink>
-            </v-row> -->
           </div>
         </v-card>
       </v-col>
@@ -34,6 +25,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import EventButton from '@/components/materials/buttons/EventButton.vue'
+import temp from '@/lib/template'
 export default {
   components: {
     EventButton,
@@ -59,36 +51,15 @@ export default {
         email: this.email,
         password: this.password,
       }
-      const userInfo = await this.$store.dispatch('api/users/postLogin', { data: user })
-      console.log('userInfo')
-      console.log(userInfo)
-      console.log('auth')
-      console.log(this.auth)
-      console.log('users')
-      console.log(this.users)
+      if (!(await this.$store.dispatch('api/users/postLogin', { data: user }))) {
+        return
+      }
 
-      // if (userInfo === true) {
-      //   this.$router.push({ path: '/projects' })
-      // }
-      // 下記の書き方だとユーザー情報取得しても遷移していなかったから変更しました
-      // if (this.user.id) {
-      //   this.$router.push({ path: '/projects' })
-      // }
+      this.$router.push({ path: '/' })
     },
-    async test() {
-      console.log('テストー')
-      await this.$store.dispatch('api/users/gets')
-      console.log('gets is')
-      console.log(this.users)
-      await this.$store.dispatch('api/users/get', { id: this.auth.id })
-      console.log('get is ')
-      console.log(this.user)
-      await this.$store.dispatch('api/users/put', {
-        id: this.auth.id,
-        data: { name: Math.random().toString(32).substring(2) },
-      })
-      console.log('put is')
-      console.log(this.user)
+
+    openPriset() {
+      console.log(JSON.stringify(temp))
     },
   },
 }

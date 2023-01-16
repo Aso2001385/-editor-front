@@ -33,35 +33,36 @@ export default {
   data() {
     return {
       url: '',
-      name: process.env.LOGIN_TEST_NAME,
-      email: process.env.LOGIN_TEST_MAIL,
-      password: process.env.LOGIN_TEST_PASS,
-      confirmPassword: process.env.LOGIN_TEST_PASS,
-      // name: '',
-      // email: '',
-      // password: '',
-      // confirmPassword: '',
+      // name: process.env.LOGIN_TEST_NAME,
+      // email: process.env.LOGIN_TEST_MAIL,
+      // password: process.env.LOGIN_TEST_PASS,
+      // confirmPassword: process.env.LOGIN_TEST_PASS,
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     }
   },
   computed: {
     ...mapGetters({
-      user: 'api/users/auth',
+      auth: 'api/users/auth',
       authFlg: 'api/users/authFlg',
     }),
   },
   created() {
-    if (this.authFlg) {
-      this.$router.push({
-        path: '/',
-      })
-    }
+    // if (this.authFlg) {
+    //   this.$router.push({
+    //     path: '/',
+    //   })
+    // }
   },
   methods: {
     async submit() {
       if (this.password === this.confirmPassword) {
         const data = { name: this.name, email: this.email, password: this.password }
+        sessionStorage.setItem('userData', JSON.stringify(data))
         await this.$store.dispatch('api/users/register', { data })
-        if (this.user) {
+        if (this.auth) {
           this.$router.push({
             path: '/account/confirmSignup',
           })

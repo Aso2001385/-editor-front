@@ -163,6 +163,35 @@
         </v-col>
       </v-row>
     </v-col>
+    <v-col cols="12" class="text-h6 d-flex align-center"> BorderRadius </v-col>
+    <v-col cols="12" class="">
+      <v-row>
+        <v-col cols="2" class="d-flex align-center"> Top<br />Left </v-col>
+        <v-col cols="4">
+          <v-text-field v-model="attributes['border-top-left-radius'].value" hide-details="auto" solo required />
+        </v-col>
+        <v-col cols="2" class="d-flex align-center"> Top<br />Left </v-col>
+        <v-col cols="4">
+          <v-text-field v-model="attributes['border-top-right-radius'].value" hide-details="auto" solo required />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="2" class="d-flex align-center"> Bottom<br />Left </v-col>
+        <v-col cols="4">
+          <v-text-field v-model="attributes['border-bottom-left-radius'].value" hide-details="auto" solo required />
+        </v-col>
+        <v-col cols="2" class="d-flex align-center"> Bottom<br />Right </v-col>
+        <v-col cols="4">
+          <v-text-field v-model="attributes['border-bottom-right-radius'].value" hide-details="auto" solo required />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="2" class="d-flex align-center">All</v-col>
+        <v-col cols="10" class="d-flex align-center">
+          <v-text-field v-model="borderRadiusAll.value" hide-details="auto" solo required />
+        </v-col>
+      </v-row>
+    </v-col>
     <v-col cols="12" class="text-h6 d-flex align-center"> BorderWidth </v-col>
     <v-col cols="12" class="">
       <v-row>
@@ -237,9 +266,10 @@ export default {
   },
   data() {
     return {
-      borderStyles: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'],
+      borderStyles: ['none', 'hidden', 'solid', 'dotted', 'dashed', 'double', 'groove', 'ridge', 'inset', 'outset'],
       marginAll: { value: '0' },
       paddingAll: { value: '0' },
+      borderRadiusAll: { value: '0' },
       borderWidthAll: { value: '0' },
       borderStyleAll: { value: 'none' },
       borderColorAll: { value: 'rgba(0,0,0,1)' },
@@ -276,6 +306,16 @@ export default {
           this.attributes['border-style-left'].value =
           this.attributes['border-style-right'].value =
             this.borderStyleAll.value
+      },
+      deep: true,
+    },
+    borderRadiusAll: {
+      handler() {
+        this.attributes['border-top-left-radius'].value =
+          this.attributes['border-top-right-radius'].value =
+          this.attributes['border-bottom-left-radius'].value =
+          this.attributes['border-bottom-right-radius'].value =
+            this.borderRadiusAll.value
       },
       deep: true,
     },

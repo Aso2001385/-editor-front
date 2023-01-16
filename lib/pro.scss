@@ -32,7 +32,7 @@
   --h1-font-style: normal;
   --h1-font-weight: 30;
   --h1-font-size: 3em;
-  --h1-color: #d0b458;
+  --h1-color: rgba(0, 0, 0, 0.2);
   --h1-line-height: ;
   --h1-letter-spacing: 0.1em;
   --h1-text-indent: 0em;
@@ -395,11 +395,15 @@
 
   --list-li-marker-color: rgb(203, 68, 68);
 }
-#contents {
+
+#back {
   background-color: var(--body-back-ground) !important;
   padding: var(--body-padding);
-  font-size: 16px;
+}
 
+#contents {
+  font-size: 16px;
+  background-color: var(--body-back-ground) !important;
   h1 {
     min-width: fit-content;
     min-width: fit-content;

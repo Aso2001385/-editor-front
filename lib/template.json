@@ -220,22 +220,22 @@
       "border-top-left-radius": {
         "name": "border-top-left-radius",
         "value": "",
-        "unit": "px"
+        "unit": "%"
       },
       "border-top-right-radius": {
         "name": "border-top-right-radius",
-        "value": "",
-        "unit": "px"
+        "value": "0",
+        "unit": "%"
       },
       "border-bottom-left-radius": {
         "name": "border-bottom-left-radius",
-        "value": "",
-        "unit": "px"
+        "value": "0",
+        "unit": "%"
       },
       "border-bottom-right-radius": {
         "name": "border-bottom-right-radius",
-        "value": "",
-        "unit": "px"
+        "value": "0",
+        "unit": "%"
       }
     }
   },
