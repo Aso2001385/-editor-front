@@ -51,13 +51,10 @@ export default {
         email: this.email,
         password: this.password,
       }
-      const userInfo = await this.$store.dispatch('api/users/postLogin', { data: user })
-      console.log('userInfo')
-      console.log(userInfo)
-      console.log('auth')
-      console.log(this.auth)
-      console.log('users')
-      console.log(this.users)
+      if (!(await this.$store.dispatch('api/users/postLogin', { data: user }))) {
+        return
+      }
+
       this.$router.push({ path: '/' })
     },
 
