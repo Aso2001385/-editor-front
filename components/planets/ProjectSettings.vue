@@ -181,7 +181,7 @@ export default {
       styleSetter(JSON.parse(design.contents))
       this.previewFlg = true
     },
-    async saveSettings() {
+    async saveSettings(download) {
       this.$store.dispatch('common/loadingStart')
       const pages = nestClone(this.$refs.pageSettings?.pages ?? [this.page])
 
@@ -242,6 +242,8 @@ export default {
         await this.$store.dispatch('local/project/nowEditChange', saveParam)
       }
 
+      if (download) return
+
       this.$store.dispatch('common/loadingEnd')
       if ('' + putPage.number === this.$route.params.number) {
         location.reload()
@@ -251,6 +253,7 @@ export default {
     },
     async download() {
       this.$store.dispatch('common/loadingStart')
+      await this.saveSettings(true)
       const status = { id: this.project.uuid, name: this.project.name }
       if (await this.$store.dispatch('api/projects/download', status)) {
         this.$store.dispatch('common/loadingEnd')
