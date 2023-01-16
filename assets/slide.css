@@ -1,7 +1,6 @@
 .slide {
   width: 80%;
   margin: 2em auto;
-  background-color: aquamarine;
   position: relative;
 }
 
@@ -34,14 +33,13 @@
   /* スライドのサイズを調整、中身のテキスト配置調整、背景色 */
   color: #ffffff;
   width: 100%;
-  height: fit-content;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
 .swiper-slide img {
   object-fit: contain;
-  max-height: 40vh;
+  max-height: 38vh;
   min-width: 50%;
   max-width: 60vw;
   margin: 0;
