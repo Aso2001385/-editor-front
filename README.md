@@ -5,7 +5,7 @@ markdown方式で記載された文をhtmlに変換し、自作のデザイン�
 
 ## [機能説明&利用手順](https://www.fridayeditor.click/explanation)
 
-## BackEndでの仕様
+## FrontEndでの仕様
 
 ### 例外的な処理
 1. MarkDownAPI連携
