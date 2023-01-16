@@ -1,3 +1,24 @@
+Frontend 環境構築手順
+
+```php
+# editor-eackendをforkしクローンする
+
+# .envを作成し、 .env.exampleの中身をペーストし書きかえ
+
+# 以下voltaのインストール後とする
+# nodeのインストール 
+$ volta install node@16.14.2
+
+# yarnのインストール
+volta install yarn@
+
+# 依存パッケージのインストール
+$ yarn install
+
+# ローカル起動
+$ yarn dev
+```
+
 ```bash
 # フロントエンドディレクトリに移動
 $ cd frontend
