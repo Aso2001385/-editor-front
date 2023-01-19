@@ -38,10 +38,10 @@ export const actions = crudActions(axios, `${API_URL}/users`, {
           .post(`${API_URL}/users`, argument.data)
           .then(response => {
             commit('setAuth', response.data)
-            return true
+            return response.status
           })
-          .catch(() => {
-            return false
+          .catch(e => {
+            return e.status
           })
       })
       .catch(() => {
@@ -62,11 +62,14 @@ export const actions = crudActions(axios, `${API_URL}/users`, {
           .catch(err => {
             // 401の場合のみログインページに遷移
             console.log(err.response.status)
+            console.log('asdfghjkl;')
             this.$router.push({ path: `/account/login` })
-            return false
+            return err.response.status
           })
       })
-      .catch(() => {
+      .catch(err => {
+        console.log('asdfghjkl;')
+        console.log(err)
         return false
       })
   },
@@ -96,14 +99,10 @@ export const actions = crudActions(axios, `${API_URL}/users`, {
             return true
           })
           .catch(err => {
-            // 401の場合のみログインページに遷移
-            console.log(err.response.status)
-            this.$router.push({ path: `/account/login` })
-
-            return false
+            return err.response.status
           })
       })
-      .catch(() => {
+      .catch(e => {
         return false
       })
   },
