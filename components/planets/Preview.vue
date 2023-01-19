@@ -15,7 +15,7 @@ import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import { nestClone } from '@/lib/common'
 
-import '@/lib/pro.scss'
+import '@/assets/scss/pro.scss'
 import '@/assets/slide.css'
 import { slideReplace, sliderInjection } from '~/lib/ui/slide'
 

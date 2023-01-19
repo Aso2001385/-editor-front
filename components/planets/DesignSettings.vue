@@ -28,7 +28,7 @@ import { nestClone } from '@/lib/common'
 import { designSettings } from '~/lib/commons/helpers/designs/design-editor'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
-import '@/lib/pro.scss'
+import '@/assets/scss/pro.scss'
 
 export default {
   components: {
