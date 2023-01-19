@@ -16,8 +16,8 @@ import { mapGetters } from 'vuex'
 import HeaderVue from '@/components/parts/headers/Header.vue'
 import CircleLoadingVue from '@/components/materials/loadings/CircleLoading.vue'
 import { styleSetter } from '@/lib/style-set'
-import template from '@/lib/template.json'
-import '@/lib/pro.scss'
+import template from '@/assets/json/template.json'
+import '@/assets/scss/pro.scss'
 
 export default {
   components: {

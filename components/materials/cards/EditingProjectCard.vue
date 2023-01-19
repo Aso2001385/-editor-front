@@ -27,7 +27,7 @@
 import { mapGetters } from 'vuex'
 import { getDiff } from '@/lib/common'
 import { styleSetter } from '@/lib/style-set'
-import designValuesTemplate from '@/lib/template.json'
+import designValuesTemplate from '@/assets/json/template.json'
 
 export default {
   filters: {
@@ -110,5 +110,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../assets/pro.scss';
+@import '@/assets/scss/pro.scss';
 </style>

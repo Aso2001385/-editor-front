@@ -29,7 +29,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import temp from '@/lib/template.json'
+import temp from '@/assets/json/template.json'
 
 export default {
   layout: 'auth',
@@ -68,7 +68,7 @@ export default {
           .get(`${BASE_URL}/sanctum/csrf-cookie`)
           .then(async () => {
             return await axios
-              .post(`https://fridayeditor/api/users/register`, data)
+              .post(BASE_URL, data)
               .then(response => {
                 const newDesign = {
                   name: 'Design1',

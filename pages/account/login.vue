@@ -41,7 +41,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import EventButton from '@/components/materials/buttons/EventButton.vue'
-import temp from '@/lib/template'
+import temp from '@/assets/json/template.json'
 export default {
   components: {
     EventButton,

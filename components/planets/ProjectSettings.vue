@@ -80,12 +80,12 @@ import { mapGetters } from 'vuex'
 import { styleSetter } from '@/lib/style-set'
 import { nestClone, onlyCopy } from '@/lib/common'
 import { settingList, setting } from '~/lib/commons/helpers/projects/project-editor'
-import htmlPreset from '@/lib/pre-html.json'
+import htmlPreset from '@/assets/json/pre-html.json'
 import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import PreviewCard from '@/components/materials/cards/PreviewCard.vue'
 import PageListSetting from '@/components/planets/PageListSetting.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
-import '@/lib/pro.scss'
+import '@/assets/scss/pro.scss'
 
 export default {
   components: {

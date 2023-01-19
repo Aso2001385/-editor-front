@@ -15,8 +15,8 @@ import { mapGetters } from 'vuex'
 import AddDesignCard from '@/components/materials/cards/AddDesignCard.vue'
 import PreviewCard from '@/components/materials/cards/PreviewCard.vue'
 
-import temp from '@/lib/template.json'
-import htmlPreset from '@/lib/pre-html.json'
+import temp from '@/assets/json/template.json'
+import htmlPreset from '@/assets/json/pre-html.json'
 export default {
   components: {
     AddDesignCard,
