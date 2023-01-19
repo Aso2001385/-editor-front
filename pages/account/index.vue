@@ -16,7 +16,6 @@
   </v-container>
 </template>
 <script>
-import previews from '@/assets/previews.json'
 import { nestClone } from '@/lib/common'
 
 export default {
@@ -50,10 +49,6 @@ export default {
         return projects
       },
     },
-  },
-  created() {
-    const data = previews
-    this.default_previews = data
   },
   mounted() {
     this.getAccount()
