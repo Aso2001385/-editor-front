@@ -101,7 +101,7 @@ import { slideReplace, sliderInjection } from '~/lib/ui/slide'
 import gitMarkdownApi from '~/lib/git-markdown-api'
 import { styleSetter } from '~/lib/style-set'
 
-import '@/lib/pro.scss'
+import '@/assets/scss/pro.scss'
 
 export default {
   components: {

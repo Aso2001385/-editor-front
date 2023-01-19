@@ -80,7 +80,7 @@
 import { mapGetters } from 'vuex'
 import Draggable from 'vuedraggable'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
-import '@/lib/pro.scss'
+import '@/assets/scss/pro.scss'
 import { orderBy, nestClone } from '~/lib/common'
 
 export default {

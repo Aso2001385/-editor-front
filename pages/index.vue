@@ -31,7 +31,7 @@
             </v-col>
           </v-card>
           <v-divider vertical dark></v-divider>
-          <v-card class="ml-10" color="grey darken-3" width="40%" @click="submit('projects')" outlined>
+          <v-card class="ml-10" color="grey darken-3" width="40%" @click="submit('designs')" outlined>
             <v-col cols="12" class="pt-0 white--text">
               <v-card-title>
                 <v-icon color="white darken-2" class="mr-1" large> mdi-pencil-ruler</v-icon>

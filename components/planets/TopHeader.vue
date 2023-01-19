@@ -20,7 +20,7 @@ import { mapGetters } from 'vuex'
 import NeoHelper from '@/components/materials/buttons/NeoHelper.vue'
 import MenuButton from '@/components/materials/buttons/MenuButton.vue'
 
-import '@/lib/pro.scss'
+import '@/assets/scss/pro.scss'
 
 export default {
   components: {
