@@ -27,32 +27,48 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   layout: 'auth',
   data() {
     return {
-      url: 'http://localost:8080/api/login',
-      layout: 'auth',
-      // name: '翔',
-      // email: '2001195@s.asojuku.ac.jp',
-      // password: 'AsoΣ2001195',
-      // confirmPassword: 'AsoΣ2001195',
+      url: '',
+      // name: process.env.LOGIN_TEST_NAME,
+      // email: process.env.LOGIN_TEST_MAIL,
+      // password: process.env.LOGIN_TEST_PASS,
+      // confirmPassword: process.env.LOGIN_TEST_PASS,
       name: '',
       email: '',
       password: '',
       confirmPassword: '',
     }
   },
-  mounted() {},
+  computed: {
+    ...mapGetters({
+      auth: 'api/users/auth',
+      authFlg: 'api/users/authFlg',
+    }),
+  },
+  created() {
+    // if (this.authFlg) {
+    //   this.$router.push({
+    //     path: '/',
+    //   })
+    // }
+  },
   methods: {
-    submit() {
+    async submit() {
       if (this.password === this.confirmPassword) {
-        const user = {
-          name: this.name,
-          email: this.email,
-          password: this.password,
+        const data = { name: this.name, email: this.email, password: this.password }
+        sessionStorage.setItem('userData', JSON.stringify(data))
+        await this.$store.dispatch('api/users/register', { data })
+        if (this.auth) {
+          this.$router.push({
+            path: '/account/confirmSignup',
+          })
+        } else {
+          alert('登録に失敗しました')
         }
-        this.$store.dispatch('api/register', { data: user })
       } else {
         alert('パスワードが確認用と違います')
       }

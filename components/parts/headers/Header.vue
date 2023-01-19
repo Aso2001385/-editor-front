@@ -1,14 +1,9 @@
-<template id="headerTemp">
-  <div id="headContent">
-    <header id="headId" class="header">
-      <Hamburger class="ml-5" />
-      <Contents />
-      <h1 class="site-title">
-        <a href="./"></a>
-      </h1>
-      <input type="text" style="background-color: white; color: black; width: 70%" />
-    </header>
-  </div>
+<template>
+  <header class="header">
+    <Hamburger />
+    <Contents />
+    <input id="search" type="text" />
+  </header>
 </template>
 <script>
 import Hamburger from '@/components/parts/headers/menu/buttons/Hamburger.vue'
@@ -23,14 +18,24 @@ export default {
 <style lang="sass" scoped>
 .header
   align-items: center
+  width: 100vw
   background-color: #1b1310
   border-bottom: 1px solid #fff
   color: white
   display: flex
-  height: 74px
+  height: 10vh
   justify-content: space-between
-  padding-right: 120px
+  position: relative
 
-.site-title
-  margin-right: 10%
+#search
+  background-color: white
+  color: black
+  width: 70%
+  max-width: 600px
+  position: absolute
+  left: 50%
+  transform: translateX(-50%)
+  -webkit-transform: translateX(-50%)
+  -ms-transform: translateX(-50%)
+  border-radius: 5px
 </style>

@@ -8,38 +8,17 @@
           </v-card-title>
           <v-divider class="pb-5"> </v-divider>
           <div class="pa-10">
-            <v-text-field v-model="name" label="name" required></v-text-field>
-            <v-row justify="center" class="mt-5">
-              <v-col cols="4">
-                <ApiEventButton color="grey darken-3" :click-callback="submit"> Next </ApiEventButton>
-              </v-col>
-            </v-row>
-            <v-row class="mt-10" justify="center">
-              <NuxtLink to="/user-update">メールアドレス・パスワードの変更ですか？こちらから変更</NuxtLink>
-            </v-row>
+            <v-text-field v-model="name" label="name" readonly></v-text-field>
           </div>
         </v-card>
-        <!-- <v-container class="pb-10 fill-width mt-10 grey lighten-5">
-          <v-row class="grey darken-2">
-            <h3 class="white--text d-flex justify-left pa-4 gray">利用できるデザインセット</h3>
-          </v-row>
-          <v-row class="pl-10 pr-10">
-            <v-col v-for="(project, index) in default_previews" :key="index" class="mt-2" cols="12">
-              <ProjectCard :receive="project" :click-callback="() => jumpToProject()" />
-            </v-col>
-          </v-row>
-        </v-container> -->
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-import previews from '@/assets/previews.json'
 import { nestClone } from '@/lib/common'
-// import ProjectCard from '@/components/materials/cards/ProjectCard.vue'
 
 export default {
-  // components: { ProjectCard },
   layout: 'auth',
   props: {
     receive: {
@@ -49,7 +28,7 @@ export default {
   },
   data() {
     return {
-      name: 'apiにアクセスして取得した名前を表示するようにする',
+      name: '翔',
       default_previews: null,
       PROJECT_LINK: 2,
     }
@@ -71,11 +50,15 @@ export default {
       },
     },
   },
-  created() {
-    const data = previews
-    this.default_previews = data
+  mounted() {
+    this.getAccount()
   },
   methods: {
+    async getAccount() {
+      if (sessionStorage.getItem('user') === null) {
+        await this.$router.push({ path: '/' })
+      }
+    },
     jumpToNewProject() {},
   },
 }

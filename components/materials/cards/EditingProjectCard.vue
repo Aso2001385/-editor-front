@@ -1,8 +1,21 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <v-card class="mx-auto" max-width="400" hover :disabled="disabled" @click.prevent="click">
-    <div class="pt-4 px-4" :style="'backgroundColor:' + backColor + '; height: 12rem'">
-      <div class="warp" v-html="text"></div>
+    <div class="" style="height: 12rem">
+      <v-img
+        v-if="preview"
+        class="rounded-t"
+        style="box-sizing: border-box; max-height: 12rem"
+        position="top left"
+        :src="preview"
+      />
+      <div
+        v-else
+        id="contents"
+        class="warp rounded-t"
+        style="font-size: 9px; box-sizing: border-box; max-height: 12rem"
+        v-html="text"
+      ></div>
     </div>
     <v-divider />
     <v-card-subtitle class="py-0 mt-2 orange--text"> now editing... (not saved!) </v-card-subtitle>
@@ -11,7 +24,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { getDiff } from '@/lib/common'
+import { styleSetter } from '@/lib/style-set'
+import designValuesTemplate from '@/assets/json/template.json'
+
 export default {
+  filters: {
+    elapsedDateTime(dateTime) {
+      const now = new Date()
+      const past = new Date(dateTime)
+      const diffMs = now.getTime() - past.getTime()
+      return getDiff(diffMs)
+    },
+  },
   props: {
     clickCallback: {
       type: Function,
@@ -20,19 +46,12 @@ export default {
     receive: {
       type: Object,
       default: () => ({
-        id: 0,
+        uuid: 0,
         name: '',
         text: '',
-        backgroundColor: '',
-        primaryColor: '',
-        secondaryColor: '',
+        design: '',
         updatedAt: '',
-        textColor: '',
       }),
-    },
-    isSetLocal: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
@@ -41,9 +60,9 @@ export default {
     }
   },
   computed: {
-    id: {
+    uuid: {
       get() {
-        return this.receive.id
+        return this.receive.uuid
       },
     },
     name: {
@@ -56,29 +75,28 @@ export default {
         return this.receive.text
       },
     },
-    backColor: {
+    preview: {
       get() {
-        console.log(this.receive.backgroundColor)
-        return this.receive.backgroundColor
-      },
-    },
-    primaryColor: {
-      get() {
-        return this.receive.primaryColor
-      },
-    },
-    secondaryColor: {
-      get() {
-        return this.receive.secondaryColor
+        return this.receive.preview
       },
     },
     updatedAt: {
       get() {
-        return '2021-11-29 10:11:43'
+        return this.receive.updatedAt
       },
     },
   },
+  created() {
+    if (!this.preview) {
+      styleSetter(designValuesTemplate)
+    }
+    console.log('editing')
+    console.log(this.receive)
+  },
   methods: {
+    ...mapGetters({
+      markdown: 'api/designs/markdown',
+    }),
     async click() {
       this.disabled = true
       try {
@@ -91,34 +109,6 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-#project-names {
-  background: #eee;
-  overflow: hidden;
-  width: 30%;
-
-  #project-name {
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-.container {
-  background: #eee;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-
-  p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-.warp {
-  color: #000;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+<style lang="scss" scoped>
+@import '@/assets/scss/pro.scss';
 </style>

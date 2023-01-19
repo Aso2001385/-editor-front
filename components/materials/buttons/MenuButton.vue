@@ -1,27 +1,79 @@
 <template>
-  <!-- <v-btn class="pa-5" :to="to" nuxt> -->
-  <a class="pa-5" :href="to">
-    <div class="ml-3 text-h6 white--text text-center">
-      <v-icon color="white" style="float: left; margin-top: 2px; padding: 1px"><slot name="icon"></slot></v-icon>
+  <v-tooltip bottom>
+    <template #activator="{ on, attrs }">
+      <v-btn
+        v-if="!db"
+        icon
+        :loading="disabled"
+        :loading-color="'red'"
+        :disabled="disabled"
+        v-bind="attrs"
+        v-on="on"
+        @click.prevent="click"
+      >
+        <v-icon :color="btnColor">
+          <slot name="icon"></slot>
+        </v-icon>
+        <template slot="loader">
+          <CircleLoading :color="'red'" :size="20" :width="2" />
+        </template>
+      </v-btn>
+      <v-btn
+        v-else
+        icon
+        :loading="disabled"
+        :loading-color="'red'"
+        :disabled="disabled"
+        v-bind="attrs"
+        v-on="on"
+        @dblclick.prevent="click"
+      >
+        <v-icon :color="btnColor">
+          <slot name="icon"></slot>
+        </v-icon>
+        <template slot="loader">
+          <CircleLoading :color="'red'" :size="20" :width="2" />
+        </template>
+      </v-btn>
+    </template>
+    <div>
       <slot name="text"></slot>
     </div>
-  </a>
-  <!-- </v-btn> -->
+  </v-tooltip>
 </template>
 <script>
+import CircleLoading from '@/components/materials/loadings/CircleLoading.vue'
 export default {
+  components: { CircleLoading },
   props: {
-    to: {
+    clickCallback: {
+      type: Function,
+      default: () => {},
+    },
+    btnColor: {
       type: String,
-      default: '/projects',
+      default: 'white',
+    },
+    db: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      disabled: false,
+    }
+  },
+  methods: {
+    async click() {
+      this.disabled = true
+      try {
+        await this.clickCallback()
+      } catch (error) {
+        console.log(error)
+      }
+      this.disabled = false
     },
   },
 }
 </script>
-<style scoped>
-a {
-  width: 3rem;
-  margin-right: 10%;
-  text-decoration: none;
-}
-</style>
